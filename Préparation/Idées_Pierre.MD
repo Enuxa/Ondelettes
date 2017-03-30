@@ -2,7 +2,7 @@
 
 # Introduction
 - Partie totale = généralisation famille génératrice
-- EH admet partie dense ⟹ extraction base ⟹ orthonormalisation e Gramm-Schmidt ⟹ Base
+- EH admet partie dense ⟹ extraction base ⟹ orthonormalisation de Gramm-Schmidt ⟹ Base
 - Exemples pour séries de Fourier et Ondelettes
 - (Toute famille infinie orthonormale est elle une base ? a priori non, sinon preuve transformation de Fourier facile)
 
@@ -22,6 +22,10 @@ Problématiques issus du cours de [Frederic Truchetet](http://www.le2i.cnrs.fr/I
 1. Contexte, besoin etc.
 1. Analyse du signal
     1. Introduction : les espaces de Hilbert
+        1. Introduction
+        1. Parties totales
+        1. Décomposition
     1. Séries de Fourier (Transition : Les limites des SF mènent aux ondelettes)
     1. Ondelettes
+        1. Analyse multirésolution
 1. Nos programmes

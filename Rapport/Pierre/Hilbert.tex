@@ -1,0 +1,311 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+
+\geometry{hmargin=2cm}
+
+% Environnement type théorème
+\newtheorem{mythm}{Théorème}
+\newtheorem{myproposition}{Proposition}
+\newtheorem{myproperty}{Propriété}
+\newtheorem{mylemma}{Lemme}
+\newtheorem{mycoro}{Corollaire}
+
+% Environnement type texte
+\theoremstyle{remark}
+\newtheorem{mynot}{Notation}
+\newtheorem{myrem}{Remarque}
+\newtheorem{myexer}{Exercice}
+\newtheorem{myproof}{Preuve}
+\newtheorem{myexmpl}{Exemple}
+
+% Environnement de définition
+\theoremstyle{definition}
+\newtheorem{mydef}{Définition}
+\newtheorem{myquestion}{Question}
+
+\setlist[itemize]{label=-}
+
+% Carré de fin de preuve
+\newcommand{\cqfd}{
+	\hfill$\square$
+}
+
+% Définition de fonction
+\newcommand{\func}[5]{
+#1 ~ : ~ \left\{ \begin{array}{lcl}
+	#2 & \longrightarrow & #3 \\
+	#4 & \longmapsto & #5
+\end{array}
+\right.
+}
+
+\newcommand{\fun}[3]{
+#1 ~ : ~ #2 \longrightarrow #3
+}
+
+\newcommand{\funcinline}[5]{
+	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
+}
+
+\newcommand{\funcshort}[3]{
+	#1 \, : \, #2 \longrightarrow #3
+}
+
+\newcommand{\anonfunc}[4]{
+	\left\{ \begin{array}{lcl}
+		#1 & \longrightarrow & #2 \\
+		#3 & \longmapsto & #4
+	\end{array}
+	\right.
+}
+
+\newcommand{\vect}{\text{Vect}}
+
+\newcommand{\card}{\text{Card }}
+
+\newcommand{\DS}{\displaystyle}
+
+\begin{document}
+	\part{Analyse du signal}
+	\section{Les espaces de Hilbert}
+	\subsection{Introduction}
+
+	\paragraph*{}
+	
+	Nous disposons en dimension finie de nombreux théorèmes bien utiles, notamment dans le cadre des espaces euclidiens (existence d'une base, toute famille orthogonale est libre, procédé d'orthonormalisation de Gramm-Schimdt ...).
+	
+	Cela se prête parfaitement à des études géométriques dans le plan et l'espace que nous connaissons, mais également à la manipulation de certains objets de l'analyse tels que les polynômes de degré au plus $n \in \mathbb{N}$ ou de matrices que l'on identifie à certaines applications linéaires.
+	
+	\paragraph*{}
+	
+	Rappelons rapidement la notion de base :
+	
+	\begin{mydef}
+		pour un espace vectoriel $E$, une \textit{base} $\mathcal{B} \subseteq E$ est une famille \textit{libre} et \textit{génératrice} : tout élément de $E$ peut s'écrire comme une unique combinaison linéaire (finie) d'éléments de $\mathcal{B}$. Les bases de $E$ sont toutes de même cardinal, on définit grâce à elles la \textit{dimension} de $E$ comme étant le cardinal de $\mathcal{B}$.
+	\end{mydef}
+	
+	L'axiome du choix nous garanti que tout espace vectoriel admet une base. L'espace des suites finies à partir d'un certain rang (que l'on notera $\ell_F$), bien que de dimension infinie, possède une base très simple : $$\mathcal{U} = \{\nu_1 = (1, 0, 0 \cdots), \nu_2 = (0, 1, 0, \cdots), \nu_3 = (0, 0, 1, 0 \cdots), \nu_4 = (0, 0, 0, 1, 0 \cdots), \cdots\}$$
+	
+	En effet toute suite de $\ell_F$ est une combinaison linéaire (finie) de tels éléments. Cependant cette famille ne constitue pas une base pour l'espace $\ell^1$ des suites de module sommable et on souhaite utiliser la famille $\mathcal{U}$ qui est très naturelle et facile à manipuler.
+	
+	Nous sommes très tentés d'écrire les éléments de $\ell_F$ comme une somme infinie d'éléments de $\mathcal{U}$, mais pour que cela ait un sens il est nécessaire de définir une topologie, par exemple avec une norme, voire une norme induite par un produit scalaire.
+	
+	\paragraph*{}
+	
+	La question se pose alors ; pouvons nous généraliser les outils de géométriques pour étudier des espaces de dimension infinie ?
+	
+	C'est dans ce contexte qu'est née l'analyse de Hilbert au début du 20-ième siècle au travers des travaux de Erhard Schimdt, Frigyes Riesz et bien sûr David Hilbert.
+	
+	\begin{mydef}
+		Un espace vectoriel $E$ est dit \textit{de Hilbert} (ou \textit{Hilbertien}) s'il est muni d'un produit scalaire $\langle \cdot, \cdot \rangle$ et qu'il est complet pour la norme induite par ce produit scalaire.
+	\end{mydef}
+	
+	On ne s'intéressera ici qu'à un certain type d'espaces hilbertiens ; ceux qui sont dits \textit{séparables} :
+	
+	\begin{mydef}
+		Un espace vectoriel normé $E$ est dit \textit{séparable} s'il admet une famille \textit{dense} et \textit{dénombrable}.
+		
+		C'est-à-dire s'il existe $F = \{f_n\}_{n \in \mathbb{N}} \subseteq E$ telle que $\overline{F} = E$
+	\end{mydef}
+	
+	\begin{myexmpl}
+		\leavevmode
+		\begin{enumerate}
+			\item $\mathbb{R}$ muni de la valeur absolue est séparable : $\overline{\mathbb{Q}} = \mathbb{R}$, et l'ensemble des rationnels est bien dénombrable.
+			
+			\item Plus généralement si $E \cong \mathbb{R}^n$ pour un certain $n \geqslant 1$, et $\mathbf{e}=(e_i)_{1 \leqslant i \leqslant n}$ est une base de $E$, alors on construit l'ensemble des combinaisons linéaires de $\mathbf{e}$ à coefficients dans $\mathbb{Q}$ :
+			
+			$$F = \left\{\DS \sum_{i = 1}^{n} q_i e_i ~ | ~ \{q_i\}_i \subseteq \mathbb{Q} \right\}$$
+			
+			Cet ensemble est bien dénombrable : il est équipotent à $\mathbb{Q}^n$, et il s'agit bien d'une partie dense dans $E$.
+			
+			En effet pour tout $\DS x = \sum_{i = 1}^n x_i e_i$ on peut trouver $n$ suites $\{q_{i, j}\}_{j \in \mathbb{N}} \subseteq \mathbb{Q}$ telles que $q_{i, j} \to x_i ~ (j \to \infty)$ pour ainsi obtenir $\DS x_j := \sum_{i = 1}^{n} q_{i, j} e_i$ de limite $x$.
+		\end{enumerate}
+	\end{myexmpl}
+	
+	\paragraph*{}
+	
+	%Revenons au problème précédent, celui de trouver une base pour $D_I$. On cherche à écrire toute fonction $f \in D_I$ comme un "polynôme infini", autrement dit trouver une suite $\{a_n\}_{n \in \mathbb{N}} \subseteq \mathbb{R}$ telle que $$\lim\limits_{n} \left\|\sum_{k = 0}^n a_n X^n - f\right\| = 0$$
+	%où $\|\cdot\|$ est une norme sur $D_I$.
+	
+	On remarque que si on s'autorisait à prendre dans le second exemple des coefficients réels on aurait $F = E$ car $\mathbf{e}$ est une base. Dans un cas plus général (ou plutôt un cas bien particulier ; toujours celui de $\ell^1$), si $\mathbf{e}$ n'est pas une base mais seulement une famille libre agréable à manipuler et que l'on souhaite absolument utiliser, est-ce que l'ensemble des combinaisons linéaires d'éléments de $e$ donne tout l'espace initial ? (Non, sinon j'aurais précisé qu'elle était également génératrice).
+		
+	\begin{mydef}
+		Une partie $P \subseteq E$ est dite totale si $Vect(P) = \{\text{combinaisons linéaires d'éléments de $P$}\}$ est dense dans $E$.
+	\end{mydef}
+	
+	\begin{myexmpl}
+		Prenons l'exemple de $\ell^2$ muni de la norme suivante $$\|u\|_2 = \sqrt{\sum_{n = 0}^\infty |u_n|^2}$$
+		
+		Montrons que toute suite de cet espace s'écrit dans $\mathcal{U}$ de la forme $\DS u = \sum_{n = 0}^\infty u_n \nu_n$, où la convergence à lieu au sens de $\|\cdot\|_2$.
+		
+		Soit $u \in \ell^2$, on a $$\left\|u - \sum_{k = 0}^{n} \nu_k u_k\right\|_2^2 = \left\|(0, 0, \cdots u_{n+1}, u_{n+2} \cdots)\right\|_2^2 = \sum_{k = n+1}^\infty |u_k|^2$$
+		
+		Or $\sum |u_n|^2$ est une suite convergente, la valeur précédente converge donc bien vers 0. Toute suite de $\ell^2$ peut alors être écrite comme une limite de combinaisons linéaires d'éléments de $\mathcal{U}$, $Vect(\mathcal{U})$ est bien une partie totale de $\ell^1$.
+	\end{myexmpl}
+	
+	\paragraph*{}
+	La famille $\mathcal{U}$ a beau ne pas être une base, elle a le mérite d'être facile à appréhender et de permettre de décomposer tout élément de $\ell^2$ en une série absolument convergente. On munit à présent cet espace du produit scalaire induisant $\|\cdot\|_2$ : $$\langle u, v \rangle = \sum_{n = 0}^\infty u_n \overline{v_n}$$
+	On remarque que $\mathcal{U}$ est orthonormale pour ce produit scalaire.
+	
+	\begin{myproposition}
+		$\ell^2$ muni de ce produit scalaire forme un espace Hilbertien.
+	\end{myproposition}
+
+	\begin{myproof}
+		En effet soit $(u_n)_{n \in \mathbb{N}}$ une suite de Cauchy à valeurs dans $\ell^2$, on a pour tout $\varepsilon > 0$ un entier $N \geqslant 0$ tel que pour tout $p \geqslant 0$ $$\|u_N - u_{N+p}\|^2_2 = \sum_{n=0}^{\infty} |u_{N, n} - u_{N+p, n}|^2 \leqslant \varepsilon$$
+		en notant $u_N=(u_{N, 0}, u_{N, 1}, u_{N, 2} \cdots)$.
+		
+		On en déduit pour tout $n$ $|u_{N, n} - u_{N+p, n}|^2 \leqslant \varepsilon$ ce qui signifie que chaque suite $(u_{k, n})_{k \in \mathbb{N}}$ est une suite de Cauchy à valeurs dans $\mathbb{C}$ qui lui est complet.
+		
+		Soient $v_n$ la limite des $n$-ième composante des suites $(u_N)_{N \in \mathbb{N}}$, on a pour tout $M$ :
+		
+		$$\sum_{n=0}^{M} |v_n|^2 = \lim\limits_{N \to \infty} \sum_{n=0}^{M} |u_{N, n}|^2 \leqslant \lim\limits_{N\to \infty} \|u_N\|_2^2$$
+		
+		Or la suite $(u_N)_N$ est de Cauchy donc bornée, la somme est alors elle aussi bornée donc convergente car à termes positifs.
+		
+		(TODO: montrer que $(v_n)$ est bien la limite)
+		
+		\cqfd
+	\end{myproof}
+	
+	$\mathcal{U}$ est alors une famille orthonormée et totale de $\ell^2$, c'est-à-dire "presque" génératrice (si on accepte d'abandonner la restriction de combinaisons linéaires finies), cela mérite tout de même un nom.
+	
+	\begin{mydef}
+		Une famille $\mathcal{F} \subseteq H$ est appelée \textit{base hilbertienne} si elle est orthogonale et totale.
+	\end{mydef}
+	
+	Cette notion est une généralisation de celle de base, ce qui soulève immédiatement certaines questions :
+	
+	\begin{itemize}
+		\item Existe-il toujours une base hilbertienne ?
+		\item Les bases Hilbertiennes sont elles toutes de même cardinal ?
+		\item Toute base hilbertienne est elle encore une famille orthonormale maximale pour l'inclusion et réciproquement ?
+	\end{itemize}
+	
+	Nous avons annoncé plus haut que nous ne nous intéresserions qu'aux espaces séparables, ce qui nous permet de répondre à la première question :
+	
+	\begin{myproposition}
+		Tout espace Hilbertien séparable admet une base Hilbertienne.
+	\end{myproposition}
+	
+	\begin{myproof}
+		Soit $E$ un espace hilbertien et $\mathbf{g} = \{g_n\}_{n \in \mathbb{N}} \subseteq E$ une partie dense dans $E$. Nous allons construire une base hilbertienne $\mathbf{f} = {f_n}_{n \in \mathbb{N}}$ à partir de $\mathbf{g}$ en l'orthonormalisant par le procédé de Gramm-Schmidt.
+		On supposera $E$ de dimension infinie, dans le cas de la dimension finie la suite construite par récurrence est finie et est une base en tant que famille libre (car orthonormée) maximale.
+		
+		
+		On note $G = \vect (g_0, g_1 \cdots )$ et $F_n = \vect (f_0, f_1 \cdots f_n)$.
+		
+		\paragraph{Construction et orthonormalité}
+		
+		On choisit $x \in G$ quelconque pour poser $\DS f_0 = \frac{x}{\|x\|}$ et on construit par récurrence la suite $\mathbf{f}$ de manière à ce qu'à tout rang $n \in \mathbb{N}$ la famille $(f_0, f_1 \cdots f_n)$ soit orthonormale et notera $E_n$ l'espace qu'elle engendre.
+		
+		On choisit un $f_0 \in G$ quelconque. Soit à présent $n \geqslant 0$, on suppose disposer de $f_0, f_1 \cdots f_n$ comme ci-dessus. On choisit un $x \in G \setminus F_n$, il est alors linéairement indépendant des vecteurs $f_0$ à $f_n$ de $\mathbf{f}$, on peut alors l'orthonormaliser:
+		
+		$$y = \widetilde{f}_{n+1} - \sum_{k = 0}^{n} \langle \widetilde{f}_{n+1}, f_k \rangle$$
+		
+		$$f_{n+1} = \frac{y}{\|y\|}$$
+		
+		$(f_0, f_1 \cdots f_{n+1})$ est ainsi une famille orthonormale.
+		
+		\paragraph{Totalité}
+		
+		Montrons à présent que $F = \bigcup_{n \in \mathbb{N}} F_n$ est une famille totale de $E$, c'est à dire que tout élément de $f$ peut être approximé avec une précision arbitraire par une combinaison linéaire de vecteurs de $\mathbf{f}$.
+		
+		Soit $f \in E$ et $\varepsilon > 0$, par densité de $\mathbf{g}$ on a pour un certain $n_0$ $\|g_{n_0} - f\| < \varepsilon$, or de par la façon dont ont été construits les $F_n$, on a $\mathbf{g} \subset F$ et donc $g_{n_0} \in F_{n_1}$ pour un certain $n_1$.
+		
+		$F_{n_1}$ étant l'ensemble des combinaisons linéaires de $f_0, f_1 \cdots f_{n_1}$, on a le résultat.
+		
+		\cqfd
+	\end{myproof}
+	
+	Ainsi il existe toujours une base hilbertienne dans un espace hilbertien séparable. De plus, toutes bases hilbertiennes sont équipotentes entre elles.
+	
+	Cette propriété est évidente dans le cas de la dimension finie, pour le démontrer en dimension infinie, il suffit de montrer que toute base s'injecte dans $\mathbb{N}$ où plus généralement dans un ensemble dénombrable.
+	
+	\begin{myproposition}
+		Dans un espace hilbertien séparable, toutes les bases sont de même cardinal.
+	\end{myproposition}
+	
+	\begin{myproof}
+		Soit $E$ un espace de Hilbert séparable de dimension infinie et $\mathcal{B} = \{f_i ~ | ~ i \in I\}$ une base de $E$.
+		
+		Par définition $E$ admet une famille dense dénombrable $\mathcal{F} = \{g_n ~ | n \in \mathbb{N}\}$, nous allons approximer notre base par ses éléments ce qui donnera une injection de $\mathcal{B}$ dans $\mathcal{F}$.
+		
+		Soit $\varepsilon > 0$, pour tout $f \in \mathcal{B}$, il existe un $g \in \mathcal{F}$ à distance $\varepsilon$ de $f$, on pose $\varphi_\varepsilon(f) = g$.
+		
+		Ainsi pour tout $f, f' \in \mathcal{B}$ on a l'inégalité suivante :
+		
+		$$\|f - f'\| \leqslant \|f - \varphi_\varepsilon(f)\| + \|\varphi_\varepsilon(f) - \varphi_\varepsilon(f')\| + \|f' - \varphi_\varepsilon(f')\| \leqslant 2 \varepsilon + \|\varphi_\varepsilon(f) - \varphi_\varepsilon(f')\|$$
+		
+		$$\|f - f'\| - 2 \varepsilon \leqslant \|\varphi_\varepsilon(f) - \varphi_\varepsilon(f')\|$$
+		
+		$\mathcal{B}$ étant orthonormée, si $f$ et $f'$ sont distincts, la valeur $\|f-f'\| = \sqrt{2}$ est indépendante de $f$, $f'$ et $\varepsilon$, ainsi pour $\varepsilon$ assez petit $$\forall f, f' \in E, ~ f \neq f' \Longrightarrow \|\varphi_\varepsilon(f) - \varphi_\varepsilon(f')\| > 0$$ c'est-à-dire $\funcshort{\varphi}{\mathcal{B}}{\mathcal{F}}$ est injective car on a $x \neq y \Longrightarrow \varphi_\varepsilon(x) \neq \varphi_\varepsilon(y)$.
+		
+		\cqfd
+	\end{myproof}
+	
+	Répondons à présent à la troisième question : il y a-t-il encore équivalence entre être une base hilbertienne et être une famille orthonormée maximale pour l'inclusion ?
+	
+	La réponse est oui !
+	
+	\begin{mythm}
+		Dans un espace Hilbertien, une famille orthonormée est une base hilbertienne si et seulement si elle est maximale.
+	\end{mythm}
+	
+	Pour démontrer ce théorème, nous aurons besoin des lemmes suivants :
+	
+	\begin{mylemma}
+		Soit $\{e_n ~ | ~ n \in \mathbb{N}\}$ une famille orthonormée et $F = \vect \, (e_0, e_1 \cdots)$
+		\begin{enumerate}
+			\item $\forall n \in \mathbb{N}, ~ \forall f \in E, ~ \sum_{k = 0}^{n} |\langle f, e_n \rangle|^2 \leqslant \|f\|^2$ (Inegalité de Bessel)
+			\item L'application $\funcshort{\pi_F}{E}{\overline{F}}$ définie par $\DS \pi_F(f) = \sum_{n = 0}^\infty \langle f, e_n \rangle e_n$ existe et est la projection orthogonale de $E$ sur $F$.
+		\end{enumerate}
+	\end{mylemma}
+	
+	\begin{myproof}
+		TODO
+	\end{myproof}
+	
+	Nous pouvons à présent revenir à la preuve du théorème qui nous intéresse.
+	
+	\begin{myproof}
+		Soit $\mathcal{F} = \{e_n ~ | ~ n \in \mathbb{N}\}$ une famille orthonormale d'un espace hilbertien $E$.
+		
+		\paragraph{Si $\mathcal{F}$ est une base hilbertienne, alors elle est maximale :}
+		
+		Soit $f$ un vecteur orthogonal à tout élément de $\mathcal{F}$, montrons $f \in \mathcal{F}$.
+		
+		$\mathcal{F}$ étant une base hilbertienne, pour tout $\varepsilon > 0$ il existe une famille de scalaires $(\lambda)_{i \in I}$ avec $I \subset \mathbb{N}$ fini tel que $$\left\|f - \sum_{i \in I} \lambda_i e_i\right\|^2 < \varepsilon$$
+		
+		$$\left\langle f - \sum_{i \in I} \lambda_i e_i, f - \sum_{i \in I} \lambda_i e_i \right\rangle < \varepsilon$$
+		
+		$$\|f\|^2 - \left\langle f, \sum_{i \in I} \lambda_i e_i \right\rangle - \left\langle \sum_{i \in I} \lambda_i e_i, f \right\rangle + \sum_{i \in I} |\lambda_i|^2 < \varepsilon$$
+		
+		$$\|f\|^2 - \sum_{i \in I} \lambda_i \left\langle f, e_i \right\rangle - \sum_{i \in I} \lambda_i \left\langle e_i, f \right\rangle + \sum_{i \in I} |\lambda_i|^2 < \varepsilon$$
+		
+		On a supposé $f$ orthogonal à la famille $\mathcal{F}$ :
+		
+		$$\|f\|^2 + \sum_{i \in I} |\lambda_i|^2 < \varepsilon$$
+		
+		$$\|f\|^2 < \varepsilon$$
+		
+		On en déduit $f = 0$, $\mathcal{F}$ est donc maximale.
+		
+		\paragraph{Si $\mathcal{F}$ est maximale, alors c'est une base hilbertienne :}
+		
+		D'après le lemme précédent, pour tout $f \in E$, $(f - \pi_F(f)) \in F^\bot$, alors par maximalité de la famille $\mathcal{F}$ on a $f  \pi_F(f)$, d'où le résultat.
+		
+		\cqfd
+	\end{myproof}
+\end{document}
