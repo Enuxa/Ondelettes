@@ -1,0 +1,162 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+
+\geometry{hmargin=2cm}
+
+% Environnement type théorème
+\newtheorem{mythm}{Théorème}
+\newtheorem{myproposition}{Proposition}
+\newtheorem{myproperty}{Propriété}
+\newtheorem{mylemma}{Lemme}
+\newtheorem{mycoro}{Corollaire}
+
+% Environnement type texte
+\theoremstyle{remark}
+\newtheorem{mynot}{Notation}
+\newtheorem{myrem}{Remarque}
+\newtheorem{myexer}{Exercice}
+\newtheorem{myproof}{Preuve}
+\newtheorem{myexmpl}{Exemple}
+
+% Environnement de définition
+\theoremstyle{definition}
+\newtheorem{mydef}{Définition}
+\newtheorem{myquestion}{Question}
+
+\setlist[itemize]{label=-}
+
+% Carré de fin de preuve
+\newcommand{\cqfd}{
+	\hfill$\square$
+}
+
+% Définition de fonction
+\newcommand{\func}[5]{
+#1 ~ : ~ \left\{ \begin{array}{lcl}
+	#2 & \longrightarrow & #3 \\
+	#4 & \longmapsto & #5
+\end{array}
+\right.
+}
+
+\newcommand{\fun}[3]{
+#1 ~ : ~ #2 \longrightarrow #3
+}
+
+\newcommand{\funcinline}[5]{
+	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
+}
+
+\newcommand{\funcshort}[3]{
+	#1 \, : \, #2 \longrightarrow #3
+}
+
+\newcommand{\anonfunc}[4]{
+	\left\{ \begin{array}{lcl}
+		#1 & \longrightarrow & #2 \\
+		#3 & \longmapsto & #4
+	\end{array}
+	\right.
+}
+
+\newcommand{\vect}{\text{Vect}}
+
+\newcommand{\card}{\text{Card }}
+
+\newcommand{\DS}{\displaystyle}
+
+\begin{document}
+	\part{Analyse du signal}
+	
+	On munit à présent $L^2(\mathbb{R})$ du produit scalaire $\langle \cdot, \cdot \rangle$ défini par $$\langle f, g\rangle = \int_\mathbb{R} f(t) \overline{g(t)} dt$$
+	
+	\section{Analyse multi-résolution}
+	
+	\subsection{Introduction}
+	
+	Nous allons enrichir la théorie des espaces de Hilbert d'une notion de "finesse"  particulièrement adaptée à l'objet central de ce rapport. En effet, dans le cadre de l'approximation d'un signal, que nous modélisons par une fonction $\mathbb{R}^n \rightarrow \mathbb{R}^m$, cette notion prend tout son sens comme le montre l'image ci-dessous.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=350pt]{Resolution_wikipedia.jpg}
+		\caption{Une image de voiture pour trois résolutions différentes}
+	\end{figure}
+	
+	Les images peuvent être modélisées comme des fonctions de $\mathbb{R}^2$, pour les coordonnées spatiales, dans $\mathbb{R}$ (resp. $\mathbb{R}^3$) dans le cas d'une image en noir et blanc (resp. en couleur RVB). Dans le cas d'un signal sonore, sachant qu'un son est une onde, il peut être représenté par une fonction de $\mathbb{R}$, pour le temps, dans $\mathbb{R}$, pour l'amplitude de d'oscillation.
+	
+	Avant de définir l'analyse multi-résolution, explorons plus profondément cette notion de "finesse".
+	
+	\subsubsection*{Quelle finesse !}
+	
+	Nous allons prendre pour exemple les signaux unidimensionnels (tels les sons). Soit $\funcshort{f}{[0, 1[}{\mathbb{R}}$ une fonction continue, nous allons l'approximer par des fonctions constantes par morceaux (dites étagées), dont les morceaux sont de plus en plus petits.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=150pt]{sin_1.png}
+		\includegraphics[width=150pt]{sin_2.png}
+		\includegraphics[width=150pt]{sin_4.png}
+		\includegraphics[width=150pt]{sin_8.png}
+		\includegraphics[width=150pt]{sin_16.png}
+		\caption{$f$ approximée par des fonctions dont les morceaux sont de tailles 1, 1/2, 1/4, 1/8 et 1/16}
+	\end{figure}
+	
+	\newpage
+	
+	Sur la figure on approxime $f$ par des fonctions $f_n$ étagées dont les morceaux sont de tailles $2^n$, on peut voir chaque $f_n$ comme une combinaison linéaire de fonctions caractéristiques de la forme suivante $$f_n = \sum_{k = 0}^{2^n} a_{n, k} \mathbbm{1}_{[k 2^{n}, (k+1)2^n[}$$
+	
+	La première remarque que l'ont peut faire est que chaque $\mathbbm{1}_{[k 2^{n}, (k+1)2^n[}$ est le translaté de $\mathbbm{1}_{[0, 2^n[}$, que l'on notera $I_n$. On réécrit alors $$f_n(x) = \sum_{k = 0}^{2^n} a_{n, k} I_n\left(x - k 2^n\right)$$
+	
+	La seconde est que $I_n$ est une contraction de $I_1$ que l'on notera $I$. On en tire notre dernière réécriture :
+	
+	$$f_n(x) = \sum_{k = 0}^{2^n} a_{n, k} I \left(\frac{x - k 2^n}{2^n}\right)$$
+	
+	Ainsi si on fixe $I = \mathbbm{1}_{[0, 1[}$ comme fonction de référence ans notre décomposition, la suite de fonctions $(f_n)_n$ est entièrement déterminée par les coefficients $(a_{n, k})_{n, k}$
+	
+	\subsection{L'analyse multi-résolution}
+	
+	Dans l'exemple introductif, pour tout $n$ on a pu voir que $f_n$ était une combinaison linéaire du translaté d'une fonction $I_n$, $f_n$ appartenait alors à l'espace vectoriel engendré par les translations de $I_n$. De plus, chaque $I_n$ était la contraction de la fonction $I$ donnée par $I_n(t) = I\left(t 2^n\right)$. Il s'agissait d'un exemple d'analyse multi-résolution dont voici la définition :
+	
+	\begin{mydef}
+		Une \textit{analyse multi-résolution} de l'espace $L^2(\mathbb{R})$ des fonctions de carré Lebesgue-intégrables est une suite $\{V_n\}_{n \in \mathbb{Z}} \subset L^2(\mathbb{R})$ de sous-espaces fermés de $L^2(\mathbb{R})$ satisfaisant aux conditions suivantes :
+
+		\begin{enumerate}
+			\item $\forall n \in \mathbb{Z}, ~ V_{n} \subset V_{n+1}$
+			\item $\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(2 t\right) \in V_{n+1}$
+			\item $\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ t \mapsto f \left(t + 2^n\right) \in V_n \Longleftrightarrow f \in V_n$
+			\item $\DS \overline{\bigcup_{n \in \mathbb{Z}} V_n} = L^2(\mathbb{R})$.
+		\end{enumerate}
+	\end{mydef}
+	
+	On peut généraliser la propriété 3 de la façon suivante :
+		
+	$$\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_0 \Longleftrightarrow t \mapsto f \left(2^n t\right) \in V_{n}$$
+
+	Ce qui met en évidence que plus $n$ est grand, plus l'espace $V_n$ contient des fonctions fines. La propriété 4 peut elle aussi être généralisée :
+		
+	$$\forall n \in \mathbb{Z}, \forall k \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(t -k 2^n\right) \in V_{n}$$
+	
+	En combinant ces deux conséquences, on sait alors qu'une fonction $f$ appartient à $V_n$ si et seulement s'il existe $\varphi \in V_0$, $k \in \mathbb{Z}$ tels que $f(t) = \varphi (t 2^n - k)$. S'il existe une fonction de normée dont l'ensemble de ses translations forme une base orthonormée de $V_0$, on l'appelle \textit{fonction d'échelle}. Ainsi pour tout $n$ l'espace $V_n$ est l'ensemble de combinaisons linéaires de dilatations et translations de cette fonction.
+	
+	Nous nous retrouvons pour tout $n$ avec un espaces de Hilbert $V_n$ de base orthonormée $\{t \to 2^{-n} \varphi(2^n t - k) ~ | ~ k \in \mathbb{Z}\}$ (le facteur $2^{-n}$ servant à normaliser la fonction).
+	
+	\subsection{Espace des détails}
+	
+	Lorsque l'on passe d'un espace $V_{n+1}$ à $V_{n}$, on perd en finesse. On regroupe l'espace qui engendre les détails perdus dans l'espace de détails :
+	
+	\begin{mydef}
+		Pour tout $n$ on définit \textit{l'espace de détails} $W_{n}$ comme le complémentaire orthogonal de $V_{n}$ dans $V_{n+1}$ $$V_{n+1} = W_n \stackrel{\perp}{\oplus} V_n$$
+	\end{mydef}
+	
+	Les $(W_n)_n$ ne forment pas une suite d'espaces emboîtés mais ils vérifient encore les conditions d'auto-similarité et de stabilité par translation. Si on peut encore trouver une fonction normée $\psi$ engendrant les $(W_n)_n$ de la même façon que $\varphi$ engendre les $(V_n)_n$, un telle fonction est appelée \textit{ondelette}.
+\end{document}
