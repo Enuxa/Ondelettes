@@ -95,16 +95,16 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			\end{myrem}
 			
 			\begin{mydef} 
-				Pour l'étude des séries de Fourier, on se place dans $L^2_T$ que l'on définit comme l'espace des fonctions continues par morceaux, T-périodiques, définies sur $\mathbb{R}$ à valeurs dans $\mathbb{C}$, et dont la restriction à une période, en particulier $[0;T]$ est de carré intégrable.
+				Pour l'étude des séries de Fourier, on se place dans $L^2_T$ que l'on définit comme l'espace des fonctions continues par morceaux, T-périodiques, définies sur $\mathbb{R}$ à valeurs dans $\mathbb{C}$, et dont la restriction à une période, en particulier $[0,T]$ est de carré intégrable.
 			\end{mydef}
 			
 			\begin{mydef} 
 				On munit $L^2_T$ d'un produit scalaire et de sa norme induite définis par : 
 			
 			
-				$$ <f,g>_{L^2_T} = \int_{0}^{T} f(t) \overline{g(t)}  \frac{dt}{T}$$
+				$$ \langle f,g \rangle_2 = \frac{1}{T} \int_{0}^{T} f(t) \overline{g(t)} dt$$
 				
-				$$ \Vert f \Vert _{L^2_T} = ( \int_0^T \vert f(t)\vert ^2\frac{dt}{T})^{\frac{1}{2}}$$	
+				$$ \| f \|_2 =  \left(\frac{1}{T} \int_0^T | f(t) |^2 dt\right)^{\frac{1}{2}}$$	
 				
 			\end{mydef}
 			
@@ -116,7 +116,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			Dans un espace de Hilbert séparable, une famille orthonormée maximale est une base Hilbertienne. Nous voulons trouver une base Hilbertienne dans $L_T^2$.
 			
 			\begin{mydef}
-				On définit la famille des fonctions $E:= \{e_k; k \in \mathbb{Z} \}$ avec $e_k:\mathbb{R} \to \mathbb{C}$ telles que
+				On définit la famille des fonctions $E:= \{e_k\}_{k \in \mathbb{Z}}$ avec $e_k:\mathbb{R} \to \mathbb{C}$ telles que
 				
 				$$e_k(t):=e^{ik\omega t}, \quad t\in \mathbb{R}$$.	
 			\end{mydef}
@@ -127,7 +127,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			\end{myproposition}
 			
 			\begin{myproof}
-				Les fonctions $e_k$ sont bien de carrés intégrables, dans le sens où $\int_0^T \vert e_k(t)\vert ^2 dt$ converge. En effet, 
+				Les fonctions $e_k$ sont bien de carrés intégrables, dans le sens où $\int_0^T \vert e_k(t)\vert ^2 dt$ existe. En effet, 
 				$$ \Vert e_k \Vert_{L_T^2} = \frac{1}{T}  \int_0^T \vert e^{ik\omega t} \vert ^2dt =  \frac{1}{T}  \int_0^T 1 dt = 1 $$
 				
 				
@@ -160,7 +160,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 				Soient $e_k$ et $e_l$ deux fonctions appartenant à $E$, on suppose $e_k\ne e_l$, sinon se retrouve dans le cas de la norme ci-dessus.  
 				
 				\begin{align*}
-				\\	<e_k, e_l>_{L_T^2} & = \frac{1}{T} \int_0^T e_k(t) \overline{e_l(t)}dt 
+				\\	\langle e_k, e_l\rangle_2 & = \frac{1}{T} \int_0^T e_k(t) \overline{e_l(t)}dt 
 				\\ & = \frac{1}{T} \int_0^T e^{ik\omega t} * e^{il\omega t} dt 
 				\\ & = \frac{1}{T} \int_0^T e^{i(k+l)\omega t} dt 
 				\\ & = \frac{1}{T}  \left[ \frac {e^{i(k+l)\omega t}} {{i(k+l)\omega}} \right] _0^T
@@ -175,7 +175,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			
 		Comme cette famille est une base Hilbertienne de $L_T^2$, il est donc possible de décomposer les fonctions de cet espace dans cette base. 
 			\begin{mydef}
-				On définit les coefficients de Fourier ${c_k; k \in \mathbb{Z} }$ {}de la fonction  $ f \in L_T^2 $ comme $ c_p(f):=<f, e_k>_{L^2_T} $, c'est à dire : 
+				On définit les coefficients de Fourier $\left(c_k(f)\right)_{k \in \mathbb{Z}} $ de la fonction  $ f \in L_T^2 $ comme $ c_k(f) := \langle f, e_k\rangle_2$, c'est à dire : 
 					$$ c_k(f) = \int_{0}^{T} f(t) e^{ik\omega t} \frac{dt}{T} $$
 			\end{mydef}
 			
@@ -205,10 +205,10 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			
 			
 			\begin{myrem}
-				Alternativement, la définition de $L^1_T$ revient à dire que la norme suivante est finie. $$\Vert f\Vert_{L^1_T} := \frac{1}{T}\int_{0}^{T} \vert f(t)\vert dt $$
+				Alternativement, la définition de $L^1_T$ revient à dire que la norme suivante est finie. $$\Vert f\Vert_1 := \frac{1}{T}\int_{0}^{T} \vert f(t)\vert dt $$
 			\end{myrem}
 			
-			[Cet espace est également un espace Hilbertien ? ]
+			[Cet espace est également un espace Hilbertien ? A priori non, un espace Hilbertien possède une norme \textbf{issue d'un produit scalaire}]
 			
 			De la même manière que précédemment, on peut définir les coefficients de Fourier
 			
@@ -224,4 +224,4 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 	\subsection{Transformée de Fourier à fenêtre glissante}
 	\subsubsection{exemple}
 	
-\end{document}
+\end{document}\grid
