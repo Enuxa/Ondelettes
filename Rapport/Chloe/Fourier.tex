@@ -1,0 +1,227 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+
+\geometry{hmargin=2cm}
+
+% Environnement type théorème
+\newtheorem{mythm}{Théorème}
+\newtheorem{myproposition}{Proposition}
+\newtheorem{myproperty}{Propriété}
+\newtheorem{mylemma}{Lemme}
+\newtheorem{mycoro}{Corollaire}
+
+% Environnement type texte
+\theoremstyle{remark}
+\newtheorem{mynot}{Notation}
+\newtheorem{myrem}{Remarque}
+\newtheorem{myexer}{Exercice}
+\newtheorem{myproof}{Preuve}
+\newtheorem{myexmpl}{Exemple}
+
+% Environnement de définition
+\theoremstyle{definition}
+\newtheorem{mydef}{Définition}
+\newtheorem{myquestion}{Question}
+
+\setlist[itemize]{label=-}
+
+% Carré de fin de preuve
+\newcommand{\cqfd}{
+	\hfill$\square$
+}
+
+% Définition de fonction
+\newcommand{\func}[5]{
+#1 ~ : ~ \left\{ \begin{array}{lcl}
+	#2 & \longrightarrow & #3 \\
+	#4 & \longmapsto & #5
+\end{array}
+\right.
+}
+
+\newcommand{\fun}[3]{
+#1 ~ : ~ #2 \longrightarrow #3
+}
+
+\newcommand{\funcinline}[5]{
+	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
+}
+
+\newcommand{\funcshort}[3]{
+	#1 \, : \, #2 \longrightarrow #3
+}
+
+\newcommand{\anonfunc}[4]{
+	\left\{ \begin{array}{lcl}
+		#1 & \longrightarrow & #2 \\
+		#3 & \longmapsto & #4
+	\end{array}
+	\right.
+}
+
+\newcommand{\vect}{\text{Vect}}
+
+\newcommand{\card}{\text{Card }}
+
+\newcommand{\DS}{\displaystyle}
+
+\begin{document}
+	\part{Analyse du signal}
+	\section{L'analyse de Fourier}
+
+	\paragraph*{}
+En termes d'analyse du signal, l'utilisation de l'analyse de Fourier parait être indispensable. Le principe sous-jacent à cette analyse provient de l'étude des Séries de Fourier, qui permet sous certaines conditions de décomposer une fonction périodique en une somme de coefficients sinusoïdaux de même fréquence et de fréquences harmoniques. 
+
+
+Nous allons étudier les outils sur lesquels se reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse des ondelettes.  
+
+	
+	\subsection {Séries de Fourier}
+	Dans cette partie, nous voulons d'abord étudier le cas des fonctions de $L_T^2$ qui sont plus régulières. L'objectif est de montrer que dans un tel espace, il existe une base dans laquelle n'importe quelle fonction de l'espace peut être décomposée de manière unique. De plus, il sera important de prendre en compte la notion de convergence de cette décomposition qui est nécessaire dans de nombreuses applications. 
+	
+	
+			\begin{myrem}
+				Pour toute la partie portant sur l'analyse de Fourier, on définit $T$ comme la période, vérifiant $T>0$, et $\omega$ comme la fréquence en pulsation, $\omega := \frac{2\pi}{T}$.
+			\end{myrem}
+			
+			\begin{mydef} 
+				Pour l'étude des séries de Fourier, on se place dans $L^2_T$ que l'on définit comme l'espace des fonctions continues par morceaux, T-périodiques, définies sur $\mathbb{R}$ à valeurs dans $\mathbb{C}$, et dont la restriction à une période, en particulier $[0;T]$ est de carré intégrable.
+			\end{mydef}
+			
+			\begin{mydef} 
+				On munit $L^2_T$ d'un produit scalaire et de sa norme induite définis par : 
+			
+			
+				$$ <f,g>_{L^2_T} = \int_{0}^{T} f(t) \overline{g(t)}  \frac{dt}{T}$$
+				
+				$$ \Vert f \Vert _{L^2_T} = ( \int_0^T \vert f(t)\vert ^2\frac{dt}{T})^{\frac{1}{2}}$$	
+				
+			\end{mydef}
+			
+			\begin{myproposition}
+				$L^2_T$ muni du produit scalaire défini ci-dessus est un espace de Hilbert séparable.
+			\end{myproposition}
+		 
+			
+			Dans un espace de Hilbert séparable, une famille orthonormée maximale est une base Hilbertienne. Nous voulons trouver une base Hilbertienne dans $L_T^2$.
+			
+			\begin{mydef}
+				On définit la famille des fonctions $E:= \{e_k; k \in \mathbb{Z} \}$ avec $e_k:\mathbb{R} \to \mathbb{C}$ telles que
+				
+				$$e_k(t):=e^{ik\omega t}, \quad t\in \mathbb{R}$$.	
+			\end{mydef}
+			
+			
+			\begin{myproposition}
+				Les fonctions $e_k$ appartiennent à $L^2_T$. 
+			\end{myproposition}
+			
+			\begin{myproof}
+				Les fonctions $e_k$ sont bien de carrés intégrables, dans le sens où $\int_0^T \vert e_k(t)\vert ^2 dt$ converge. En effet, 
+				$$ \Vert e_k \Vert_{L_T^2} = \frac{1}{T}  \int_0^T \vert e^{ik\omega t} \vert ^2dt =  \frac{1}{T}  \int_0^T 1 dt = 1 $$
+				
+				
+				De plus, vérifions la T-périodicité: 
+				
+				\begin{align*}
+				\\ e_k(t+T) &= e^{ik\omega(t+T)}
+				\\ & = e^{ik\omega t} * e^{ik\omega T}
+				\end{align*}
+				
+				Or, par définition de $\omega$, $\omega T = 2\pi$ et $e^{i2\pi}= 1$. On déduit que : 
+				\begin{align*}
+				\\ e_k(t+T) &= e^{ik\omega t}*1 
+				\\ &= e^{ik\omega t} = e_k(t) 
+				\end{align*}
+				
+			\end{myproof}
+			
+			
+			On veut montrer que cette famille est une base hilbertienne. De plus, cela vérifiera que $L_T^2$ est bien un espace de Hilbert séparable. 
+			
+			\begin{myproposition}
+				$E:= \{e_k; k \in \mathbb{Z} \}$ est une base hilbertienne.
+			\end{myproposition}
+			
+			\begin{myproof}	
+				
+				Il suffit de montrer qu'il s'agit d'une famille orthonormée maximale.
+				On a vu précédemment que $\Vert e_k\Vert_{L_T^2} = 1$. On veut donc vérifier l'orthogonalité de la famille. 
+				Soient $e_k$ et $e_l$ deux fonctions appartenant à $E$, on suppose $e_k\ne e_l$, sinon se retrouve dans le cas de la norme ci-dessus.  
+				
+				\begin{align*}
+				\\	<e_k, e_l>_{L_T^2} & = \frac{1}{T} \int_0^T e_k(t) \overline{e_l(t)}dt 
+				\\ & = \frac{1}{T} \int_0^T e^{ik\omega t} * e^{il\omega t} dt 
+				\\ & = \frac{1}{T} \int_0^T e^{i(k+l)\omega t} dt 
+				\\ & = \frac{1}{T}  \left[ \frac {e^{i(k+l)\omega t}} {{i(k+l)\omega}} \right] _0^T
+				\\ & = \frac {e^{i\omega (l + k)*T} - e^{i\omega(l + k) * 0}} {i\omega T(l + k)}
+				\\ & = \frac {1 - 1}{i\omega T(l + k)} = 0
+				\end{align*}
+				Car $\omega T = 2\pi$ par définition.
+				[Reste à montrer la maximalité]
+				
+				
+			\end{myproof}
+			
+		Comme cette famille est une base Hilbertienne de $L_T^2$, il est donc possible de décomposer les fonctions de cet espace dans cette base. 
+			\begin{mydef}
+				On définit les coefficients de Fourier ${c_k; k \in \mathbb{Z} }$ {}de la fonction  $ f \in L_T^2 $ comme $ c_p(f):=<f, e_k>_{L^2_T} $, c'est à dire : 
+					$$ c_k(f) = \int_{0}^{T} f(t) e^{ik\omega t} \frac{dt}{T} $$
+			\end{mydef}
+			
+			\begin{mythm}
+				Toute fonction f appartenant à $L^2_T$ peut se décomposer de manière unique sous la forme : 
+				$$f(t):= \sum_{p \in \mathbb{Z}} c_p(f)e_p(f) \qquad $$
+				La convergence à lieu dans l'espace $L^2_T$.;
+				
+				Réciproquement, s'il existe une suite $(a_p)_{p \in \mathbb{Z}}$ de  ... telle que $f(t) = \sum_{p\in \mathbb{Z}}a_p e_p(t)$ dans $L^2_T$ alors $a_p=c_p(f)$.
+			\end{mythm}
+			
+			Les notions de convergence et d'unicité sont très importantes, dans le sens où elles permettent d'étudier la décomposition en série de Fourier de la fonction, plutôt que la fonction elle même. 
+
+			[Parler de la convergence ? uniforme, en moyenne quadratique ? ]
+			
+			
+			[Exemple : étude du son car les sons fondamentaux sont des sinusoides.] 
+			
+			
+			
+			\subsection{Transformée de Fourier}
+			La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général. 
+			
+			\begin{mydef}
+				On définit $L^1_T$ comme l'espace des fonctions continues par morceaux, T-périodiques, et dont la restriction à une période est intégrable. 
+			\end{mydef}
+			
+			
+			\begin{myrem}
+				Alternativement, la définition de $L^1_T$ revient à dire que la norme suivante est finie. $$\Vert f\Vert_{L^1_T} := \frac{1}{T}\int_{0}^{T} \vert f(t)\vert dt $$
+			\end{myrem}
+			
+			[Cet espace est également un espace Hilbertien ? ]
+			
+			De la même manière que précédemment, on peut définir les coefficients de Fourier
+			
+			
+			
+					
+	
+	
+	
+	\subsubsection{exemple}
+	
+	
+	\subsection{Transformée de Fourier à fenêtre glissante}
+	\subsubsection{exemple}
+	
+\end{document}
