@@ -70,6 +70,8 @@
 	\right.
 }
 
+\allowdisplaybreaks[4]
+
 \newcommand{\vect}{\text{Vect}}
 
 \newcommand{\card}{\text{Card }}
@@ -104,6 +106,7 @@
 	Nous allons prendre pour exemple les signaux unidimensionnels (tels les sons). Soit $\funcshort{f}{[0, 1[}{\mathbb{R}}$ une fonction continue, nous allons l'approximer par des fonctions constantes par morceaux (dites étagées), dont les morceaux sont de plus en plus petits.
 	
 	\begin{figure}[h]
+		\label{sine-stairs}
 		\centering
 		\includegraphics[width=150pt]{sin_1.png}
 		\includegraphics[width=150pt]{sin_2.png}
@@ -132,29 +135,52 @@
 	\begin{mydef}
 		Une \textit{analyse multi-résolution} de l'espace $L^2(\mathbb{R})$ des fonctions de carré Lebesgue-intégrables est une suite $V = \{V_n\}_{n \in \mathbb{Z}} \subset L^2(\mathbb{R})$ de sous-espaces fermés de $L^2(\mathbb{R})$ satisfaisant aux conditions suivantes :
 
-		\begin{enumerate}
-			\item $\forall n \in \mathbb{Z}, ~ V_{n} \subset V_{n+1}$ \textit{(croissance)}
-			\item $\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(2 t\right) \in V_{n+1}$ \textit{(stabilité par translation entière)}
-			\item $\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ t \mapsto f \left(t + 2^n\right) \in V_n \Longleftrightarrow f \in V_n$ \textit{(auto-similarité)}
-			\item $\DS \overline{\bigcup V} = L^2(\mathbb{R})$ \textit{(densité)}
-			\item $\DS \bigcap V = \{0\}$
-		\end{enumerate}
+		\begin{equation}
+			\label{growth}
+			\forall n \in \mathbb{Z}, ~ V_{n} \subset V_{n+1} \text{ (croissance)}
+		\end{equation}
+		\begin{equation}
+			\label{self-similarity}
+			\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(2 t\right) \in V_{n+1} \text{(auto-similarité)}
+		\end{equation}
+		\begin{equation}
+			\label{rb-mra}
+			\text{Il existe $\varphi \in V_0$ telle que $\{t \mapsto \varphi(t + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
+		\end{equation}
+		\begin{equation}
+			\label{density}
+			\overline{\bigcup V} = L^2(\mathbb{R}) \text{(densité)}
+		\end{equation}
+		\begin{equation}
+			\label{inter}
+			\bigcap V = \{0\}
+		\end{equation}
+		
+		$\varphi$ est appelée \textit{fonction d'échelle}.
 	\end{mydef}
 	
-	On peut généraliser par récurrence la propriété 3 de la façon suivante :
-		
-	$$\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_0 \Longleftrightarrow t \mapsto f \left(2^n t\right) \in V_{n}$$
+	On peut généraliser par récurrence la propriété \ref{self-similarity} de la façon suivante :
+	\begin{equation}
+		\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_0 \Longleftrightarrow t \mapsto f \left(2^n t\right) \in V_{n}
+	\end{equation}
 
-	Ce qui met en évidence que plus $n$ est grand, plus l'espace $V_n$ contient des fonctions fines (la fonction est contractée horizontalement). La propriété 4 peut elle aussi être généralisée :
-		
-	$$\forall n \in \mathbb{Z}, \forall k \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(t -k 2^n\right) \in V_{n}$$
-	
-	En combinant ces deux conséquences, on sait alors qu'une fonction $f$ appartient à $V_n$ si et seulement s'il existe $\varphi \in V_0$, $k \in \mathbb{Z}$ tels que $f(t) = \varphi (t 2^n - k)$.
-	
+	Ce qui met en évidence que plus $n$ est grand, plus l'espace $V_n$ contient des fonctions fines (la fonction est contractée horizontalement). D'après les propriétés \ref{self-similarity} et \ref{rb-mra}, on peut déduire que toute fonction de $V_n$ est une combinaison linéaire de contraction (d'un facteur au plus $2^n$) et translation de $\varphi$.
+
 	\begin{mydef}
-		S'il existe une fonction normée dont l'ensemble de ses translations forme une base orthonormée de $V_0$, on l'appelle \textit{fonction d'échelle}. Ainsi pour tout $n$ l'espace $V_n$ est l'ensemble de combinaisons linéaires de dilatations et translations de cette fonction.
+		Une analyse multi-résolution est dite \textit{localisée} si $\varphi$ vérifie la condition suivante
+		\begin{equation}
+			\label{localized}
+			\int_\mathbb{R} (1+|t|)^m |\varphi(t)|^2 dt < + \infty
+		\end{equation}
 	\end{mydef}
-	Nous nous retrouvons pour tout $n$ avec un espaces de Hilbert $V_n$ de base orthonormée $\{t \to 2^{-n/2} \varphi(2^n t - k) ~ | ~ k \in \mathbb{Z}\}$ (le facteur $2^{-n/2}$ servant à normaliser la fonction).
+	
+	Cette propriété porte bien son nom, si $\varphi$ la vérifie alors $|\varphi|^2$ décroît bien plus vite que tout polynôme en $\pm \infty$, suffisamment pour être intégrable. C'est le cas par exemple des gaussiennes et des fonctions à support compact. Une telle fonction $\varphi$ a une masse concentrée près de 0, ce qui limitera les "interférences" de ses translations dans leurs combinaisons linéaires.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=450pt]{Localized.png}
+		\caption{Les gaussiennes sont localisées}
+	\end{figure}
 	
 %	\begin{myexmpl}
 %		On reprend l'exemple précédent, avec $\varphi = \mathbbm{1}_{[0, 1[}$. On a alors pour tout $n, k \in \mathbb{Z}$ $$\varphi_{n, k} = 2^{n/2} \mathbbm{1}_{[k 2^{-n}, (k+1) 2^{-n}[}$$
@@ -178,24 +204,29 @@
 %		* Mq toute fonction peut être approximé avec une finesse arbitraire par un élément de $\bigcup V$
 %	\end{myexmpl}
 		
+	\newpage
+		
 	\subsection{Espace des détails}
 	
-	Lorsque l'on passe d'un espace $V_{n+1}$ à $V_{n}$, on perd en finesse. On regroupe l'espace qui engendre les détails perdus dans l'espace de détails :
+	Pour tout $n$, on dénote par $\funcshort{P_n}{L^2(\mathbb{R})}{V_n}$ la projection orthogonale sur $V_n$ (on choisit les projections orthogonales car elles minimisent l'erreur commise en passant d'un espace à l'autre). Ainsi, pour tout $f \in L^2(\mathbb{R})$, $P_n (f)$ est l'approximation de $f$ avec une précision $2^{-n}$. Sur la figure $\ref{sine-stairs}$, on projette $f$ sur les espaces $V_0$ à $V_4$.
+	
+	Penchons nous sur ce qui se passe lorsqu'on passe d'une échelle plus fine à une échelle plus grossière.
+	
+	Soient $f \in L^2(\mathbb{R})$ et $f_n$ son approximation dans $V_n$ (c'est-à-dire $f_n = P_n(f)$). Le passage de $V_n$ à $V_{n-1}$ constitue une perte d'informations car on passe d'un espace plus fin à un espace plus grossier.
+	
+	\begin{align*}
+		f_{n-1} &= P_{n-1} (f_n) \\
+		&= P_{n-1}( (f_n - f_{n-1}) + f_{n-1}) \\
+		&= \underbrace{P_{n-1} (f_n - f_{n-1})}_{0} + f_{n-1} \\
+	\end{align*}
+	
+	La perte de précision, formalisée par $f_n - f_{n-1}$, est donc un élément du noyau de $P_{n-1}$, à savoir $V_{n-1}^\bot$. Mais $f_n - f_{n-1}$ étant dans $V_{n}$, l'ensemble regroupant les détails perdus en passant de $V_n$ à $V_{n-1}$ est $V_{n-1}^\bot \cap V_n$, c'est-à-dire le complémentaire orthogonal de $V_{n-1}$ dans $V_n$.
 	
 	\begin{mydef}
 		Pour tout $n$ on définit \textit{l'espace de détails} $W_{n}$ comme le complémentaire orthogonal de $V_{n}$ dans $V_{n+1}$ $$V_{n+1} = W_n \stackrel{\perp}{\oplus} V_n$$
 	\end{mydef}
 	
-	\begin{myrem}
-		Toute fonction $f \in \bigcup V$ se décompose de manière unique en une somme de fonctions orthogonales $f = f_1 + f_2$, où $f_1 \in V_{n}$ et $f_2 \in W_n$ pour un certain $n$.
-		
-		En effet, $f \in \bigcup V$ donc il existe $n$ tel que $f \in V_n$. Il s'agit donc d'une combinaison linéaire de translations et contractions d'un facteur au plus $2^{-n}$ de $\varphi$. Il existe d'uniques éléments $f_1 \in V_{n-1}$ et $f_2 \in W_{n-1}$ tels que $f = f_1 + f_2$ et $f_2 ~ \bot ~ f_2$.
-		
-		Le fait que $f_1$ et $f_2$ soit orthogonaux signifie que $f_1 \overline{f_2}$ est d'intégrale nulle.
-		
-		$f_2$ peut être vu comme le détail perdu en passant de l'échelle $V_n$ à l'échelle $V_{n-1}$.
-	\end{myrem}
-	
+	\paragraph*{}
 	Les $(W_n)_n$ ne forment plus une famille monotone, mais leur somme recouvre tout les $V_n$. En d'autre termes, on peut à présent approximer toute fonction de $L^2(\mathbb{R})$ par une combinaison linéaire d'éléments de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$.
 	
 	\begin{myproof}
@@ -206,7 +237,7 @@
 			&= V_{n_0 - 1} \oplus \left(W_{n_0 - 1} \oplus W_{n_0} \right) \\
 			& \cdots \\
 			&= V_{n_0 - N} \oplus \left(\bigoplus_{n = n_0 - N}^{n_0} W_n \right) \\
-			&= \cdots \\
+			& \cdots \\
 			&= \lim\limits_{n \to -\infty} V_n \oplus \left(\bigoplus_{n = - \infty}^{n_0} W_n \right) \\
 			&= \bigcap V \oplus \left(\bigoplus_{n = - \infty}^{n_0} W_n \right) \\
 			&= \{0\} \oplus \left(\bigoplus_{n = - \infty}^{n_0} W_n \right) \\
@@ -218,14 +249,51 @@
 		\cqfd
 	\end{myproof}
 	
-	Comme on l'a dit, les $(W_n)_n$ ne forment pas une suite d'espaces emboîtés ; ils sont même orthogonaux deux à deux. Cependant, ils vérifient encore les conditions d'auto-similarité et de stabilité par translation.
+	Comme on l'a dit, les $(W_n)_n$ ne forment pas une suite d'espaces emboîtés (ils sont même orthogonaux deux à deux), cependant ils vérifient encore les conditions d'auto-similarité et de stabilité par translation.
 
 	\begin{mydef}
-		Si on peut encore trouver une fonction normée $\psi$ engendrant $W_0$ par translation et de moyenne nulle (d'intégrale nulle), une telle fonction est appelée \textit{ondelette}.
+		Il existe une fonction normée $\psi$ - appelée \textit{ondelette} - engendrant $W_0$ par translation et de moyenne nulle (d'intégrale nulle).
+		
+		On admettra son existence, mais elle peut être construite explicitement à partir de $\varphi$.
 	\end{mydef}
-	
-	On définit encore une fois la famille $(\psi_{n, k})_{n, k}$ par $\psi_{n, k}(t) = 2^{-n/2} \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ !
+		
+	On définit encore une fois la famille $\Psi = \{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ par $\psi_{n, k}(t) = 2^{-n/2} \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ ! Et donc une base hilbertienne de $L^2(\mathbb{R})$ !
 	
 	Le fait que la famille soit normée est évident, le fait qu'elle soit orthogonale découle de l'orthogonalité des $W_n$.
+	
+	\begin{myexmpl}
+		On prend comme exemple l'ondelette de Haar qui est donnée par $$\psi(t) = \left\{
+		\begin{array}{cl}
+			0 & x < 0 \\
+			1 & 0 \leqslant x < \frac{1}{2} \\
+			-1 & \frac{1}{2} \leqslant x < 1 \\
+			0 & 0 \leqslant x
+		\end{array}
+		\right.$$
+	\end{myexmpl}
+	
+	\begin{figure}[h]
+		\label{Haar}
+		\centering
+		\includegraphics[width=150pt]{Haar.png}
+		\caption{L'ondelette de Haar}
+	\end{figure}
+	
+	$\psi$ est effectivement de moyenne nulle et $\Psi$ est orthonormée :
+	
+	\begin{align*}
+		\langle \psi_{n, k}, \psi_{m, l}\rangle &= \int_{-\infty}^{\infty} \psi_{n, k}(t), \psi_{m, l}(t) dt \\
+		&= 2^{\frac{m+n}{2}} \int_{-\infty}^{\infty} \underbrace{\psi(2^nt - k) \psi(2^mt - l)}_{h(t)} dt
+	\end{align*}
+	
+	Si le graphe de la fonction $h$ admet un centre de symétrie sur $\mathbb{R}$ alors elle sera d'intégrale nulle (généralisation du fait que l'intégrale d'une fonction impaire est nulle). Cette remarque nous fournit un argument géométrique pour justifier que $\langle \psi_{n, k}, \psi_{m, l}\rangle$ vaut 1 si $n = m$ et $k = l$, et 0 sinon.
+	
+	Supposons $n \neq m$, alors les fonctions peuvent se positionner l'une par rapport à l'autre de quatre façons différentes, leur produit aura bien un centre de symétrie comme sur le figure.
+		
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=350pt]{Haar_exemple.png}
+		\caption{Le produit de deux ondelettes de Haar différentes  (la grise par une en couleur) possèdent un centre de symétrie dans $\mathbb{R}$.}
+	\end{figure}
 	
 \end{document}
