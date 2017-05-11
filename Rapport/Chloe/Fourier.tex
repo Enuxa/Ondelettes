@@ -83,7 +83,7 @@
 En termes d'analyse du signal, l'utilisation de l'analyse de Fourier parait être indispensable. Le principe sous-jacent à cette analyse provient de l'étude des Séries de Fourier, qui permet sous certaines conditions de décomposer une fonction périodique en une somme de coefficients sinusoïdaux de même fréquence et de fréquences harmoniques. 
 
 
-Nous allons étudier les outils sur lesquels se reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse des ondelettes.  
+Nous allons étudier les outils sur lesquels se reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse des ondelettes. Cette partie sera limitée aux fonctions d'une seule variable. 
 
 	
 	\subsection {Séries de Fourier}
@@ -94,8 +94,10 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 				Pour toute la partie portant sur l'analyse de Fourier, on définit $T$ comme la période, vérifiant $T>0$, et $\omega$ comme la fréquence en pulsation, $\omega := \frac{2\pi}{T}$.
 			\end{myrem}
 			
+				Pour l'étude des séries de Fourier, on se place dans $L^2_T$.
+				
 			\begin{mydef} 
-				Pour l'étude des séries de Fourier, on se place dans $L^2_T$ que l'on définit comme l'espace des fonctions continues par morceaux, T-périodiques, définies sur $\mathbb{R}$ à valeurs dans $\mathbb{C}$, et dont la restriction à une période, en particulier $[0,T]$ est de carré intégrable.
+			 Soit $L^2_T$ l'espace des fonctions continues par morceaux, T-périodiques, définies sur $\mathbb{R}$ à valeurs dans $\mathbb{C}$, et dont la restriction à une période, en particulier $[0,T]$ est de carré intégrable.
 			\end{mydef}
 			
 			\begin{mydef} 
@@ -128,19 +130,18 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			
 			\begin{myproof}
 				Les fonctions $e_k$ sont bien de carrés intégrables, dans le sens où $\int_0^T \vert e_k(t)\vert ^2 dt$ existe. En effet, 
-				$$ \Vert e_k \Vert_{L_T^2} = \frac{1}{T}  \int_0^T \vert e^{ik\omega t} \vert ^2dt =  \frac{1}{T}  \int_0^T 1 dt = 1 $$
+				$$ \Vert e_k \Vert_2 = \frac{1}{T}  \int_0^T \vert e^{ik\omega t} \vert ^2dt =  \frac{1}{T}  \int_0^T 1 dt = 1 $$
 				
 				
 				De plus, vérifions la T-périodicité: 
-				
 				\begin{align*}
-				\\ e_k(t+T) &= e^{ik\omega(t+T)}
-				\\ & = e^{ik\omega t} * e^{ik\omega T}
+				 e_k(t+T) &= e^{ik\omega(t+T)}
+				\\ & = e^{ik\omega t} \cdot e^{ik\omega T}
 				\end{align*}
 				
 				Or, par définition de $\omega$, $\omega T = 2\pi$ et $e^{i2\pi}= 1$. On déduit que : 
 				\begin{align*}
-				\\ e_k(t+T) &= e^{ik\omega t}*1 
+				e_k(t+T) &= e^{ik\omega t} \cdot 1 
 				\\ &= e^{ik\omega t} = e_k(t) 
 				\end{align*}
 				
@@ -150,7 +151,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			On veut montrer que cette famille est une base hilbertienne. De plus, cela vérifiera que $L_T^2$ est bien un espace de Hilbert séparable. 
 			
 			\begin{myproposition}
-				$E:= \{e_k; k \in \mathbb{Z} \}$ est une base hilbertienne.
+				$E:= \{e_k~ \vert~ k \in \mathbb{Z} \}$ est une base hilbertienne.
 			\end{myproposition}
 			
 			\begin{myproof}	
@@ -160,12 +161,12 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 				Soient $e_k$ et $e_l$ deux fonctions appartenant à $E$, on suppose $e_k\ne e_l$, sinon se retrouve dans le cas de la norme ci-dessus.  
 				
 				\begin{align*}
-				\\	\langle e_k, e_l\rangle_2 & = \frac{1}{T} \int_0^T e_k(t) \overline{e_l(t)}dt 
-				\\ & = \frac{1}{T} \int_0^T e^{ik\omega t} * e^{il\omega t} dt 
-				\\ & = \frac{1}{T} \int_0^T e^{i(k+l)\omega t} dt 
-				\\ & = \frac{1}{T}  \left[ \frac {e^{i(k+l)\omega t}} {{i(k+l)\omega}} \right] _0^T
-				\\ & = \frac {e^{i\omega (l + k)*T} - e^{i\omega(l + k) * 0}} {i\omega T(l + k)}
-				\\ & = \frac {1 - 1}{i\omega T(l + k)} = 0
+				\langle e_k, e_l\rangle_2 & = \frac{1}{T} \int_0^T e_k(t) \overline{e_l(t)}dt 
+				\\ & = \frac{1}{T} \int_0^T e^{ik\omega t} * e^{-il\omega t} dt 
+				\\ & = \frac{1}{T} \int_0^T e^{i(k-l)\omega t} dt 
+				\\ & = \frac{1}{T}  \left[ \frac {e^{i(k-l)\omega t}} {{i(k-l)\omega}} \right] _0^T
+				\\ & = \frac {e^{i\omega (l-k)*T} - e^{i\omega(l-k) * 0}} {i\omega T(l-k)}
+				\\ & = \frac {1 - 1}{i\omega T(l-k)} = 0
 				\end{align*}
 				Car $\omega T = 2\pi$ par définition.
 				[Reste à montrer la maximalité]
@@ -176,18 +177,18 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 		Comme cette famille est une base Hilbertienne de $L_T^2$, il est donc possible de décomposer les fonctions de cet espace dans cette base. 
 			\begin{mydef}
 				On définit les coefficients de Fourier $\left(c_k(f)\right)_{k \in \mathbb{Z}} $ de la fonction  $ f \in L_T^2 $ comme $ c_k(f) := \langle f, e_k\rangle_2$, c'est à dire : 
-					$$ c_k(f) = \int_{0}^{T} f(t) e^{ik\omega t} \frac{dt}{T} $$
+					$$ c_k(f) = \frac{1}{T}\int_{0}^{T} f(t) e^{ik\omega t}dt $$
 			\end{mydef}
 			
 			\begin{mythm}
 				Toute fonction f appartenant à $L^2_T$ peut se décomposer de manière unique sous la forme : 
 				$$f(t):= \sum_{p \in \mathbb{Z}} c_p(f)e_p(f) \qquad $$
-				La convergence à lieu dans l'espace $L^2_T$.;
+				La convergence à lieu dans l'espace $L^2_T$.
 				
 				Réciproquement, s'il existe une suite $(a_p)_{p \in \mathbb{Z}}$ de  ... telle que $f(t) = \sum_{p\in \mathbb{Z}}a_p e_p(t)$ dans $L^2_T$ alors $a_p=c_p(f)$.
 			\end{mythm}
 			
-			Les notions de convergence et d'unicité sont très importantes, dans le sens où elles permettent d'étudier la décomposition en série de Fourier de la fonction, plutôt que la fonction elle même. 
+			Les notions de convergence et d'unicité sont très importantes, dans le sens où elles permettent d'étudier la décomposition en série de Fourier de la fonction, plutôt que la fonction elle même. De plus, elles nous permettent de retrouver la fonction depuis sa décomposition sans perdre d'information. 
 
 			[Parler de la convergence ? uniforme, en moyenne quadratique ? ]
 			
@@ -197,31 +198,92 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			
 			
 			\subsection{Transformée de Fourier}
-			La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général. 
-			
+				La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général, notamment pour des fonctions non périodiques. 
+				Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. On définira plutôt la transformée de Fourier de la sorte. 
+
+			 
 			\begin{mydef}
-				On définit $L^1_T$ comme l'espace des fonctions continues par morceaux, T-périodiques, et dont la restriction à une période est intégrable. 
+				On définit $L^1$ comme l'espace des fonctions continues par morceaux intégrables. 
 			\end{mydef}
 			
-			
+			\begin{mydef}
+				Soit $f(t)$ une fonction de $L_1$ à valeurs réelles ou complexes. La Transformée de Fourier est une fonction complexe définie par :
+				$$ \mathcal{F}[f(t)] = F(k)= \int_{-\infty}^{+\infty}f(t)e^{-ikt}dt $$ 
+			\end{mydef}
+		
 			\begin{myrem}
-				Alternativement, la définition de $L^1_T$ revient à dire que la norme suivante est finie. $$\Vert f\Vert_1 := \frac{1}{T}\int_{0}^{T} \vert f(t)\vert dt $$
+				La condition que la fonction $f(t)$ soit intégrale est suffisante pour que l'intégrale soit bien définie et que la transformée de Fourier existe. 
+				De plus, $F(k)$ sera une fonction continue et bornée qui tend vers 0 lorsque $|k| \longrightarrow \infty$.
 			\end{myrem}
 			
-			[Cet espace est également un espace Hilbertien ? A priori non, un espace Hilbertien possède une norme \textbf{issue d'un produit scalaire}]
+			Nous pourrons nous restreindre aux fonctions de $L_1$ pour cette étude. 
+			Comme pour l'étude des séries de Fourier, une notion très importante est de pouvoir reconstruire le signal à partir de sa transformée de Fourier. Pour ce faire, il est possible d'utiliser la transformée de Fourier inverse. 
+			my
+			\begin{mydef}
+				En ajoutant la condition que $f(t)$ soit continue aux conditions précédentes, on peut définir la transformée de Fourier inverse par :
+				$$ \overline{\mathcal{F}}[F(k)] = f(t)=\frac{1}{2\pi} \int_{-\infty}^{+\infty}F(k)e^{ikt}dt $$ 
+				
+			\end{mydef}
 			
-			De la même manière que précédemment, on peut définir les coefficients de Fourier
+			\begin{myrem}
+				Si la condition de la continuité de $f(t)$ n'est pas respectée, la transformée de Fourier de $f(t)$ sera quand même définie, mais l'égalité entre $f(t)$ et $\overline{\mathcal{F}}[\mathcal{F}[f(t)]]$ ne sera vérifiée que presque partout. 
+			\end{myrem}
+		
 			
-			
-			
-					
-	
-	
-	
 	\subsubsection{exemple}
-	
+	[exemple de deux signaux successifs, l'un défini sur $ ] -\infty; 0[$ et l'autre sur $ [0; +\infty[$ qui ont la même décomposition en spectre que s'ils avaient été simultanés]
 	
 	\subsection{Transformée de Fourier à fenêtre glissante}
-	\subsubsection{exemple}
+	La transformée de Fourier à fenêtre glissante est une solution par rapport au problème de la notion de temporalité apporté par l'étude de signaux continus et non plus périodiques. 
+
+	En reprenant la définition de la transformée de Fourier précédente, on peut l'étendre pour ajouter la notion de fenêtre glissante. 
+		
+	\begin{mydef}
+		Soit $f(t)$ une fonction qui possède une transformée de Fourier. On peut définir la Transformée de Fourier à fenêtre glissante par :
+		$$ F(k, \tau)= \int_{-\infty}^{+\infty}f(t)e^{-ikt} \overline{w(t - \tau)}dt$$
+		où $w(t)$ est la fonction de fenêtre, et $\tau$ le paramètre de translation. 
+	\end{mydef}
+	Il s'agit ensuite de trouver le format de fenêtre adéquat. 
 	
-\end{document}\grid
+	\subsubsection{exemple}
+	[Reprendre l'exemple précédent en montrant que ca fonctionne bien, puis faire un autre exemple, comme la fonction en créneau et montrer que ca ne suffit pas pour les discontinuités]
+	
+	
+	\subsection{Transformée de Fourier discrète}
+			
+	Ces conditions sont nous permettent de définir un cadre pour utiliser la transformée de Fourier. Néanmoins, lors d'applications à l'informatique, nous ne pouvons pas conserver une infinité de valeurs, et il est nécessaire de pouvoir travailler sur des valeurs discrètes, tout en conservant au plus les propriétés pour décomposer et recomposer les fonctions. 		
+	Dans le cadre de la transformée de Fourier discrète, au lieu d'utiliser des fonctions, nous allons nous intéresser à des suites qui correspondront à l'échantillonnage de la fonction. Il est important de noter que ces suites seront finies, pour correspondre à l'espace de stockage fini des ordinateurs. 
+	
+
+	\begin{mydef}
+		On définit la fréquence d'échantillonnage comme le nombre d'échantillons par unité de temps.  
+	\end{mydef}
+		Pour que l'échantillonnage soit suffisant pour obtenir une reconstitution de qualité suffisante, on peut se référer au théorème de Nyquist-Shannon. 
+		
+	\begin{mythm}
+		Si une fonction $f(t)$ ne contient pas de fréquences plus élevées que $B$ Hz, il est complètement décrit en donnant une suite de ses valeurs a des points régulièrement espacés tout les $\frac{1}{2B}$ secondes.
+	\end{mythm}
+	
+	Dans la mesure où tous les appareils utilisés pour enregistrer des signaux ne peuvent pas capter de valeurs infinies, il sera possible de reconstituer le signal à partir de cette suite de valeurs, avec pour limite la qualité des appareils d'enregistrements et non pas les outils mathématiques. Dans certains cas, l'acuité humaine peut également servir de limite.
+	
+	\begin{myexmpl}
+		 Pour les enregistrements audios, la fréquence d'échantillonnage des fichiers pour le format CD est traditionnellement de 44 100 Hz, ce qui est juste supérieur au double de la fréquence la plus élevée que peut percevoir l'oreille humaine en théorie, c'est à dire 20 000 Hz. 
+	\end{myexmpl}
+	
+	\begin{mydef}
+			On considère une suite $(s_n)_{n\in \{0; N -1 \}}$ de N termes. La transformée de Fourier Discrète permet d'obtenir la suite  $(S_n)_{n\in \{0; N -1 \}}$ de N termes définis par :
+			$$ S_k = \sum_{k=0}^{N-1}s_n e^{-2i\pi k\frac{n}{N}} $$
+	\end{mydef}
+		De la même manière que pour la transformée de Fourier, on pourra également définir la transformation inverse.
+		
+	\begin{mydef}
+		Dans les mêmes conditions que ci dessus, on définit la transformée de Fourier discrète inverse par :
+			$$ s_n =\frac{1}{N} \sum_{k=0}^{N-1}S_k e^{2i\pi k\frac{n}{N}} $$
+	\end{mydef}
+	
+	Ces transformations sont sans pertes d'informations, ainsi, si les conditions du théorème de Nyquist-Shannon sur la fréquence d'échantillonnage ont été respectées, alors le signal peut être reconstitué sans perte via ces transformations successives. 
+	
+	L'avantage de l'utilisation de la transformée de Fourier discrète se retrouve également dans la vitesse d'exécution des calculs. En effet, la transformée de Fourier continue à une complexité en $O(N^2)$ alors qu'il existe des algorithmes comme celui de La transformée de Fourier rapide, qui sous certaines conditions sur le nombre de termes de la suite à transformer, peuvent atteindre une complexité en $O(n\log(n))$.
+	
+	
+\end{document}
