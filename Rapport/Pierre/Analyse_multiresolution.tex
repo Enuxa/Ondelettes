@@ -82,8 +82,9 @@
 	\part{Analyse du signal}
 	
 	On munit à présent $L^2(\mathbb{R})$ du produit scalaire $\langle \cdot, \cdot \rangle$ défini par $$\langle f, g\rangle = \int_\mathbb{R} f(t) \overline{g(t)} dt$$
+	et de la topologie induite par la norme correspondante.
 	
-	[On considérera ici que $L^2(\mathbb{R})$ est restreint aux fonctions continues par morceaux ?]
+	On remarquera qu'ici $L^2(\mathbb{R})$ désigne l'espace des fonctions de carré intégrable \textbf{quotienté par l'ensemble des fonctions nulles presque partout}. Ce passage au quotient est nécessaire pour que $\|\cdot \|_2$ soit une norme (au lieu d'une semi-norme).
 	
 	\section{Analyse multi-résolution}
 	
@@ -170,7 +171,7 @@
 		Une analyse multi-résolution est dite \textit{localisée} si $\varphi$ vérifie la condition suivante
 		\begin{equation}
 			\label{localized}
-			\int_\mathbb{R} (1+|t|)^m |\varphi(t)|^2 dt < + \infty
+			\forall m \in \mathbb{N}, \int_\mathbb{R} (1+|t|)^m |\varphi(t)|^2 dt < + \infty
 		\end{equation}
 	\end{mydef}
 	
@@ -227,7 +228,7 @@
 	\end{mydef}
 	
 	\paragraph*{}
-	Les $(W_n)_n$ ne forment plus une famille monotone, mais leur somme recouvre tout les $V_n$. En d'autre termes, on peut à présent approximer toute fonction de $L^2(\mathbb{R})$ par une combinaison linéaire d'éléments de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$.
+	Les $(W_n)_n$ ne forment plus une famille monotone, mais leur somme recouvre tous les $V_n$. En d'autre termes, on peut à présent approximer toute fonction de $L^2(\mathbb{R})$ par une combinaison linéaire d'éléments de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$.
 	
 	\begin{myproof}
 		Soit $n_0 \in \mathbb{Z}$, on a par définition des $(W_{n})_n$
@@ -238,7 +239,6 @@
 			& \cdots \\
 			&= V_{n_0 - N} \oplus \left(\bigoplus_{n = n_0 - N}^{n_0} W_n \right) \\
 			& \cdots \\
-			&= \lim\limits_{n \to -\infty} V_n \oplus \left(\bigoplus_{n = - \infty}^{n_0} W_n \right) \\
 			&= \bigcap V \oplus \left(\bigoplus_{n = - \infty}^{n_0} W_n \right) \\
 			&= \{0\} \oplus \left(\bigoplus_{n = - \infty}^{n_0} W_n \right) \\
 			&= \bigoplus_{n = - \infty}^{n_0} W_n
@@ -254,7 +254,7 @@
 	\begin{mydef}
 		Il existe une fonction normée $\psi$ - appelée \textit{ondelette} - engendrant $W_0$ par translation et de moyenne nulle (d'intégrale nulle).
 		
-		On admettra son existence, mais elle peut être construite explicitement à partir de $\varphi$.
+		On admettra son existence \footnote{Voir \textit{Wavelets and Multiscale Signal Processing} d'Albert Cohen pour une démonstration de l'existence.}, mais elle peut être construite explicitement à partir de $\varphi$.
 	\end{mydef}
 		
 	On définit encore une fois la famille $\Psi = \{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ par $\psi_{n, k}(t) = 2^{-n/2} \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ ! Et donc une base hilbertienne de $L^2(\mathbb{R})$ !
