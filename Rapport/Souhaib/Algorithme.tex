@@ -83,22 +83,58 @@
 
 \part{Algorithmes d'encodage et de décodage}
 
-\section{Cadre}
+\section{Algorithme d'encodage en 1 dimension}
 
-Dans cette partie, nous présenterons un algorithme pour encoder une fonction $f:\llbracket0,N-1\rrbracket\to[-1,1]$ quelconque suivant une analyse multi-résolution.
+\subsection{Cadre}
+
+Dans cette partie, on veut encoder une fonction $f:\llbracket0,N-1\rrbracket\to[-1,1]$ quelconque.
 
 On se place dans une analyse multi-résolution de $L^2(\mathbb R)$ notée $(V_n)_{n\in\mathbb Z}$ engendrée par $\varphi$.
 
-%Les espaces de détails $W_{-\lceil\log_2 N\rceil} \stackrel{\perp}{\oplus}\cdots\stackrel{\perp}{\oplus} W_0$ suffiront pour encoder $f$.
-
-On cherche donc un algorithme pour calculer les coordonnées de $f$ dans l'espace :
-$$W_{-\lceil\log_2 N\rceil} \stackrel{\perp}{\oplus}\cdots\stackrel{\perp}{\oplus} W_0$$
-On rappelle que :
+On rappelle que $f$ peut être recalculé à partir de ses coordonnées $\langle f,\psi_{n,k}\rangle$ :
 
 \begin{flalign*}
-f &= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \langle f,\psi_{n,k}\rangle \psi_{n,k} = \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \left(\int_0^N f(t) \overline{\psi_{n,k}(t)} dt\right) \psi_{n,k} \\
-&= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \left(\sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi_{n,k}(t)} dt\right) \psi_{n,k}
+f &= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \langle f,\psi_{n,k}\rangle \psi_{n,k}
 \end{flalign*}
+
+où :
+
+\begin{flalign*}
+\langle f,\psi_{n,k}\rangle
+&= \int_0^N f(t) \overline{\psi_{n,k}(t)} dt \\
+%&= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \left(\sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi_{n,k}(t)} dt\right) \psi_{n,k} \\
+&= \sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi(2^{-n} t-k)} dt \\
+&= 2^{-n}\sum_{x=0}^{N-1}f(x)[F(t)]_{2^{-n}x-k}^{2^{-n}(x+1)-k} \\
+\end{flalign*}
+
+où $F$ est une primitive de $\overline\psi$ .
+
+\subsection{Suppression des cordonnées inutiles}
+
+\subsubsection{Coordonnées $n\le 0$}
+
+La valeur de $\langle f,\psi_{n,k}\rangle$ représente à peu près la variation dans l'intervalle $[2^{n}k,2^{n}(k+1)]$.
+
+Étant donné que $f$ est échantillonné avec une fréquence de $1$, $f$ est constant sur les intervalles $[2^{n}k,2^{n}(k+1)]$ pour $n\le 0$. On néglige donc la valeur des coordonnées à ces indices.
+
+\subsubsection{Coordonnées $n > \lceil\log_2 N\rceil$}
+
+\subsubsection{Coordonnées $k$}
+
+On veut obtenir un recouvrement minimal de $[0,N[$ avec les intervalles disjoints $[2^{n}k,2^{n}(k+1)[$ .
+
+Pour que $[2^{n}k,2^{n}(k+1)[\cap[0,N[\neq\emptyset$, il faut que $0\le k< 2^{-n}N$ .
+
+\subsection{Code de l'algorithme}
+
+\subsection{Exemples}
+
+
+
+
+
+
+
 
 
 \end{document}
