@@ -76,9 +76,9 @@
 \newcommand{\DS}{\displaystyle}
 
 \begin{document}
-	\part{Analyse du signal}
-	\section{Les espaces de Hilbert}
-	\subsection{Introduction}
+	\part{Introduction / Outils / Préliminaires}
+	\section{Espaces de Hilbert}
+	\subsection{Introduction et définition}
 
 	\paragraph*{}
 	
@@ -105,6 +105,8 @@
 	La question se pose alors ; pouvons nous généraliser les outils de géométrie pour étudier des espaces de dimension infinie ?
 	
 	C'est dans ce contexte qu'est née l'analyse de Hilbert au début du 20-ième siècle au travers des travaux de Erhard Schimdt, Frigyes Riesz et bien sûr David Hilbert.
+	
+	\subsection{Bases de Hilbert}
 	
 	\begin{mydef}
 		Un espace vectoriel $E$ est dit \textit{de Hilbert} (ou \textit{Hilbertien}) s'il est muni d'un produit scalaire $\langle \cdot, \cdot \rangle$ et qu'il est complet pour la norme induite par ce produit scalaire.
@@ -342,6 +344,31 @@
 		\cqfd
 	\end{myproof}
 	
-	Nous verrons dans le chapitre suivant l'espace des fonctions continues par morceaux et $2\pi$-périodiques comme exemple d'espace Hilbertien.
+	\section{Espaces de Lebesgue}
+	
+		\begin{mydef}
+			Étant donnés $\mu$ une mesure sur $\mathbb{R}$ et $p \in [1, +\infty[$, on définit
+				$$ \mathcal{L}^{p} (\mathbb{R}) = \left \{ \funcshort{f}{\mathbb{R}}{\mathbb{C}} \text{ mesurable} ~|~ \int_{\mathbb{R}}|f|^p d\mu < \infty \right \} $$
+		\end{mydef}
+	
+		Il s'agit d'un espace vectoriel. De plus, l'application $\funcshort{\| \cdot \|_p}{\mathcal{L}^p(\mathbb{R})}{\mathbb{R}_+}$ donnée par
+		 $$\Vert f \Vert_p = \left( \int|f|^pd\mu \right)^{\frac{1}{p}} $$ 
+		 définit une semi-norme: elle vérifie bien la propriété d'homogénéité et l'inégalité triangulaire \footnote{Référence : XXX}, mais pas le fait d'être définie. En effet, certaines fonctions non nulles $f$ vérifient $\|f\|_p = 0$ (si elles sont nulles presque partout). Par exemple,la fonction caractéristique de $\mathbb{Q}$. 
+		 
+		 On peut palier à ce problème en quotientant $\mathcal{L}^p$ par son sous espace des fonctions nulles presque partout. Si $f$ et $g$ coïncident presque partout, alors
+		 $\|f\|_p = \|g\|_p$. Cette application reste donc bien définie sur l'espace quotient, et on a à présent que $ \|[f]\|_p = 0$ implique $f \equiv 0$ presque partout, où $[f]$ est classe d'équivalence de $f$. 
+		 Doénavant, on utilisera $f$ pour exprimer la classe d'équivalence de $f$.
+		 
+		 \begin{mydef} 
+		 	On note cet espace quotient $L^p(\mathbb{R})$, et on l'appelle espace de Lebesgue. Muni de la norme $\| \cdot \|_p$, il constitue un espace de Banach (théorème de Riesz-Fisher)\footnote{Référence : XXX}. 
+		 \end{mydef}
+		 
+		On effectue la même construction pour les fonctions $2\pi$-périodiques que l'on note $L^p(\mathbb{T})$.
+		
+		\begin{myrem}
+			Les fonctions $2\pi$-périodiques peuvent être vues comme des fonctions définies sur le cercle $\mathbb{S}^1$.
+		\end{myrem}
+
+		
 	
 \end{document}

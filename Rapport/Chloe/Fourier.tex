@@ -83,128 +83,181 @@
 En termes d'analyse du signal, l'utilisation de l'analyse de Fourier parait être indispensable. Le principe sous-jacent à cette analyse provient de l'étude des Séries de Fourier, qui permet sous certaines conditions de décomposer une fonction périodique en une somme de coefficients sinusoïdaux de même fréquence et de fréquences harmoniques. 
 
 
-Nous allons étudier les outils sur lesquels se reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse des ondelettes. Cette partie sera limitée aux fonctions d'une seule variable. 
+Nous allons étudier les outils sur lesquels se reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse en ondelettes. Cette partie sera limitée aux fonctions d'une seule variable. 
 
 	
 	\subsection {Séries de Fourier}
-	Dans cette partie, nous voulons d'abord étudier le cas des fonctions de $L_T^2$ qui sont plus régulières. L'objectif est de montrer que dans un tel espace, il existe une base dans laquelle n'importe quelle fonction de l'espace peut être décomposée de manière unique. De plus, il sera important de prendre en compte la notion de convergence de cette décomposition qui est nécessaire dans de nombreuses applications. 
-	
-	
-			\begin{myrem}
-				Pour toute la partie portant sur l'analyse de Fourier, on définit $T$ comme la période, vérifiant $T>0$, et $\omega$ comme la fréquence en pulsation, $\omega := \frac{2\pi}{T}$.
-			\end{myrem}
+		Dans cette partie, nous voulons d'abord étudier le cas des fonctions de $L^2(\mathbb{(T)})$. On verra que dans l'espace de ces fonctions, il existe une base dans laquelle n'importe quelle fonction de l'espace peut être décomposée de manière unique. De plus, il sera important de prendre en compte la notion de convergence de cette décomposition qui est nécessaire dans de nombreuses applications. 
+
+		On se restreint aux fonctions $2\pi$-périodiques, car l'étude des autres fonctions périodiques reste la même à des coefficients multiplicatifs près. 	
+		
 			
-				Pour l'étude des séries de Fourier, on se place dans $L^2_T$.
+		\begin{mydef} 
+			
+			On munit $L^2_{\mathbb{T}}$ d'un produit scalaire et de sa norme induite définis par : 
+			
+			
+			$$ \langle f,g \rangle = \frac{1}{2\pi} \int_{0}^{2\pi} f(t) \overline{g(t)} dt$$
 				
-			\begin{mydef} 
-			 Soit $L^2_T$ l'espace des fonctions continues par morceaux, T-périodiques, définies sur $\mathbb{R}$ à valeurs dans $\mathbb{C}$, et dont la restriction à une période, en particulier $[0,T]$ est de carré intégrable.
-			\end{mydef}
-			
-			\begin{mydef} 
-				On munit $L^2_T$ d'un produit scalaire et de sa norme induite définis par : 
-			
-			
-				$$ \langle f,g \rangle_2 = \frac{1}{T} \int_{0}^{T} f(t) \overline{g(t)} dt$$
+			$$ \| f \|_2 =  \left( \frac{1}{2\pi} \int_0^{2\pi}| f(t) |^2 dt\right)^{\frac{1}{2}}$$	
 				
-				$$ \| f \|_2 =  \left(\frac{1}{T} \int_0^T | f(t) |^2 dt\right)^{\frac{1}{2}}$$	
-				
-			\end{mydef}
-			
-			\begin{myproposition}
-				$L^2_T$ muni du produit scalaire défini ci-dessus est un espace de Hilbert séparable.
-			\end{myproposition}
+		\end{mydef}		 
 		 
+		 Il s'agit ainsi d'un espace de Hilbert.
+		 
+		\begin{mydef}
+			On définit pour tout $k \in \mathbb{Z}$,  $e_k(t):=e^{ikt}, \quad t\in \mathbb{R}.$	
+		\end{mydef}
+		
+		Ces fonctions sont l'équivalent des indéterminées pour les polynômes trigonométriques.
+		
+		\begin{mydef}
+			Soit $f$ une fonction de $L^2(\mathbb{T})$ et $N$ un entier positif, on définit sa $N$-ième série de Fourier par
 			
-			Dans un espace de Hilbert séparable, une famille orthonormée maximale est une base Hilbertienne. Nous voulons trouver une base Hilbertienne dans $L_T^2$.
+			\begin{align*}
+				S_N(f) &= \sum_{k = -N}^N c_k(f) e_k \\
+				&= \sum_{k = -N}^N \langle f, e_k \rangle e_k
+			\end{align*}
 			
-			\begin{mydef}
-				On définit la famille des fonctions $E:= \{e_k\}_{k \in \mathbb{Z}}$ avec $e_k:\mathbb{R} \to \mathbb{C}$ telles que
-				
-				$$e_k(t):=e^{ik\omega t}, \quad t\in \mathbb{R}$$.	
-			\end{mydef}
-			
+			où $c_k$ est le $k$-ième coefficient de Fourier de $f$.
+		\end{mydef}
+
+		La $N$-ième série de Fourier d'une fonction $f$ est sa projection orthogonale sur l'espace engendré par $e_{-N}, e_{-N+1} \cdots e_N$. On en tire ainsi l'inégalité de Bessel :
+		
+		\begin{mythm}
+			Soit $f \in L^2(\mathbb{T})$, on a pour tout $N$, $\|S_N(f)\|_2 \leqslant \|f\|_2$
+		\end{mythm}
+		
+		\begin{myproof}
+			\begin{align*}
+				\| f - S_N(f) \|^2_2 &= \langle f - S_N(f), f -S_N(f) \rangle \\
+									 & = \| f \|^2_2 + \| S_N(f)\|^2_2 + \langle f, S_N(f) \rangle + \langle S_N(f), f \rangle \\ 
+									 & = \| f \|^2_2 + \| S_N(f)\|^2_2 + \langle f, S_N(f) \rangle + \overline {\langle  f, S_N(f)\rangle } \\
+									 &= \| f \|^2_2 + \| S_N(f)\|^2_2 - 2Re (\langle f, S_N(f) \rangle) \quad \text{ car } \langle f, S_N(f) \rangle = \| S_N(f)\|^2 \\
+									 &=  \| f \|^2_2 - \| S_N(f)\|^2_2  			  
+			\end{align*}
+			\cqfd
+		\end{myproof}
+			On remarque également que si $P$ est un polynôme trigonométrique, alors $S_N(P) = P$. 
 			
 			\begin{myproposition}
-				Les fonctions $e_k$ appartiennent à $L^2_T$. 
-			\end{myproposition}
-			
-			\begin{myproof}
-				Les fonctions $e_k$ sont bien de carrés intégrables, dans le sens où $\int_0^T \vert e_k(t)\vert ^2 dt$ existe. En effet, 
-				$$ \Vert e_k \Vert_2 = \frac{1}{T}  \int_0^T \vert e^{ik\omega t} \vert ^2dt =  \frac{1}{T}  \int_0^T 1 dt = 1 $$
-				
-				
-				De plus, vérifions la T-périodicité: 
-				\begin{align*}
-				 e_k(t+T) &= e^{ik\omega(t+T)}
-				\\ & = e^{ik\omega t} \cdot e^{ik\omega T}
-				\end{align*}
-				
-				Or, par définition de $\omega$, $\omega T = 2\pi$ et $e^{i2\pi}= 1$. On déduit que : 
-				\begin{align*}
-				e_k(t+T) &= e^{ik\omega t} \cdot 1 
-				\\ &= e^{ik\omega t} = e_k(t) 
-				\end{align*}
-				
-			\end{myproof}
-			
-			
-			On veut montrer que cette famille est une base hilbertienne. De plus, cela vérifiera que $L_T^2$ est bien un espace de Hilbert séparable. 
-			
-			\begin{myproposition}
-				$E:= \{e_k~ \vert~ k \in \mathbb{Z} \}$ est une base hilbertienne.
+				$ (e_k)_{k\in\mathbb{Z}} $ est une base hilbertienne.
 			\end{myproposition}
 			
 			\begin{myproof}	
 				
 				Il suffit de montrer qu'il s'agit d'une famille orthonormée maximale.
-				On a vu précédemment que $\Vert e_k\Vert_{L_T^2} = 1$. On veut donc vérifier l'orthogonalité de la famille. 
-				Soient $e_k$ et $e_l$ deux fonctions appartenant à $E$, on suppose $e_k\ne e_l$, sinon se retrouve dans le cas de la norme ci-dessus.  
+				Soient $k, l \in \mathbb{Z}$.
 				
+				Si $k=l$
 				\begin{align*}
-				\langle e_k, e_l\rangle_2 & = \frac{1}{T} \int_0^T e_k(t) \overline{e_l(t)}dt 
-				\\ & = \frac{1}{T} \int_0^T e^{ik\omega t} * e^{-il\omega t} dt 
-				\\ & = \frac{1}{T} \int_0^T e^{i(k-l)\omega t} dt 
-				\\ & = \frac{1}{T}  \left[ \frac {e^{i(k-l)\omega t}} {{i(k-l)\omega}} \right] _0^T
-				\\ & = \frac {e^{i\omega (l-k)*T} - e^{i\omega(l-k) * 0}} {i\omega T(l-k)}
-				\\ & = \frac {1 - 1}{i\omega T(l-k)} = 0
+					\langle e_k, e_l \rangle = \|e_k\|_2 &= \frac{1}{2\pi}\int_0^{2\pi} e_k(t)\overline{e_k(t)}dt\\
+					&  =  \frac{1}{2\pi}\int_0^{2\pi} e^{ikt}e^{-ikt}dt\\
+					& = \frac{1}{2\pi} \int_0^{2\pi} dt\\
+					& = 1
 				\end{align*}
-				Car $\omega T = 2\pi$ par définition.
-				[Reste à montrer la maximalité]
+				 
+			
+				Sinon, 
+				\begin{align*}
+				\langle e_k, e_l\rangle_2 & = \frac{1}{2\pi} \int_0^{2\pi} e_k(t) \overline{e_l(t)}dt 
+				\\ & = \frac{1}{2\pi} \int_0^{2\pi}e^{ik t} e^{-il t} dt 
+				\\ & = \frac{1}{{2\pi}} \int_0^{2\pi} e^{i(k-l)t} dt 
+				\\ & = \frac{1}{{2\pi}}  \left[ \frac {e^{i(k-l) t}} {{i(k-l)}} \right] _0^{2\pi}
+				\\ & = \frac {e^{i (l-k){2\pi}} - e^{i(l-k)  0}} {i {2\pi}(l-k)}
+				\\ & = \frac {1 - 1}{i {2\pi}(l-k)} = 0
+				\end{align*}
+
+				On va démontrer que toute fonction de $L^2(\mathbb{T}) $ admet une décomposition unique dans cette base.
 				
+				Soit $f \in L^2(\mathbb{T})$ et $\varepsilon > 0$, sachant que les fonctions $2\pi$-périodiques continues sont denses dans $L^2(\mathbb{T})$, il existe $f_0$ continue et $2\pi$-périodique telle que $\| f - f_0\| < \varepsilon$. 
+				
+				Celle-ci étant périodique, on en déduit l'existence de $F_0$ définie sur le cercle unité telle que $f_0(t) = F_0(e^{it})$.
+				
+				D'après le théorème de Stone-Weierstrass, il existe un polynôme trigonométrique $P$ tel que $\forall t,  ~ |f_0(t) - P(e^{it})| < \varepsilon $.
+				Par l'inégalité triangulaire, on a:
+				\begin{align*}
+					\| S_N(f) -f \|_2 &\leqslant \|S_N(f) - S_N(P)\|_2 + \| S_N(P) - P \|_2 + \| f- P \|_2 \\
+				&	\leqslant 2 \| f - P\|_2 + \| S_N(P) - P\|_2 \quad \text{par l'inégalité de Bessel} \\
+				& \leqslant 2 \| f - P\|_2 \quad \text{ pour } N\geqslant \deg(P) \\
+				& \leqslant 2 \| f - f_0\|_2 + 2 \| f_0- P\|_2 \\
+				& \leqslant 4 \varepsilon
+				\end{align*}
+				\cqfd
 				
 			\end{myproof}
 			
-		Comme cette famille est une base Hilbertienne de $L_T^2$, il est donc possible de décomposer les fonctions de cet espace dans cette base. 
-			\begin{mydef}
-				On définit les coefficients de Fourier $\left(c_k(f)\right)_{k \in \mathbb{Z}} $ de la fonction  $ f \in L_T^2 $ comme $ c_k(f) := \langle f, e_k\rangle_2$, c'est à dire : 
-					$$ c_k(f) = \frac{1}{T}\int_{0}^{T} f(t) e^{ik\omega t}dt $$
-			\end{mydef}
-			
-			\begin{mythm}
-				Toute fonction f appartenant à $L^2_T$ peut se décomposer de manière unique sous la forme : 
-				$$f(t):= \sum_{p \in \mathbb{Z}} c_p(f)e_p(f) \qquad $$
-				La convergence à lieu dans l'espace $L^2_T$.
+		Comme cette famille est une base Hilbertienne de $L^2(\mathbb{T})$, il est donc possible de décomposer les fonctions de cet espace dans cette base de manière unique. C'est à dire que:
+				$$ \lim_{N\to +\infty} \|S_N(f) -f \|_2 = 0 $$
 				
-				Réciproquement, s'il existe une suite $(a_p)_{p \in \mathbb{Z}}$ de  ... telle que $f(t) = \sum_{p\in \mathbb{Z}}a_p e_p(t)$ dans $L^2_T$ alors $a_p=c_p(f)$.
-			\end{mythm}
-			
-			Les notions de convergence et d'unicité sont très importantes, dans le sens où elles permettent d'étudier la décomposition en série de Fourier de la fonction, plutôt que la fonction elle même. De plus, elles nous permettent de retrouver la fonction depuis sa décomposition sans perdre d'information. 
+		On dit que la convergence est en moyenne quadratique. 
 
-			[Parler de la convergence ? uniforme, en moyenne quadratique ? ]
+
+	Il est possible d'étendre l'analyse en séries de Fourier pour les fonctions périodiques de $L^1(\mathbb{T})$, tout en conservant une notion de convergence. 
+	
+	\begin{mythm}
+		Soit $f \in L^1(\mathbb{T})$. Si ses coefficients de Fourier forment une famille sommable, $(c_n(f))_{n\in\mathbb{Z}} $, alors: 
+		$$ \lim_{N\to +\infty} \|S_N(f) -f \|_{L^\infty(\mathbb{T})} = 0 $$ 
+		Et $f$ admet un représentant continu. 
+
+	\end{mythm}
 			
+	\begin{myproof}
+
+		$S_N(f)$ converge normalement (vers une limite continue): 
+		$$ \sum_{p \in \mathbb{Z}} \|c_p(f)e_p\|_\infty = \sum_{p \in \mathbb{Z}} |c_p(f)| < \infty $$
+		$S_N(f)$ converge pour la norme $\| \cdot \|_\infty $ et donc pour $\| \cdot \|_{L^{\infty}} $.
+		Par injection continue de $L^\infty(\mathbb{T})$ dans $L^2(\mathbb{T})$, $S_N$, sa limite dans $L^\infty(\mathbb{T})$ coïncide avec $f$ (sa limite dans $L^2(\mathbb{T})$). Donc $f$ admet bien un représentant continu. 
+		
+		\cqfd
+	\end{myproof}
+	
+	
 			
-			[Exemple : étude du son car les sons fondamentaux sont des sinusoides.] 
+	Au delà de l'existence d'une convergence, il peut-être utile d'étudier la vitesse de convergence. Il s'agit d'étudier la décroissance des coefficients de Fourier d'une fonction. 
+	
+	\begin{mythm}
+		Soit $f$ une fonction de classe $C^k$. Alors, $c_p(f^{(k)}) = (ip)^kc_p(f)$ et il existe une constante $C$ telle que:
+			$$ | c_p(f) | \leqslant \frac{C}{|p|^k} $$
+	\end{mythm}
+	
+	\begin{myproof}
+		Par récurrence sur $k$. 
+		pour $k=1$, on a :
+			\begin{align*}
+			c_p(f') &= \frac{1}{2\pi}\int_0^2\pi f(t)e^{-ipt}dt \\
+					&= -\frac{1}{2\pi}\int_0^2\pi f(t)(-ip) e^{-ipt}dt + \frac{1}{2\pi}\left[f(t)e^{-ipt} \right]_0^{2\pi} \\
+					& = \frac {ip}{2\pi} \int_0^2\pi f(t)e^{-ipt}dt \\
+					& = \frac {ip}{2\pi} c_p(f)
+			\end{align*}
+			Et on conclut par récurrence sur $k$.
+		
+		De plus, 
+		\begin{align*}
+		|c_p(f^(k))| &\leqslant \frac{1}{2\pi}\int_0^{2\pi}|f^{(k)}(t)|dt \\
+		& \sup_{[0, 2\pi]} |f^{(k)}(t)| =: C 
+		\end{align*}
+		Donc $ \DS|c_p(f)| = \frac {|c_p(f^{(k)})|}{|p|^k} \leqslant \frac{C}{|p|^k} $.
+		\cqfd		
+	\end{myproof}
+		
+			
+	\begin{myexmpl}
+		Etudions la décomposition en séries de Fourier de la fonction en créneaux définie par: 
+		$$ f(x) = \left\{
+		\begin{array}{cc}
+			-1 & \text{ sur }[-\pi, 0[ \\
+			1 & \text{ sur }[0, \pi[ \\
+		\end{array}
+		\right. $$
+	
+	\end{myexmpl}
 			
 			
 			
 			\subsection{Transformée de Fourier}
 				La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général, notamment pour des fonctions non périodiques. 
-				Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. On définira plutôt la transformée de Fourier de la sorte. 
-
-			 
-			\begin{mydef}
-				On définit $L^1$ comme l'espace des fonctions continues par morceaux intégrables. 
-			\end{mydef}
+				Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. 
 			
 			\begin{mydef}
 				Soit $f(t)$ une fonction de $L_1$ à valeurs réelles ou complexes. La Transformée de Fourier est une fonction complexe définie par :
@@ -218,10 +271,10 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			
 			Nous pourrons nous restreindre aux fonctions de $L_1$ pour cette étude. 
 			Comme pour l'étude des séries de Fourier, une notion très importante est de pouvoir reconstruire le signal à partir de sa transformée de Fourier. Pour ce faire, il est possible d'utiliser la transformée de Fourier inverse. 
-			my
+		
 			\begin{mydef}
 				En ajoutant la condition que $f(t)$ soit continue aux conditions précédentes, on peut définir la transformée de Fourier inverse par :
-				$$ \overline{\mathcal{F}}[F(k)] = f(t)=\frac{1}{2\pi} \int_{-\infty}^{+\infty}F(k)e^{ikt}dt $$ 
+				$$ \overline{\mathcal{F}}[F(k)] = f(t)=\frac{1}{{2\pi}} \int_{-\infty}^{+\infty}F(k)e^{ikt}dt $$ 
 				
 			\end{mydef}
 			
