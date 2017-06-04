@@ -11,6 +11,9 @@
    #define PI 3.14159265358979323846
 #endif
 
+/**
+ * @brief Classe représentant un nombre complexe
+ */
 class Complex : public std::complex<double> {
 public:
     Complex()
@@ -21,6 +24,9 @@ public:
     }
 };
 
+/**
+ * @brief Fonction servant à afficher un nombre complexe
+ */
 QDebug operator<<(QDebug debug, const Complex c)
 {
     QDebugStateSaver saver(debug);
@@ -30,10 +36,13 @@ QDebug operator<<(QDebug debug, const Complex c)
 }
 
 //typedef Complex(*ComplexFunc)(double);
-typedef std::function<Complex(double)> ComplexFunc;
-typedef QVector<Complex> Coordinates1D;
-typedef QVector<Coordinates1D> Coordinates2D;
+typedef std::function<Complex(double)> ComplexFunc; // Type ComplexFunc représentant une fonction f:double->Complex
+typedef QVector<Complex> Coordinates1D; // Type Coordinates1D représentant une liste de Complex
+typedef QVector<Coordinates1D> Coordinates2D; // Type Coordinates1D représentant une liste de liste de Complex
 
+/**
+ * @brief Produit scalaire entre deux fonctions
+ */
 Complex scalarProduct(ComplexFunc f, ComplexFunc g) {
     Complex value;
     for(int i=0;i<N;i++) {
@@ -43,11 +52,20 @@ Complex scalarProduct(ComplexFunc f, ComplexFunc g) {
     return value;
 }
 
-/** Classe abstraite dont les sous-classes representent une base de Hilbert de L_2([0,1]) */
+/**
+ * @brief Classe abstraite dont les classes filles representent une base de Hilbert de L_2([0,1])
+ */
 class HilbertBase {
 public:
+    /**
+     * @brief Cette fonction attend deux arguments a et b (position et dilatation),
+     *        et retourne la fonction analysante correspondante
+     */
     virtual ComplexFunc analyzingFunction(int a, int b) = 0;
-    /** Retourne le tableau des coordonnees de f par rapport a la base tronquee de (0,0) a (A-1,B-1) */
+
+    /**
+     * @brief Retourne le tableau des coordonnees de f par rapport a la base tronquee de (0,0) a (A-1,B-1)
+     */
     virtual Coordinates2D coordinatesOf(ComplexFunc f, int A, int B) {
         Coordinates2D coordsMatrix;
         for(int a=0;a<A;a++) {
@@ -59,6 +77,10 @@ public:
         }
         return coordsMatrix;
     }
+
+    /**
+     * @brief Reconstruit une fonction à partir de ses coordonnées
+     */
     virtual ComplexFunc reconstructFunction(Coordinates2D coordsMatrix) {
         ComplexFunc f = [=] (double t) {
             Complex value = std::polar(0.0);
