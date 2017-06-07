@@ -281,7 +281,21 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	\end{myrem}
 	
 	\begin{myproof}
-		PREUVE DE RIEMANN-LEBESGUE
+		Soit $f \in L^1(\mathbb{R})$, montrons que $f(\xi) \to 0$ quand $|\xi| \to \infty$. On peut se contenter de le prouver pour un sous ensemble $E$ dense dans $L^1(\mathbb{R})$ (hypothèse $(*)$). En effet soit $\varepsilon > 0$, il existe $h \in E$ tel que $\|f - g\|_1 < \varepsilon / 2$, on a ainsi les calculs suivants :
+		
+		\begin{align*}
+			|\hat{f}(\xi)| & = \left|\int_\mathbb{R} f(t) e^{-i \xi t} dt\right| \\
+			& \leqslant \left|\int_\mathbb{R} (f(t) - h(t))e^{- i \xi t} dt\right| + \left|\int_\mathbb{R} h(t) e^{- i \xi t}\right| \quad \text{par l'inégalité triangulaire} \\
+			& \leqslant \int_{\mathbb{R}} |f(t) - h(t)| dt + \left|\int_\mathbb{R} h(t) e^{- i \xi t}\right| \\
+			&= \varepsilon / 2 + \left|\int_\mathbb{R} h(t) e^{- i \xi t}\right| \\
+			&= \varepsilon/2 + \varepsilon/2 \quad \text{pour $\xi$ assez grand par l'hypothèse } (*)
+		\end{align*}
+		
+		L'hypothèse $(*)$ est bien vérifiée pour $E$ étant l'espace des fonctions continûment dérivables et à support compact. Soit $g \in E$, disons définie sur $[a, b]$, on a grâce à une intégration par partie :
+		
+		$$\int_{a}^{b} f(t) e^{- i \xi t} dt = \frac{i}{\xi} f(t) e^{- i \xi t} \bigg\vert_{t = a}^{t=b} - \frac{i}{\xi} \int_{a}^{b} f'(t) e^{- i \xi t} dt \longrightarrow 0 \quad (|\xi| \to \infty)$$
+		
+		\cqfd
 	\end{myproof}
 	
 	Nous pourrons nous restreindre aux fonctions de $L^1$ pour cette étude. 
