@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.9.29)  1 JUN 2017 16:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.16)  7 JUN 2017 14:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -333,7 +333,7 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+(/home/pierre/texmf/tex/latex/pdfpages/pdfpages.sty
 Package: pdfpages 2015/09/18 v0.5d Insert pages of external PDF documents (AM)
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
@@ -352,7 +352,7 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count89
 \calc@Cskip=\skip45
 )
-(/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/home/pierre/texmf/tex/latex/eso-pic/eso-pic.sty
 Package: eso-pic 2015/07/21 v2.0g eso-pic (RN)
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
@@ -414,7 +414,7 @@ Package graphics Info: Driver file: pdftex.def on input line 95.
 \AM@pagewidth=\dimen107
 \AM@pageheight=\dimen108
 
-(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pppdftex.def
+(/home/pierre/texmf/tex/latex/pdfpages/pppdftex.def
 File: pppdftex.def 2015/09/18 v0.5d Pdfpages driver for pdfTeX (AM)
 )
 \AM@pagebox=\box26
@@ -513,7 +513,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen125
 \Gm@dimlist=\toks23
 )
-(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+(/home/pierre/texmf/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \labelindent=\skip49
 \enit@outerparindent=\dimen126
@@ -690,24 +690,24 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 80.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 90.
+LaTeX Font Info:    Try loading font information for U+msa on input line 89.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 90.
+LaTeX Font Info:    Try loading font information for U+msb on input line 89.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+stmry on input line 90.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 89.
 
 (/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 90.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 89.
 
 (/usr/share/texlive/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-Overfull \hbox (18.07283pt too wide) in paragraph at lines 125--126
+Overfull \hbox (18.07283pt too wide) in paragraph at lines 124--125
 []\OT1/cmr/m/n/10 La $\OML/cmm/m/it/10 N$\OT1/cmr/m/n/10 -i^^Reme s^^Serie de F
 ourier d'une fonc-tion $\OML/cmm/m/it/10 f$ \OT1/cmr/m/n/10 est sa pro-jec-tion
  or-thog-o-nale sur l'espace en-gendr^^Se par $\OML/cmm/m/it/10 e[]; e[] [] e[]
@@ -716,16 +716,23 @@ $\OT1/cmr/m/n/10 .
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
+<Signal_carre_fourier.png, id=30, 1307.88625pt x 553.06625pt>
+File: Signal_carre_fourier.png Graphic file (type png)
+
+<use Signal_carre_fourier.png>
+Package pdftex.def Info: Signal_carre_fourier.png used on input line 261.
+(pdftex.def)             Requested size: 350.0pt x 148.00494pt.
+ [5 <./Signal_carre_fourier.png>] [6] [7]
 (./Fourier.aux) ) 
 Here is how much of TeX's memory you used:
- 5476 strings out of 493029
- 75627 string characters out of 6136234
- 162186 words of memory out of 5000000
- 8898 multiletter control sequences out of 15000+600000
+ 5484 strings out of 493029
+ 75663 string characters out of 6136234
+ 160187 words of memory out of 5000000
+ 8904 multiletter control sequences out of 15000+600000
  8617 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,11n,39p,502b,207s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,11n,39p,485b,308s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -742,10 +749,10 @@ ti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msa
 m10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7
 .pfb>
-Output written on Fourier.pdf (6 pages, 173753 bytes).
+Output written on Fourier.pdf (7 pages, 211472 bytes).
 PDF statistics:
- 87 PDF objects out of 1000 (max. 8388607)
- 62 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
