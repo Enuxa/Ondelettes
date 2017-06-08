@@ -174,11 +174,15 @@ Pour que $[2^{n}k,2^{n}(k+1)[\cap[0,N[\neq\emptyset$, il faut que $0\le k< 2^{-n
 
 
 
-\subsection{Exemples}
+\subsection{Optimisation et compression}
 
+L'intérêt de ce type d'algorithme est de pouvoir compresser les informations pour encoder le signal en perdant le moins d'informations possible. Pour cela, on peut agir à deux niveaux.
 
+\subsubsection{Niveaux de détail}
+	Le premier point sur lequel on peut travailler est le niveau de détail. Lorsqu'on observe l'algorithme, on peut voir que les coefficients pour les premières valeurs de $n$ sont moins nombreux, du fait qu'il suffise de quelques ondelettes pour parcourir le domaine de définition. Ce sont ces coefficients qui donnent la structure générale du signal et sont plus impactant que les niveaux de détails suivants. On peut donc penser qu'il est possible d'arrêter l'algorithme plus après moins d'itérations que ce que le l'on a défini précédemment car les détails suivant seront négligeables. 
 
-
+\subsubsection{Encodage des coefficients}
+	Un autre point sur lequel on peut travailler est l'encodage des coefficients, ou tout du moins leur niveau de précision. En effet, il n'est pas forcément utile d'avoir une grande précision sur la valeur du coefficient. De plus, à partir d'un certain rang, comme on l'a pensé précédemment, la plupart des coefficients sont négligeables. Pour optimiser le volume des coefficients formés, il peut être utile de ne stocker que les coefficients non nuls, qui seront bien moins nombreux. 
 
 
 
