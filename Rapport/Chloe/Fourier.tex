@@ -246,7 +246,7 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	\newpage
 	
 	\begin{myexmpl}
-		Étudions la décomposition en séries de Fourier de la fonction en créneaux définie par: 
+		Étudions la décomposition en séries de Fourier de la fonction $2\pi$-périodique en créneaux définie par: 
 		$$ f(x) = \left\{
 		\begin{array}{cc}
 			-1 & \text{ sur }[-\pi, 0[ \\
@@ -254,12 +254,32 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		\end{array}
 		\right. $$
 	
-	[CALCULS ICI]
+	Calculons d'abord les coefficients de Fourier de la fonction. 
+	Pour $p \neq 0$ : 
+	\begin{align*}
+	c_p &= \frac{1}{2\pi} \int_{-\pi}^{\pi}f(t)e^{-ipt}dt\\
+		&= \frac{1}{2\pi} \left(\int_{-\pi}^{0}e^{-ipt}dt + \int_{0}^{\pi}e^{-i pt}dt\right) \\
+		&= \frac{1}{2\pi} \left( \left[\frac{e^{-ipt}}{ip}\right]_{-\pi}^{0}  + \left[\frac{e^{-ipt}}{ip}\right] _{0}^{\pi}  \right)\\
+		&=\frac{ -i+i(-1)^p}{\pi p}\\
+	\end{align*}
+	Étudions les valeurs de $c_p$ en fonction de $p$. Si $p = 2q$, $q \in \mathbb{Z}$, alors 
+	$$	c_{2q}= \frac{-i + i(-1)^{2q}}{\pi 2q }= 0 $$
+	Si $ p = 2q+1$, alors :
+	$$ c_{2q+1} = \frac{-i + i(-1)^{2q+1}}{\pi (2q+1) } = \frac{-2i}{\pi(2q+1)} = \frac{2}{i\pi(2q+1)} $$
+	
+	Dès lors, on peut sommer uniquement sur les termes impairs : 
+	
+	\begin{align*}
+	S_{2N+1} = \sum_{ \substack{ k = -2N-1\\ k\neq 0} }^{2N+1}c_k e^{ikt} &=   \sum_{\substack{k = -N-1\\k\neq 0}}^{N}c_{2k+1} e^{i(2k+1)t} \\
+	&= \sum_{k=1}^{N} c_{2k+1} e^{i(2k+1)t} + c_{-(2k+1)} e^{-i(2k+1)t} \\
+	&= \sum_{k=1}^{N} \frac{2e^{i(2k+1)t}}{i\pi (2k+1)} - \frac{2e^{-i(2k+1)t}}{i\pi (2k+1)} \\
+	&= \sum_{k=1}^{N} \frac{4}{\pi (2k+1)} \sin((2k+1)t)  \qquad\text{d'après le formule d'Euler}
+	\end{align*}
 	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=350pt]{Signal_carre_fourier.png}
-		\caption{Une image de voiture pour trois résolutions différentes}
+		\caption{Approximation de la fonction carrée par $S_1$, $S_3$ et $S_5$}
 	\end{figure}
 	
 	\end{myexmpl}
@@ -269,15 +289,15 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. 
 	
 	\begin{mydef}
-		Soit $f(t)$ une fonction de $L^1(\mathbb{R})$ à valeurs réelles ou complexes. La Transformée de Fourier est une fonction complexe définie par :
-		$$ \mathcal{F}[f(t)] = F(k)= \int_{-\infty}^{+\infty}f(t)e^{-ikt}dt $$ 
+		Soit $f$ une fonction de $L^1(\mathbb{R})$ à valeurs réelles ou complexes. La \textit{Transformée de Fourier} est une fonction complexe définie par :
+		$$ \mathcal{F}[f](\xi) = F(\xi)= \int_{-\infty}^{+\infty}f(t)e^{-i\xi t}dt $$ 
 	\end{mydef}
 
 	\begin{myrem}
-		La condition que la fonction $f(t)$ soit intégrale est suffisante pour que l'intégrale soit bien définie et que la transformée de Fourier existe. 
-		De plus, $F(k)$ sera une fonction continue et bornée qui tend vers 0 lorsque $|k| \longrightarrow \infty$.
+		La condition que la fonction $f$ soit intégrale est suffisante pour que l'intégrale soit bien définie et que la transformée de Fourier existe. 
+		De plus, $F(\xi)$ sera une fonction continue et bornée qui tend vers 0 lorsque $|\xi| \longrightarrow \infty$.
 		
-		En effet, $|f(t)e^{-i k t}| \leqslant |f(t)|$ et à $t$ fixé $k \mapsto f(t) e^{- i k t}$ est continue.
+		En effet, $|f(t)e^{-i \xi t}| \leqslant |f(t)|$ et à $t$ fixé $\xi \mapsto f(t) e^{- i \xi t}$ est continue.
 	\end{myrem}
 	
 	\begin{myproof}
@@ -302,16 +322,37 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	Comme pour l'étude des séries de Fourier, une notion très importante est de pouvoir reconstruire le signal à partir de sa transformée de Fourier. Pour ce faire, il est possible d'utiliser la transformée de Fourier inverse. 
 
 	\begin{mydef}
-		En ajoutant la condition que $f(t)$ soit continue aux conditions précédentes, on peut définir la transformée de Fourier inverse par :
-		$$ \overline{\mathcal{F}}[F(k)] = f(t)=\frac{1}{{2\pi}} \int_{-\infty}^{+\infty}F(k)e^{ikt}dt $$ 
+		En ajoutant la condition que $f$ soit continue aux conditions précédentes, on peut définir la \textit{transformée de Fourier inverse} par :
+		$$ \overline{\mathcal{F}}[F](t) = f(t)=\frac{1}{{2\pi}} \int_{-\infty}^{+\infty}F(\xi)e^{i \xi t}dt $$ 
 	\end{mydef}
 	
 	\begin{myrem}
-		Si la condition de la continuité de $f(t)$ n'est pas respectée, la transformée de Fourier de $f(t)$ sera quand même définie, mais l'égalité entre $f(t)$ et $\overline{\mathcal{F}}[\mathcal{F}[f(t)]]$ ne sera vérifiée que presque partout. 
+		Si la condition de la continuité de $f$ n'est pas respectée, la transformée de Fourier de $f$ sera quand même définie, mais l'égalité entre $f$ et $\overline{\mathcal{F}}[\mathcal{F}[f]]$ ne sera vérifiée que presque partout. 
 	\end{myrem}
 			
-	\subsubsection{exemple}
-	[exemple de deux signaux successifs, l'un défini sur $ ] -\infty; 0[$ et l'autre sur $ [0; +\infty[$ qui ont la même décomposition en spectre que s'ils avaient été simultanés]
+	\begin{myexmpl}
+		Soit $f \in L^1(\mathbb{R})$ une fonction définie par 	
+		$ f(t) = \left\{
+		\begin{array}{cc}
+		1 & \text{ sur }[-a; a] \\
+		0 & \text{sinon} \\
+		\end{array}
+		\right. $.
+		Calculons sa transformée de Fourier: 
+		\begin{align*}
+			\mathcal{F}[f](\xi)& = \int_{- \infty}^{+\infty} f(t)e^{-i\xi t}dt \\
+							   & = \int_{-1}^{1} e^{-i\xi t}dt \\
+							   & =  \left[ -\frac{e^{-i\xi t}}{i \xi} \right]_{-a}^{a} \\
+							   & =  \frac{-e^{-ia\xi} + e^{ia \xi}} {i \xi} \\
+							   & = \frac {2 \sin{a\xi}}{\xi} \qquad \text{d'après la formule d'Euler}
+		\end{align*}
+		
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=350pt]{TF123.png}
+				\caption{Transformée de Fourier de f pour a = 1, 2, 3}
+			\end{figure}
+	\end{myexmpl}
 	
 	\subsection{Transformée de Fourier à fenêtre glissante}
 	La transformée de Fourier à fenêtre glissante est une solution par rapport au problème de la notion de temporalité apporté par l'étude de signaux continus et non plus périodiques. 
@@ -319,15 +360,22 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	En reprenant la définition de la transformée de Fourier précédente, on peut l'étendre pour ajouter la notion de fenêtre glissante. 
 		
 	\begin{mydef}
-		Soit $f(t)$ une fonction qui possède une transformée de Fourier. On peut définir la Transformée de Fourier à fenêtre glissante par :
-		$$ F(k, \tau)= \int_{-\infty}^{+\infty}f(t)e^{-ikt} \overline{w(t - \tau)}dt$$
-		où $w(t)$ est la fonction de fenêtre, et $\tau$ le paramètre de translation. 
+		Soit $f$ une fonction qui possède une transformée de Fourier. On peut définir la \textit{Transformée de Fourier à fenêtre glissante} par :
+		$$ F(\xi, \tau)= \int_{-\infty}^{+\infty}f(t)e^{-i \xi t} \overline{w(t - \tau)}dt$$
+		où $w$ est la fonction de fenêtrage, et $\tau$ le paramètre de translation. 
 	\end{mydef}
-	Il s'agit ensuite de trouver le format de fenêtre adéquat. 
+	Il s'agit ensuite de trouver le format de fenêtre adéquat. La fonction la plus simple à imaginer est sans doute la fonction "porte" définie par 
+	$w(t) = \left\{
+		\begin{array}{cc}
+		1 & \text{ sur }[-1; 1] \\
+		0 & \text{sinon} \\
+		\end{array}
+	\right. $.
+	Cependant, il en existe de nombreuses autres dont on parlera plus tard. 
 	
-	\subsubsection{exemple}
-	[Reprendre l'exemple précédent en montrant que ca fonctionne bien, puis faire un autre exemple, comme la fonction en créneau et montrer que ca ne suffit pas pour les discontinuités]
-	
+	\begin{myrem}
+		Il existe également une transformée inverse pour la transformée de Fourier à fenêtre glissante. 
+	\end{myrem}
 	
 	\subsection{Transformée de Fourier discrète}
 			
@@ -363,5 +411,10 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	
 	Ces transformations sont sans pertes d'informations, ainsi, si les conditions du théorème de Nyquist-Shannon sur la fréquence d'échantillonnage ont été respectées, alors le signal peut être reconstitué sans perte via ces transformations successives. 
 	
-	L'avantage de l'utilisation de la transformée de Fourier discrète se retrouve également dans la vitesse d'exécution des calculs. En effet, la transformée de Fourier continue à une complexité en $O(N^2)$ alors qu'il existe des algorithmes comme celui de La transformée de Fourier rapide, qui sous certaines conditions sur le nombre de termes de la suite à transformer, peuvent atteindre une complexité en $O(n\log(n))$.
+	L'avantage de l'utilisation de la transformée de Fourier discrète se retrouve également dans la vitesse d'exécution des calculs. En effet, la transformée de Fourier continue à d'un échantillon de N termes a une complexité en $O(N^2)$ alors qu'il existe des algorithmes comme celui de La transformée de Fourier rapide, qui sous certaines conditions sur le nombre de termes de la suite à transformer, par exemple être une puissance de 2, peuvent atteindre une complexité en $O(N\log(N))$. 
+	
+	Dans le cas classique, pour calculer chacun des $N$ coefficients, il faut effectuer $N$ multiplications, d'où une complexité en $O(N)$.
+	Dans le cas de l'algorithme de Cooley-Tukey, si $N$ est une puissance de 2, alors il est possible de réécrire la somme $S_N$ en deux sommes, l'une sur les termes pairs et l'autre sur les termes impairs. Ces deux sommes sont des transformées de Fourier discrètes sur $N/2$ points. Grâce à la périodicité de la transformée de Fourier, on peut déduire que si $S_k = P_k + I_k$, avec $P_k$ et $I_k$ les transformées sur les termes pairs et impairs de longueur $ N/2$, alors $ S_{k+\frac{N}{2}} = P_k + I_k$.  Récursivement, on peut appliquer cette décomposition pour calculer $P_k$ et $I_k$, ce qui nous donne la complexité attendue. 
+	
+	
 \end{document}

@@ -1,4 +1,5 @@
-%!TEX program = PdfLatex
+
+
 \documentclass[]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{pdfpages}
@@ -111,16 +112,55 @@ où :
 
 où $F$ est une primitive de $\overline\psi$ .
 
-\subsection{Suppression des cordonnées inutiles}
+\subsection{Code de l'algorithme}
+\begin{algorithm}
+	%\caption{The Bellman-Kalaba algorithm}
+	\begin{algorithmic}[1]
+		\Procedure{Encoder}{$F$, $f$, $N$}
+		\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
+		\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
+		\State $C[n][k] := 0$
+		\For{$x\in\llbracket0,N-1\rrbracket$}
+		\State $C[n][k] := C[n][k] + 2^{-n}\times f[x]\times\left(F(2^{-n}x-k)-F(2^{-n}(x+1)-k)\right)$
+		\EndFor
+		\EndFor
+		\EndFor
+		\State \Return C
+		\EndProcedure
+		\Statex
+		\Procedure{Decoder}{$\psi$, $C$, $N$}
+		\For{$x\in\llbracket0,N-1\rrbracket$}
+		\State $f[x] := 0$
+		\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
+		\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
+		\State $f[x] := f[x] + C[n][k]\times\psi(2^{-n}x-k)$
+		\EndFor
+		\EndFor
+		\EndFor
+		\State \Return $f$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Validation de l'algorithme}
+
+Vérifier que cet algorithme est correct consiste à vérifier que les approximations que l'on a du faire pour passer de valeurs infinies à des valeurs finies pour $n$ et $k$ ne sont pas préjudiciables à la validité des résultats produits. Il s'agit donc de vérifier que les valeurs de $n$ et $k$ enlevées sont négligeables. En effet,  le reste de l'algorithme ne doit pas donner lieu a des erreurs : la formule utilisée est celle qui a été définie plus tôt, et il est certain de terminer. 
+
 
 % sensibilité
 \subsubsection{Coordonnées $n\le 0$}
 
 La valeur de $\langle f,\psi_{n,k}\rangle$ représente à peu près la variation dans l'intervalle $[2^{n}k,2^{n}(k+1)]$.
 
-Étant donné que $f$ est échantillonné avec une fréquence de $1$, $f$ est constant sur les intervalles $[2^{n}k,2^{n}(k+1)]$ pour $n\le 0$. On néglige donc la valeur des coordonnées à ces indices.
+Étant donné que $f$ est échantillonnée avec une fréquence de $1$, $f$ est constante sur les intervalles $[2^{n}k,2^{n}(k+1)]$ pour $n\le 0$. On néglige donc la valeur des coordonnées à ces indices.
+Dans la pratique, cela correspond a des intervalles qui sont plus petits que la fréquence d'échantillonnage: la fonction est donc constante sur l'intervalle, et comme l'ondelette est de moyenne nulle, les valeurs qui lui sont associées sont bien négligeables. 
+
 
 \subsubsection{Coordonnées $n > \lceil\log_2 N\rceil$}
+
+De même que précédemment, $\langle f,\psi_{n,k}\rangle$ représente la variation dans l'intervalle $[2^{n}k,2^{n}(k+1)]$. Or, cela veut dire que $2^n > 2^{\lceil\log_2 N\rceil}  \geqslant N$,  c'est à dire que les intervalles sont plus grands que le domaine de définition de la fonction. Dès lors, ils ne seront pas utiles.  
+
+
 
 \subsubsection{Coordonnées $k$}
 
@@ -128,35 +168,9 @@ On veut obtenir un recouvrement minimal de $[0,N[$ avec les intervalles disjoint
 
 Pour que $[2^{n}k,2^{n}(k+1)[\cap[0,N[\neq\emptyset$, il faut que $0\le k< 2^{-n}N$ .
 
-\subsection{Code de l'algorithme}
-\begin{algorithm}
-%\caption{The Bellman-Kalaba algorithm}
-\begin{algorithmic}[1]
-\Procedure{Encoder}{$F$, $f$, $N$}
-\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
-\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
-\State $C[n][k] := 0$
-\For{$x\in\llbracket0,N-1\rrbracket$}
-\State $C[n][k] := C[n][k] + 2^{-n}\times f[x]\times\left(F(2^{-n}x-k)-F(2^{-n}(x+1)-k)\right)$
-\EndFor
-\EndFor
-\EndFor
-\State \Return C
-\EndProcedure
-\Statex
-\Procedure{Decoder}{$\psi$, $C$, $N$}
-\For{$x\in\llbracket0,N-1\rrbracket$}
-\State $f[x] := 0$
-\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
-\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
-\State $f[x] := f[x] + C[n][k]\times\psi(2^{-n}x-k)$
-\EndFor
-\EndFor
-\EndFor
-\State \Return f
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+
+
+
 
 
 
