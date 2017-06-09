@@ -46,15 +46,16 @@ L'algorithme de compression consiste alors en le remplissage des matrices de pro
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{Encoder}{$F$, $\widetilde{f}$, $N_0$}
-			\State $P_0 = $ Construire($F$, 0)
+		\Procedure{Encoder}{$F$, $\widetilde{f}$, $N_0$, $s$}
+			\State $P_0 = $ Construire($F$, 0, $s(0)$)
 			\For{$n = 1, 2 \cdots N_0$}
-				\State $P_n =$ Construire($F$, $n$)
+				\State $P_n =$ Construire($F$, $n$, s(n))
 				\State $S_n = P_n  \transp{\widetilde{f}}$
+			    \State $P_{-n} =$ Construire($F$, $-n$)
 				\State $S_{-n} = P_{-n} \transp{\widetilde{f}}$
-				\State $P_{-n} =$ Construire($F$, $-n$)
+		
 			\EndFor
-			\State \Return $(P_0, P_{-1}, P_{1} \cdots P_{N_0}, P_{-N_0})$
+			\State \Return $(S_0, S_{-1}, S_{1} \cdots S_{N_0}, S_{-N_0})$
 		\EndProcedure
 
 		\Statex
