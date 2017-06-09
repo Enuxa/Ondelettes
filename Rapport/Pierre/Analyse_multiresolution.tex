@@ -144,7 +144,7 @@
 		\end{equation}
 		\begin{equation}
 			\label{rb-mra}
-			\text{Il existe $\varphi$ telle que $\{\varphi(\, \cdot + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
+			\text{Il existe $\varphi$ telle que $\{\varphi_k = \varphi(\, \cdot + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
 		\end{equation}
 		\begin{equation}
 			\label{density}
@@ -257,7 +257,7 @@
 		On admettra son existence \footnote{Voir \textit{Wavelets and Multiscale Signal Processing} d'Albert Cohen pour une démonstration de l'existence.}, mais elle peut être construite explicitement à partir de $\varphi$.
 	\end{mydef}
 		
-	On définit encore une fois la famille $\Psi = \{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ par $\psi_{n, k}(t) = 2^{-n/2} \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ ! Et donc une base hilbertienne de $L^2(\mathbb{R})$ !
+	On définit encore une fois la famille $\Psi = \{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ par $\psi_{n, k}(t) = \sqrt{2}^n \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ ! Et donc une base hilbertienne de $L^2(\mathbb{R})$ !
 	
 	Le fait que la famille soit normée est évident, le fait qu'elle soit orthogonale découle de l'orthogonalité des $W_n$.
 	
@@ -339,11 +339,20 @@
 	
 	\begin{align*}
 		|\langle f, \psi \rangle| &= \left|\int_{-\infty}^{\infty} f(x) \psi(x) dx \right| \\
-		&= \left| \int_{-\infty}^{\infty}P(x - x_0) \psi(x) dx + \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \\
-		&= \left| \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \\
-		&= \left| \int_{I} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \quad \text{car $f^{(n+1)}$ est à support dans $I$} \\
-		& \leqslant \left| \int_{I} \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx \right| \|f\|_{\infty} \\
-		& \leqslant \frac{M^{n+1}}{(n+1)!} \left| \int_{I} \psi(x) dx \right| \|f\|_{\infty} \\
-		& \leqslant \frac{M^{n+1}}{(n+1)!} \|f\|_{\infty}
+		&= \left| \int_{-\infty}^{\infty}P(x - x_0) \psi(x) dx + \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right|
 	\end{align*}
+
+	Or $\psi$ est orthogonale à tout polynôme.
+
+	\begin{align*}
+		|\langle f, \psi \rangle| &= \left| \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \\
+		&= \left| \int_{I} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \quad \text{car $f^{(n+1)}$ est à support dans $I$} \\
+		& \leqslant \int_{I} \left| f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) \right| dx \\
+		& \leqslant \int_{I} \left| \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) \right| dx \|f\|_{\infty} \\
+		& \leqslant \int_{I} \left| \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) \right| dx \left\|f^{(n+1)}\right\|_{\infty} \\
+		& \leqslant \int_{I} \left| \psi(x) \right| dx \frac{M^{n+1}}{(n+1)!} \left\|f^{(n+1)}\right\|_{\infty} \\
+		& \leqslant N \frac{M^{n+1}}{(n+1)!} \left\|f^{(n+1)}\right\|_{\infty}
+	\end{align*}
+	
+	où $N = \int_{I} \left| \psi(x) \right| dx $.
 \end{document}

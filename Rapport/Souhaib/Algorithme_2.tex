@@ -78,60 +78,75 @@
 
 \newcommand{\DS}{\displaystyle}
 
+\newcommand*{\transp}[2][-3mu]{\ensuremath{\mskip1mu\prescript{\smash{\mathrm t\mkern#1}}{}{\mathstrut#2}}}%
+
 \setlength\parindent{0pt}
 
 \begin{document}
 
 \part{Algorithmes d'encodage et de décodage}
 
-\section{Algorithme d'encodage en 1 dimension}
+\section{Cadre théorique}
 
-\subsection{Cadre}
+D'un point de vue pratique, les fonctions sont représentées comme des fonctions en escalier, qui de plus sont à support bornés (disons sur $[0, 1]$). C'est-à-dire que l'on manipule des fonctions $f \in L^2(\mathbb{R})$ de la forme $$f = \sum_{j = 0}^{2^{N_0} - 1} a_j \mathbbm{1}_{[2^{-N_0}j, 2^{-N_0}(j+1)[}$$
 
-Dans cette partie, on veut encoder une fonction $f:\llbracket0,N-1\rrbracket\to[-1,1]$ quelconque.
+Le calcul des coefficients s'en retrouve ainsi simplifié :
 
-On se place dans une analyse multi-résolution de $L^2(\mathbb R)$ notée $(V_n)_{n\in\mathbb Z}$ engendrée par $\varphi$.
+\begin{align*}
+	\langle f, \psi_{n, k} \rangle &= \int_0^1 f(t) \overline{\psi_{n, k}(t)} dt \\
+	&= \sum_{j=0}^{N-1} \int_{j}^{j+1} a_j \overline{\psi_{n, k}(t)} dt \\
+	&= \sum_{j=0}^{N-1} \int_{j}^{j+1} a_j \overline{\frac{1}{\sqrt{2^n}} \psi(2^n t - k)} dt \\
+	&= \sum_{j=0}^{N-1} a_j \frac{1}{\sqrt{2^{3n}}} \int_{2^n j - k}^{2^n(j+1) - k} \overline{\psi(u)} du \quad \text{où $2^nt - k = u$} \\
+	&= \sum_{j=0}^{N-1} a_j \frac{1}{\sqrt{2^{3n}}} (F(2^n j - k) - F(2^n (j+1) - k))
+\end{align*}
 
-On rappelle que $f$ peut être recalculé à partir de ses coordonnées $\langle f,\psi_{n,k}\rangle$ :
+où $F$ est une primitive de $\overline{\psi}$ et $N = 2^{N_0}$.
 
-\begin{flalign*}
-f &= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \langle f,\psi_{n,k}\rangle \psi_{n,k}
-\end{flalign*}
+Étant face à des fonctions en escalier avec un pas fixe, on peut les représenter comme des vecteurs de $\mathbb{R}^N$, où la $(j+1)$-ième coordonnée est la valeur prise sur le $(j+1)$-ième intervalle. On note $\tilde{f} = (a_j, a_1 \cdots a_N)$ et $\DS \widetilde{\psi}_{n, k} = \left(\frac{1}{\sqrt{2^{3n}}} (F(2^n j - k) - F(2^n (j+1) - k))\right)_{j = 0, 1 \cdots N - 1}$, on a alors $$\langle f, \psi_{n, k} \rangle =\widetilde{\psi}_{n, k} \transp{\widetilde{f}}$$
 
-où :
+De plus, en définissant $S_n = (\langle f, \psi_{n, k}\rangle)_{k = 0, 1 \cdots s(n)}$, avec $s(n)$ le plus grand $k$ que l'on souhaitera calculer, et
 
-\begin{flalign*}
-\langle f,\psi_{n,k}\rangle
-&= \int_0^N f(t) \overline{\psi_{n,k}(t)} dt \\
-%&= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \left(\sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi_{n,k}(t)} dt\right) \psi_{n,k} \\
-&= \sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi(2^{-n} t-k)} dt \\
-&= 2^{-n}\sum_{x=0}^{N-1}f(x)[F(t)]_{2^{-n}x-k}^{2^{-n}(x+1)-k} \\
-\end{flalign*}
+$$P_n = 
+\left(
+	\begin{array}{c}
+		\widetilde{\psi}_{n, 0} \\
+		\widetilde{\psi}_{n, 1} \\
+		\vdots \\
+		\widetilde{\psi}_{n, s(n)} 
+	\end{array}
+\right)$$
 
-où $F$ est une primitive de $\overline\psi$ .
+on a enfin $$S_n = P_n \transp{\tilde{f} }$$
 
-\subsection{Code de l'algorithme}
+Chaque $P_n$ est alors le projecteur de $f$ sur l'espace de détails $W_n$, les coefficients sont alors stockés dans le vecteur $S_n$.
+
+\begin{myrem}
+	La matrice $\widetilde{f}$ est de taille $1 \times N$, $P_n$ de taille $s(n) \times N$ et $S_n$ de taille $1 \times s(n)$.
+\end{myrem}
+
+L'algorithme de compression consiste alors en le remplissage des matrices de projection pour chaque niveau de détail et en la multiplication pour obtenir chaque $S_n$. Nous proposons l'algorithme naïf suivant :
+
 \begin{algorithm}
-	%\caption{The Bellman-Kalaba algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{Encoder}{$F$, $f$, $N$}
-		\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
-		\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
-		\State $C[n][k] := 0$
-		\For{$x\in\llbracket0,N-1\rrbracket$}
-		\State $C[n][k] := C[n][k] + 2^{-n}\times f[x]\times\left(F(2^{-n}x-k)-F(2^{-n}(x+1)-k)\right)$
-		\EndFor
-		\EndFor
-		\EndFor
-		\State \Return C
+		\Procedure{Encoder}{$F$, $\widetilde{f}$, $N_0$}
+			\State $P_0 = $ Construire($F$, 0)
+			\For{$n = 1, 2 \cdots N_0$}
+				\State $P_n =$ Construire($F$, $n$)
+				\State $S_n = P_n  \transp{\widetilde{f}}$
+				\State $S_{-n} = P_{-n} \transp{\widetilde{f}}$
+				\State $P_{-n} =$ Construire($F$, $-n$)
+			\EndFor
+			\State \Return $(P_0, P_{-1}, P_{1} \cdots P_{N_0}, P_{-N_0})$
 		\EndProcedure
+
 		\Statex
-		\Procedure{Decoder}{$\psi$, $C$, $N$}
-		\For{$x\in\llbracket0,N-1\rrbracket$}
-		\State $f[x] := 0$
-		\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
-		\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
-		\State $f[x] := f[x] + C[n][k]\times\psi(2^{-n}x-k)$
+
+		\Procedure{Décoder}{$\psi$, $A=(\alpha_{n, k})_{n, k}$, $N_0$, $s(n)$}
+		\For{$x = 0, 2^{-1} \cdots 2^{-N_0}$}
+		\State $f(x) = 0$
+		\For{$n = 0, 1 \cdots N_0$}
+		\For{$k = 0, 1 \cdots s(n)$}
+		\State $f(x) = f(x) + \alpha_{n, k} \times \psi(2^{-n} x - k)$
 		\EndFor
 		\EndFor
 		\EndFor
@@ -143,7 +158,6 @@ où $F$ est une primitive de $\overline\psi$ .
 \subsection{Validation de l'algorithme}
 
 Vérifier que cet algorithme est correct consiste à vérifier que les approximations que l'on a du faire pour passer de valeurs infinies à des valeurs finies pour $n$ et $k$ ne sont pas préjudiciables à la validité des résultats produits. Il s'agit donc de vérifier que les valeurs de $n$ et $k$ enlevées sont négligeables. En effet,  le reste de l'algorithme ne doit pas donner lieu a des erreurs : la formule utilisée est celle qui a été définie plus tôt, et il est certain de terminer. 
-
 
 % sensibilité
 \subsubsection{Coordonnées $n\le 0$}
@@ -186,6 +200,13 @@ Pour que $[2^{n}k,2^{n}(k+1)[\cap[0,N[\neq\emptyset$, il faut que $0\le k< 2^{-n
 \end{myexmpl}
 
 
+\section{Version alternative}
+
+Si l'on ne souhaite pas utiliser de coefficients pour des $n$ négatifs, on peut l'éviter en intégrant $\varphi$ dans la décomposition.
+
+En reprenant les calculs de la preuve XXX, on peut aisément retrouver $$\bigcup_{n \in \mathbb{Z}} V_n = V_0 \stackrel{\perp}{\oplus} \left(\bigoplus^{\bot}_{n \in \mathbb{N}} W_n\right)$$
+
+Autrement dit, on peut décomposer tout fonction $f \in L^2(\mathbb{R})$ ainsi : $$f = \sum_{k \in \mathbb{Z}} \langle \varphi_k, f \rangle \varphi_k + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle \psi_{n, k}, f \rangle \psi_{n, k}$$
 
 
 
