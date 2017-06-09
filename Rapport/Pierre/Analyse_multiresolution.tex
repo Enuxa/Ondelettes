@@ -140,11 +140,11 @@
 		\end{equation}
 		\begin{equation}
 			\label{self-similarity}
-			\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(2 t\right) \in V_{n+1} \text{(auto-similarité)}
+			\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow f (2 \, \cdot ) \in V_{n+1} \text{(auto-similarité)}
 		\end{equation}
 		\begin{equation}
 			\label{rb-mra}
-			\text{Il existe $\varphi \in V_0$ telle que $\{t \mapsto \varphi(t + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
+			\text{Il existe $\varphi$ telle que $\{\varphi(\, \cdot + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
 		\end{equation}
 		\begin{equation}
 			\label{density}
@@ -249,6 +249,8 @@
 	
 	Comme on l'a dit, les $(W_n)_n$ ne forment pas une suite d'espaces emboîtés (ils sont même orthogonaux deux à deux), cependant ils vérifient encore les conditions d'auto-similarité et de stabilité par translation.
 
+	\section{Ondelettes}
+
 	\begin{mydef}
 		Il existe une fonction normée $\psi$ - appelée \textit{ondelette} - engendrant $W_0$ par translation et de moyenne nulle (d'intégrale nulle).
 		
@@ -294,4 +296,54 @@
 		\caption{Le produit de deux ondelettes de Haar différentes  (la grise par une en couleur) possèdent un centre de symétrie dans $\mathbb{R}$.}
 	\end{figure}
 	
+	\begin{myexmpl}
+		Voici un autre exemple d'ondelette appelée "Chapeau mexicain" (ou ondelette de Ricker) est définie comme la dérivée seconde d'une gaussienne. Elle est donnée par 
+		
+		$$\psi(t) = \lambda e^{-t^2/2} (1 - t^2)$$
+		
+		avec $\lambda$ tel que $\|\psi\|_2 = 1$, c'est-à-dire que
+		
+		\begin{align*}
+			1 = \|\psi\|_2^2 &= \lambda^2 \int_{- \infty}^{\infty} e^{-t^2} (1-t^2)^2 \\
+			&= \lambda^2 \left(\int_{-\infty}^{\infty} e^{-t^2} dt - 2 \int_{-\infty}^{\infty} t^2 e^{-t^2} dt + \int_{-\infty}^{\infty} t^4 e^{-t^2} dt\right) \\
+			&= \lambda^2 \left(\sqrt{2 \pi} - \sqrt{2 \pi} + \frac{3}{2} \sqrt{2 \pi}\right) \\
+			&= \lambda^2 \frac{3}{2} \sqrt{2 \pi}
+		\end{align*}
+		
+		donc $\DS \lambda = \frac{2^{3/4}}{\sqrt{3} \pi^{1/4}}$.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=350pt]{Mexican_Hat.png}
+			\caption{Le chapeau mexicain}
+		\end{figure}
+	
+		Elle est effectivement de moyenne nulle : si $g$ est une gaussienne telle que $g^{(2)}= \psi$ alors $$\int_{-\infty}^{\infty} \psi(t) dt = g'(t) \bigg\vert_{-\infty}^{\infty} = 0$$
+
+		car $g'(t)$ est de la forme $t e^{-t^2}$.
+	\end{myexmpl}
+	
+	\begin{mydef}
+		On dit d'une ondelette qu'elle \textit{a $n$ moments nuls} si pour tout $k = 0, 1 \cdots n$ elle vérifie $$\int_{-\infty}^{\infty} t^k f(t) dt = 0$$
+		
+		Autrement dit, elle est orthogonale à tout polynôme de degré au plus $n$ (en gardant bien en tête que les polynômes ne sont pas intégrables).
+	\end{mydef}
+		
+	Une telle ondelette permettra d'obtenir une majoration des coefficients de la transformation en ondelette d'une fonction de classe $\mathcal{C}^{n+1}$ à support borné grâce à la formule de Taylor-Lagrange.
+	
+	Soit $f$ une fonction $n+1$ fois continûment dérivables à support dans un intervalle $I = [-M/2, M/2]$, pour tout point $x_0 \in I$ il existe un polynôme $P$ de degré $n$ tel que pour tout $x \in I$ 
+	
+	$$f(x) = P(x - x_0) + f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \quad \text{avec } |c - x| < |x - x_0|$$
+	
+	Ce qui nous fournit la majoration
+	
+	\begin{align*}
+		|\langle f, \psi \rangle| &= \left|\int_{-\infty}^{\infty} f(x) \psi(x) dx \right| \\
+		&= \left| \int_{-\infty}^{\infty}P(x - x_0) \psi(x) dx + \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \\
+		&= \left| \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \\
+		&= \left| \int_{I} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \quad \text{car $f^{(n+1)}$ est à support dans $I$} \\
+		& \leqslant \left| \int_{I} \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx \right| \|f\|_{\infty} \\
+		& \leqslant \frac{M^{n+1}}{(n+1)!} \left| \int_{I} \psi(x) dx \right| \|f\|_{\infty} \\
+		& \leqslant \frac{M^{n+1}}{(n+1)!} \|f\|_{\infty}
+	\end{align*}
 \end{document}
