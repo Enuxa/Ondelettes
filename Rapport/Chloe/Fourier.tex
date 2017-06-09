@@ -34,7 +34,7 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		Ces fonctions sont aux polynômes trigonométriques ce que les puissances de l'indéterminée sont aux polynômes classiques.
 		
 		\begin{mydef}
-			Soit $f$ une fonction de $L^2(\mathbb{T})$ et $N$ un entier positif, on définit sa $N$-ième série de Fourier par
+			Soit $f$ une fonction de $L^2(\mathbb{T})$ et $N$ un entier positif, on définit sa \textit{$N$-ième série de Fourier} par
 			
 			\begin{align*}
 				S_N(f) &= \sum_{k = -N}^N c_k(f) e_k \\
@@ -115,7 +115,7 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		Comme cette famille est une base Hilbertienne de $L^2(\mathbb{T})$, il est donc possible de décomposer les fonctions de cet espace dans cette base de manière unique. C'est à dire que:
 				$$ \lim_{N\to +\infty} \|S_N(f) -f \|_2 = 0 $$
 				
-		On dit que la convergence est en moyenne quadratique. 
+		On dit que la convergence est en \textit{moyenne quadratique}.
 
 	Il est possible d'étendre l'analyse en séries de Fourier pour les fonctions périodiques de $L^1(\mathbb{T})$, tout en conservant une notion de convergence. 
 	
@@ -131,7 +131,7 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		$S_N(f)$ converge normalement (vers une limite continue): 
 		$$ \sum_{p \in \mathbb{Z}} \|c_p(f)e_p\|_\infty = \sum_{p \in \mathbb{Z}} |c_p(f)| < \infty $$
 		$S_N(f)$ converge pour la norme $\| \cdot \|_\infty $ et donc pour $\| \cdot \|_{L^{\infty}} $.
-		Par injection continue de $L^\infty(\mathbb{T})$ dans $L^2(\mathbb{T})$, $S_N$, sa limite dans $L^\infty(\mathbb{T})$ coïncide avec $f$ (sa limite dans $L^2(\mathbb{T})$). Donc $f$ admet bien un représentant continu. 
+		Par injection continue de $L^\infty(\mathbb{T})$ dans $L^2(\mathbb{T})$, la limite de $S_N$ dans $L^\infty(\mathbb{T})$ coïncide avec $f$ (sa limite dans $L^2(\mathbb{T})$). Donc $f$ admet bien un représentant continu. 
 		
 		\cqfd
 	\end{myproof}
@@ -165,9 +165,6 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		\cqfd		
 	\end{myproof}
 		
-	
-	\newpage
-	
 	\begin{myexmpl}
 		Étudions la décomposition en séries de Fourier de la fonction $2\pi$-périodique en créneaux définie par: 
 		$$ f(x) = \left\{
@@ -277,7 +274,6 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 			\end{figure}
 	\end{myexmpl}
 	
-	\newpage
 	\subsection{Transformée de Fourier à fenêtre glissante}
 	La transformée de Fourier à fenêtre glissante est une solution par rapport au problème de la notion de temporalité apporté par l'étude de signaux continus et non plus périodiques. 
 
@@ -323,13 +319,13 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	\end{myexmpl}
 	
 	\begin{mydef}
-			On considère une suite $(s_n)_{n\in \{0; N -1 \}}$ de N termes. La transformée de Fourier Discrète permet d'obtenir la suite  $(S_n)_{n\in \{0; N -1 \}}$ de N termes définis par :
+			On considère une suite $(s_n)_{n\in \{0; N -1 \}}$ de N termes. La \textit{transformée de Fourier discrète} permet d'obtenir la suite  $(S_n)_{n\in \{0; N -1 \}}$ de N termes définis par :
 			$$ S_k = \sum_{k=0}^{N-1}s_n e^{-2i\pi k\frac{n}{N}} $$
 	\end{mydef}
 		De la même manière que pour la transformée de Fourier, on pourra également définir la transformation inverse.
 		
 	\begin{mydef}
-		Dans les mêmes conditions que ci dessus, on définit la transformée de Fourier discrète inverse par :
+		Dans les mêmes conditions que ci dessus, on définit la \textit{transformée de Fourier discrète inverse} par :
 			$$ s_n =\frac{1}{N} \sum_{k=0}^{N-1}S_k e^{2i\pi k\frac{n}{N}} $$
 	\end{mydef}
 	
