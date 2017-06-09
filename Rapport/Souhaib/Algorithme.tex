@@ -1,93 +1,3 @@
-%!TEX program = PdfLatex
-%!TEX program = XeLatex
-\documentclass[]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{pdfpages}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{amsthm}
-\usepackage{stmaryrd}
-\usepackage{mathtools}
-\usepackage{mathrsfs}
-\usepackage{bbm}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage[frenchb]{babel}
-
-\author{Pierre Gervais, Souhaib Boulahia, Chloé Rouyer}
-\title{Analyse en Ondelettes}
-
-\geometry{hmargin=2cm}
-
-% Environnement type théorème
-\newtheorem{mythm}{Théorème}
-\newtheorem{myproposition}{Proposition}
-\newtheorem{myproperty}{Propriété}
-\newtheorem{mylemma}{Lemme}
-\newtheorem{mycoro}{Corollaire}
-
-% Environnement type texte
-\theoremstyle{remark}
-\newtheorem{mynot}{Notation}
-\newtheorem{myrem}{Remarque}
-\newtheorem{myexer}{Exercice}
-\newtheorem{myproof}{Preuve}
-\newtheorem{myexmpl}{Exemple}
-
-% Environnement de définition
-\theoremstyle{definition}
-\newtheorem{mydef}{Définition}
-\newtheorem{myquestion}{Question}
-
-\setlist[itemize]{label=-}
-
-% Carré de fin de preuve
-\newcommand{\cqfd}{
-	\hfill$\square$
-}
-
-% Définition de fonction
-\newcommand{\func}[5]{
-#1 ~ : ~ \left\{ \begin{array}{lcl}
-	#2 & \longrightarrow & #3 \\
-	#4 & \longmapsto & #5
-\end{array}
-\right.
-}
-
-\newcommand{\fun}[3]{
-#1 ~ : ~ #2 \longrightarrow #3
-}
-
-\newcommand{\funcinline}[5]{
-	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
-}
-
-\newcommand{\funcshort}[3]{
-	#1 \, : \, #2 \longrightarrow #3
-}
-
-\newcommand{\anonfunc}[4]{
-	\left\{ \begin{array}{lcl}
-		#1 & \longrightarrow & #2 \\
-		#3 & \longmapsto & #4
-	\end{array}
-	\right.
-}
-
-\newcommand{\vect}{\text{Vect}}
-
-\newcommand{\card}{\text{Card }}
-
-\newcommand{\DS}{\displaystyle}
-\newcommand*{\transp}[2][-3mu]{\ensuremath{\mskip1mu\prescript{\smash{\mathrm t\mkern#1}}{}{\mathstrut#2}}}%
-
-
-
-\begin{document}
 
 \newpage
 
@@ -99,7 +9,7 @@ D'un point de vue pratique, les fonctions sont représentées comme des fonction
 
 %On veut trouver les coefficients de $f$ dans l'espace vectoriel $V_{N_0} = V_0 \stackrel{\perp}{\oplus} W_0 \stackrel{\perp}{\oplus} \cdots \stackrel{\perp}{\oplus} W_{N_0}$ .
 
-On rappelle qu'on peut décomposer toute fonction $f \in L^2(\mathbb{R})$ ainsi : $$f = \sum_{k \in \mathbb{Z}} \langle \varphi_{0,k}, f \rangle \varphi_{0,k} + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle \psi_{n, k}, f \rangle \psi_{n, k}$$
+On rappelle qu'on peut décomposer toute fonction $f \in L^2(\mathbb{R})$ ainsi : $$f = \sum_{n,k \in \mathbb{Z}} \langle \varphi_{0,k}, f \rangle \varphi_{0,k} + \sum_{n,k \in \mathbb{Z} \\ n \in \mathbb{N}} \langle \psi_{n, k}, f \rangle \psi_{n, k}$$
 
 Le calcul des coefficients s'en retrouve ainsi simplifié :
 
@@ -186,7 +96,7 @@ La valeur de $\langle f,\psi_{n,k}\rangle$ représente à peu près la «variati
 
 Concrètement, pour un $n$ aussi grand, on a $\langle f,\psi_{n,k}\rangle = \int_0^1 f(t) \overline{\psi_{n, k}(t)}dt \approx \int_{2^{-n}k}^{2^{-n}(k+1)} f(t) \overline{\psi_{n, k}(t)}dt$ car on suppose que $\psi_{n,k}$ est négligeable en dehors de $[2^{-n}k,2^{-n}(k+1)]$.
 
-La valeur des coordonnées à ces indices est donc négligeable, car sur l'intervalle $[2^{-n}k,2^{-n}(k+1)]$, la fonction $f$ est constante et $\psi_{n,k}$ est de moyenne nulle.
+Cette valeur est négligeable, car sur l'intervalle $[2^{-n}k,2^{-n}(k+1)]$, la fonction $f$ est constante et $\psi_{n,k}$ est de moyenne nulle.
 
 Dans la pratique, cela correspond a des intervalles qui sont plus petits que la fréquence d'échantillonnage: la fonction est donc constante sur l'intervalle, et comme l'ondelette est de moyenne nulle, les valeurs qui lui sont associées sont bien négligeables. 
 
@@ -236,4 +146,3 @@ L'intérêt de ce type d'algorithme est de pouvoir compresser les informations p
 
 	On peut aussi donner de moins grandes précisions aux coefficients qui correspondent aux variations plus localisées et donc moins sensibles à l'œil nu.
 	
-\end{document}
