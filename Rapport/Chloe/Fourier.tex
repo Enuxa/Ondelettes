@@ -1,81 +1,4 @@
-\documentclass[]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{pdfpages}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{amsthm}
-\usepackage{stmaryrd}
-\usepackage{mathtools}
-\usepackage{mathrsfs}
-
-\geometry{hmargin=2cm}
-
-% Environnement type théorème
-\newtheorem{mythm}{Théorème}
-\newtheorem{myproposition}{Proposition}
-\newtheorem{myproperty}{Propriété}
-\newtheorem{mylemma}{Lemme}
-\newtheorem{mycoro}{Corollaire}
-
-% Environnement type texte
-\theoremstyle{remark}
-\newtheorem{mynot}{Notation}
-\newtheorem{myrem}{Remarque}
-\newtheorem{myexer}{Exercice}
-\newtheorem{myproof}{Preuve}
-\newtheorem{myexmpl}{Exemple}
-
-% Environnement de définition
-\theoremstyle{definition}
-\newtheorem{mydef}{Définition}
-\newtheorem{myquestion}{Question}
-
-\setlist[itemize]{label=-}
-
-% Carré de fin de preuve
-\newcommand{\cqfd}{
-	\hfill$\square$
-}
-
-% Définition de fonction
-\newcommand{\func}[5]{
-#1 ~ : ~ \left\{ \begin{array}{lcl}
-	#2 & \longrightarrow & #3 \\
-	#4 & \longmapsto & #5
-\end{array}
-\right.
-}
-
-\newcommand{\fun}[3]{
-#1 ~ : ~ #2 \longrightarrow #3
-}
-
-\newcommand{\funcinline}[5]{
-	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
-}
-
-\newcommand{\funcshort}[3]{
-	#1 \, : \, #2 \longrightarrow #3
-}
-
-\newcommand{\anonfunc}[4]{
-	\left\{ \begin{array}{lcl}
-		#1 & \longrightarrow & #2 \\
-		#3 & \longmapsto & #4
-	\end{array}
-	\right.
-}
-
-\newcommand{\vect}{\text{Vect}}
-
-\newcommand{\card}{\text{Card }}
-
-\newcommand{\DS}{\displaystyle}
-
-\begin{document}
+\newpage
 	\part{Analyse du signal}
 	\section{L'analyse de Fourier}
 
@@ -278,12 +201,12 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=350pt]{Signal_carre_fourier.png}
-		\caption{Approximation de la fonction carrée par $S_1$, $S_3$ et $S_5$}
+		\includegraphics[width=350pt]{Chloe/Signal_carre_fourier.png}
+		\caption{Approximation de la fonction carrée par $S_1$ (rouge), $S_3$ (vert) et $S_5$ (bleu)}
 	\end{figure}
 	
 	\end{myexmpl}
-	
+	\newpage
 	\subsection{Transformée de Fourier}
 		La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général, notamment pour des fonctions non périodiques. 
 		Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. 
@@ -349,11 +272,12 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 		
 			\begin{figure}[h]
 				\centering
-				\includegraphics[width=350pt]{TF123.png}
-				\caption{Transformée de Fourier de f pour a = 1, 2, 3}
+				\includegraphics[width=350pt]{Chloe/TF123.png}
+				\caption{Transformée de Fourier de f pour a = 1 (bleu), 2 (rouge), 3 (vert) }
 			\end{figure}
 	\end{myexmpl}
 	
+	\newpage
 	\subsection{Transformée de Fourier à fenêtre glissante}
 	La transformée de Fourier à fenêtre glissante est une solution par rapport au problème de la notion de temporalité apporté par l'étude de signaux continus et non plus périodiques. 
 
@@ -417,4 +341,4 @@ Nous allons étudier les outils sur lesquels reposent cette analyse, puis observ
 	Dans le cas de l'algorithme de Cooley-Tukey, si $N$ est une puissance de 2, alors il est possible de réécrire la somme $S_N$ en deux sommes, l'une sur les termes pairs et l'autre sur les termes impairs. Ces deux sommes sont des transformées de Fourier discrètes sur $N/2$ points. Grâce à la périodicité de la transformée de Fourier, on peut déduire que si $S_k = P_k + I_k$, avec $P_k$ et $I_k$ les transformées sur les termes pairs et impairs de longueur $ N/2$, alors $ S_{k+\frac{N}{2}} = P_k + I_k$.  Récursivement, on peut appliquer cette décomposition pour calculer $P_k$ et $I_k$, ce qui nous donne la complexité attendue. 
 	
 	
-\end{document}
+
