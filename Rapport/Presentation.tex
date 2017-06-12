@@ -67,19 +67,141 @@
 \section{Outils}
 
 \subsection{Analyse de Hilbert}
-\begin{frame}{Analyse de Hilbert}
+\begin{frame}{Problématique}
 	
-	
-	
-	
+	\begin{itemize}
+		\item<1-> Signaux : fonctions $\mathbb{R}^n \rightarrow \mathbb{R}^m$
+		\item<2-> On veut généraliser les outils de la géométrie euclidienne
+	\end{itemize}
+		
+\end{frame}
+
+\begin{frame}{Problématique}
+	\begin{itemize}
+		\item<1-> $\ell^2$ et la famille $\{x_n = \delta(n - \cdot)\}_n$
+		\item<2-> But : pouvoir écrire $$u = \sum_{n = 0}^{\infty} u_n x_n$$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Espace de Hilbert}
+	Un \textit{espace de Hilbert} est la donnée
+	\pause
+	\begin{itemize}
+		\item D'un espace vectoriel réel $E$ \pause
+		\item D'un produit scalaire $\langle \cdot, \cdot \rangle$ défini sur $E$ \pause
+		\item tel que $E$ soit complet pour la norme induite par ce produit scalaire
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Espace de Hilbert séparable}
+	$E$ est dit \textit{séparable} s'il existe $\mathbf{g} = \{g_n\}_{n \in \mathbb{N}}$ tel que $\overline{\mathbf{g}} = E$.
+\end{frame}
+
+\begin{frame}{Séparabilité et base hilbertienne}
+	$E$ est séparable si et seulement s'il admet une base hilbertienne
+	\pause
+	où une \textit{base hilbertienne} est une famille orthonormée \textbf{totale}, c'est-à-dire une famille orthonormée $\mathcal{B}$ telle que $\text{Vect}(\mathcal{B})$ soit dense dans $E$.
+\end{frame}
+
+\begin{frame}{$E$ séparable $\Longleftrightarrow$ $E$ admet une base hilbertienne}
+	$\mathbf{g} = \{g_n\}_{n \in \mathbb{N}} \subset E$ telle que $\overline{\mathbf{g}} = E$.\\
+	\pause
+	On orthonormalise par le procédé de Gramm-Schmidt $\mathbf{g}$ pour obtenir une famille $\mathbf{f}$ telle que $\text{Vect}(\mathbf{f}) = \text{Vect}(\mathbf{g})$ \pause $\supset \mathbf{g}$. \\
+	\pause
+	En passant à l'adhérence : $E = \overline{\mathbf{g}} \subset \overline{\text{Vect}(\mathbf{f})} \subset E$
 \end{frame}
 
 \subsection{Espaces de Lebesgue}
 
-\begin{frame}{Espaces de Lebesgue}
-
+\begin{frame}
+	Soit $(X, \mathcal{A}, \mu)$ un espace mesuré.\\
+	\pause
+	$$\mathcal{L}^p(X) = \left\{f ~: ~ X \to \mathbb{C} \text{ mesurable} ~ | ~ \int_X |f|^p d\mu < \infty \right\}$$
+	\pause
+	$\|f\|_p = \left(\displaystyle \int_X |f|^p d\mu \right)^{\frac{1}{p}}$
 \end{frame}
 
+\begin{frame}
+		Soit la relation d'équivalence définie par $f \mathcal{R} g \Longleftrightarrow f \equiv g$ p.p.
+		\pause
+		$$L^p(X) = \mathcal{L}^p(X)/\mathcal{R}$$
+		\pause
+		$(L^p(X), \|\cdot\|_p)$ est alors normé ... \pause et complet !
+\end{frame}
+
+\section{Ondelettes et application}
+
+\subsection{Analyse multi-résolution}
+
+\begin{frame}{Analyse multi-résolution}
+	Une \textit{analyse multi-résolution} de $L^2(\mathbb{R})$ est une famille de sous-espaces fermés $\{V_n\}_{n \in \mathbb{Z}} \subset L^2(\mathbb{R})$ telle que
+	
+	\pause
+	$$\forall n \in \mathbb{Z}, ~ V_{n} \subset V_{n+1}$$
+
+	\pause
+	$$\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow f (2 \, \cdot ) \in V_{n+1}$$
+	
+	\pause
+	Il existe $\varphi$ telle que $\{\varphi_k = \varphi(\, \cdot + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$
+
+	\pause
+	$$\overline{\bigcup V} = L^2(\mathbb{R})$$
+	
+	\pause
+	$$\bigcap V = \{0\}$$
+
+	\pause			
+	$\varphi$ est appelée \textit{fonction d'échelle}.
+\end{frame}
+
+
+\begin{frame}{L'espace de détails}
+	L'espace $V_{n+1}$ est plus "fin" que $V_n$.\\
+	\pause
+	Soit $P_n ~ : ~ V_{n+1} \rightarrow V_n$ la projection orthogonale \pause $$W_n = \ker (P_n) \pause = V_{n+1}^\bot \cap V_n$$
+	\pause
+	On définit l'\textit{espace de détails} par
+	$$V_{n+1} = W_n \oplus V_n$$\\
+\end{frame}
+
+\begin{frame}{L'espace de détails}
+	\begin{align*}
+		V_n &= V_{n-1} \oplus W_{n-1} \\
+		&= V_{n-2} \oplus W_{n-2} \oplus W_{n-1} \\
+		&\vdots \\
+		&= \underbrace{\bigcap V}_{\{0\}} \oplus \left(\bigoplus_{k < n} W_k\right) \\
+	\end{align*}
+
+	\pause
+	Et en faisant l'union pour tout $n \in \mathbb{Z}$ à droite et à gauche
+
+	\pause
+	$$\bigcup_{n \in \mathbb{Z}} V_n = \bigoplus_{n \in \mathbb{Z}} W_n \pause = V_0 \oplus \left(\bigoplus_{n \in \mathbb{N}} W_n\right)$$
+\end{frame}
+
+\begin{frame}{Les ondelettes}
+	Il existe $\psi \in W_0$ tel que \\
+	\pause
+	\begin{itemize}
+		\item $\{\psi(\cdot + k)\}_{k \in \mathbb{Z}}$ est une base orthonormée de $W_0$
+		\pause
+		\item $\displaystyle \int_{\mathbb{R}} \psi(t) dt = 0$ \\
+	\end{itemize}
+	\pause	
+	
+	La famille $\psi_{n, k}(t) = \sqrt{2^n}(2^n t - k)$ forme une famille orthonormée de $\displaystyle \bigoplus_{n \in \mathbb{Z}} W_n$\\
+	\pause
+	$\{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ est une base hilbertienne de $L^2(\mathbb{R})$ !
+\end{frame}
+
+\begin{frame}
+	De $\displaystyle \bigcup_{n \in \mathbb{Z}} V_n = \bigoplus_{n \in \mathbb{Z}} W_n \pause = V_0 \oplus \left(\bigoplus_{n \in \mathbb{N}} W_n\right)$
+
+	on déduit pour tout $f \in L^2(\mathbb{R})$
+	
+	$$f = \sum_{k \in \mathbb{Z}} \langle \varphi_k, f \rangle \varphi_k + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle \psi_{n, k}, f \rangle \psi_{n, k} = \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{Z}}} \langle \psi_{n, k}, f \rangle \psi_{n, k}$$
+\end{frame}
 
 \end{document}
 
