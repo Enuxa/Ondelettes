@@ -4,9 +4,10 @@
 #include <complex>
 #include <QVector>
 #include <functional>
+#include <QList>
+#include <QMap>
 #include <QtDebug>
 
-#define N 100
 #ifndef PI
    #define PI 3.14159265358979323846
 #endif
@@ -35,61 +36,80 @@ QDebug operator<<(QDebug debug, const Complex c)
     return debug;
 }
 
-//typedef Complex(*ComplexFunc)(double);
-typedef std::function<Complex(double)> ComplexFunc; // Type ComplexFunc représentant une fonction f:double->Complex
-typedef QVector<Complex> Coordinates1D; // Type Coordinates1D représentant une liste de Complex
-typedef QVector<Coordinates1D> Coordinates2D; // Type Coordinates1D représentant une liste de liste de Complex
+class Coord {
+public:
+    int n;
+    int k;
+    bool operator<(const Coord &coord) const {
+        if(n < coord.n)
+            return true;
+        if(k < coord.k)
+            return true;
+        return false;
+    }
+};
+
+typedef double Vector;
+typedef std::function<Complex(double)> Complex1DFunc; // Type ComplexFunc représentant une fonction f:double->Complex
+typedef std::function<Complex(Vector)> Complex2DFunc; // Type ComplexFunc représentant une fonction f:Vector->Complex
+typedef QMap<Coord, Complex> Coefficients; // Type représentant une liste de Complex
 
 /**
  * @brief Produit scalaire entre deux fonctions
  */
-Complex scalarProduct(ComplexFunc f, ComplexFunc g) {
+Complex scalarProduct(Complex1DFunc f, Complex1DFunc g, int N) {
     Complex value;
     for(int i=0;i<N;i++) {
-        double t = ((double)i)/N;
-        value += (f(t)*std::conj(g(t)) + f(t+1)*std::conj(g(t+1)))/std::polar(2.0*N);
+        value += (f(i+0.0)*std::conj(g(i+0.0)) + f(i+1.0)*std::conj(g(i+1.0)));
     }
     return value;
 }
 
-/**
- * @brief Classe abstraite dont les classes filles representent une base de Hilbert de L_2([0,1])
- */
-class HilbertBase {
-public:
-    /**
-     * @brief Cette fonction attend deux arguments a et b (position et dilatation),
-     *        et retourne la fonction analysante correspondante
-     */
-    virtual ComplexFunc analyzingFunction(int a, int b) = 0;
 
-    /**
-     * @brief Retourne le tableau des coordonnees de f par rapport a la base tronquee de (0,0) a (A-1,B-1)
-     */
-    virtual Coordinates2D coordinatesOf(ComplexFunc f, int A, int B) {
-        Coordinates2D coordsMatrix;
-        for(int a=0;a<A;a++) {
-            Coordinates1D coordsLine;
-            for(int b=0;b<B;b++) {
-                coordsLine.append(scalarProduct(f, analyzingFunction(a, b)));
-            }
-            coordsMatrix.append(coordsLine);
-        }
-        return coordsMatrix;
+/**
+ * @brief Classe abstraite dont les classes filles representent une base de Hilbert de L_2([0,N]^2)
+ */
+template <int N>
+class WaveletsBase {
+public:
+
+    virtual Complex psi(double t) = 0;
+    virtual Complex psiPrimitive(double x) = 0;
+    virtual Complex1DFunc analyzingFunction(int n, int k) {
+        Complex1DFunc f = [=] (double t) {
+            return pow(2, -n/2.0)*psi(pow(2,-n)*t-k);
+        };
+        return f;
     }
 
-    /**
-     * @brief Reconstruit une fonction à partir de ses coordonnées
-     */
-    virtual ComplexFunc reconstructFunction(Coordinates2D coordsMatrix) {
-        ComplexFunc f = [=] (double t) {
-            Complex value = std::polar(0.0);
-            int A = coordsMatrix.size();
-            for(int a=0;a<A;a++) {
-                int B = coordsMatrix[a].size();
-                for(int b=0;b<B;b++) {
-                    value += coordsMatrix[a][b]*analyzingFunction(a, b)(t);
+    virtual Coefficients coefficientsOf(Complex2DFunc f) {
+        Coefficients coeffs;
+        for(int n=1;n<=6;n++) {
+            for(int k=0;k<pow(2, n)*N;k++) {
+                Coord coord;
+                coord.n = n;
+                coord.k = k;
+                Complex coeff = std::polar(0.0);
+                for(int x=0; x<N; x++) {
+                    double t11 = pow(2, -n)*x-k;
+                    double t22 = pow(2, -n)*(x+1)-k;
+                    Complex z1 = psiPrimitive(t11);
+                    Complex z2 = psiPrimitive(t22);
+                    Complex fx = f(x);
+                    Complex coeffp = pow(2, 0.5*n)*fx*(z2-z1);;
+                    coeff += coeffp;
                 }
+                coeffs[coord] = coeff;
+            }
+        }
+        return coeffs;
+    }
+
+    virtual Complex2DFunc reconstructFunction(Coefficients coeffs) {
+        Complex2DFunc f = [=] (Vector x) {
+            Complex value = std::polar(0.0);
+            foreach(Coord coord, coeffs.keys()) {
+                value += coeffs[coord]*analyzingFunction(coord.n,coord.k)(x);
             }
             return value;
         };
@@ -97,16 +117,36 @@ public:
     }
 };
 
-class FourierBase : public HilbertBase {
+template <int N>
+class HaarBase : public WaveletsBase<N> {
 public:
-    virtual ComplexFunc analyzingFunction(int a, int b) {
-        ComplexFunc f = [=] (double t) {
-            if(b==0)
-                return std::polar(1.0, 2*PI*a*t);
-            else
-                return std::polar(0.0, 0.0);
-        };
-        return f;
+    virtual Complex psi(double x) {
+        if(x>=0 && x<0.5)
+            return std::polar(1.0);
+        if(x>=0.5 && x<1)
+            return std::polar(-1.0);
+        return std::polar(0.0);
+    }
+    virtual Complex psiPrimitive(double x) {
+        if(x>=0 && x<0.5)
+            return std::polar(x);
+        if(x>=0.5 && x<1)
+            return std::polar(1.0-x);
+        return std::polar(0.0);
+    }
+};
+
+template <int N>
+class MexicanHatBase : public WaveletsBase<N> {
+public:
+    double lambda = pow(2,0.75)/(sqrt(3)*pow(PI,0.25));
+    virtual Complex psi(double t) {
+        //if(t<0 || t>=1) return std::polar(0.0);
+        return std::polar(lambda*exp(-t*t*0.5)*(1-t*t));
+    }
+    virtual Complex psiPrimitive(double t) {
+        //if(t<0 || t>=1) return std::polar(0.0);
+        return std::polar(lambda*exp(-t*t*0.5)*t);
     }
 };
 

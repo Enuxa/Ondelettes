@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>imagetest.pgm</file>
+    </qresource>
+</RCC>
