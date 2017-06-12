@@ -93,6 +93,10 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Exemple d'espace hilbertien}
+	$\ell^2$ avec le produit scalaire défini par $\displaystyle \langle u, v \rangle = \sum_{n = 0}^{\infty} u_n \overline{v_n}$
+\end{frame}
+
 \begin{frame}{Espace de Hilbert séparable}
 	$E$ est dit \textit{séparable} s'il existe $\mathbf{g} = \{g_n\}_{n \in \mathbb{N}}$ tel que $\overline{\mathbf{g}} = E$.
 \end{frame}
@@ -103,25 +107,40 @@
 	où une \textit{base hilbertienne} est une famille orthonormée \textbf{totale}, c'est-à-dire une famille orthonormée $\mathcal{B}$ telle que $\text{Vect}(\mathcal{B})$ soit dense dans $E$.
 \end{frame}
 
-\begin{frame}{$E$ séparable $\Longleftrightarrow$ $E$ admet une base hilbertienne}
+\begin{frame}{$E$ (de dimension infinie) séparable $\Longleftrightarrow$ $E$ admet une base hilbertienne}
 	$\mathbf{g} = \{g_n\}_{n \in \mathbb{N}} \subset E$ telle que $\overline{\mathbf{g}} = E$.\\
 	\pause
-	On orthonormalise par le procédé de Gramm-Schmidt $\mathbf{g}$ pour obtenir une famille $\mathbf{f}$ telle que $\text{Vect}(\mathbf{f}) = \text{Vect}(\mathbf{g})$ \pause $\supset \mathbf{g}$. \\
+	On construit par récurrence $\mathbf{f} = \{f_n\}_{n \in \mathbb{N}}$ de manière à ce que $\{f_0, \cdots f_n\}$ soit orthonormale pour tout $n$. \\
+	\pause
+	
+	On pose $f_0 = \frac{g_0}{\|g_0\|}, ~ g_0 \neq 0$.
+	
+	\pause
+	On construit par récurrence $f_{n+1}$ à l'aide de $f_0, \cdots f_n$ :
+	\pause
+	\begin{itemize}
+		\item on choisit $x \in \text{Vect} (g_0 \cdots g_m)  \setminus \text{Vect} (f_0 \cdots f_n)$, avec $m$ le plus petit possible pour que $x$ existe \pause (il existe car $E$ est de dimension infinie). \pause Ainsi $\text{Vect} (g_0 \cdots g_m) = \text{Vect} (f_0 \cdots f_n, x)$
+		\pause
+		\item on orthogonalise la nouvelle famille : $\displaystyle y = x - \sum_{k = 0}^{n} \langle y, f_k \rangle f_k$
+		\pause
+		\item on normalise le nouveau vecteur : $f_{n+1} = \frac{y}{\|y\|}$
+	\end{itemize}
+	
 	\pause
 	En passant à l'adhérence : $E = \overline{\mathbf{g}} \subset \overline{\text{Vect}(\mathbf{f})} \subset E$
 \end{frame}
 
 \subsection{Espaces de Lebesgue}
 
-\begin{frame}
+\begin{frame}{Espaces de Lebesgue}
 	Soit $(X, \mathcal{A}, \mu)$ un espace mesuré.\\
 	\pause
 	$$\mathcal{L}^p(X) = \left\{f ~: ~ X \to \mathbb{C} \text{ mesurable} ~ | ~ \int_X |f|^p d\mu < \infty \right\}$$
 	\pause
-	$\|f\|_p = \left(\displaystyle \int_X |f|^p d\mu \right)^{\frac{1}{p}}$
+	$$\|f\|_p = \left(\displaystyle \int_X |f|^p d\mu \right)^{\frac{1}{p}}$$
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Espaces de Lebesgue}
 		Soit la relation d'équivalence définie par $f \mathcal{R} g \Longleftrightarrow f \equiv g$ p.p.
 		\pause
 		$$L^p(X) = \mathcal{L}^p(X)/\mathcal{R}$$
@@ -205,7 +224,7 @@
 \begin{frame}{L'espace de détails}
 	L'espace $V_{n+1}$ est plus "fin" que $V_n$.\\
 	\pause
-	Soit $P_n ~ : ~ V_{n+1} \rightarrow V_n$ la projection orthogonale \pause $$W_n = \ker (P_n) \pause = V_{n+1}^\bot \cap V_n$$
+	Soit $P_n ~ : ~ V_{n+1} \rightarrow V_n$ la projection orthogonale \pause $$W_n = \ker (P_n) \pause = V_{n+1} \cap V_n^\bot$$
 	\pause
 	On définit l'\textit{espace de détails} par
 	$$V_{n+1} = W_n \oplus V_n$$\\
@@ -213,20 +232,23 @@
 
 \begin{frame}{L'espace de détails}
 	\begin{align*}
-		V_n &= V_{n-1} \oplus W_{n-1} \\
-		&= V_{n-2} \oplus W_{n-2} \oplus W_{n-1} \\
-		&\vdots \\
-		&= \underbrace{\bigcap V}_{\{0\}} \oplus \left(\bigoplus_{k < n} W_k\right) \\
+		\onslide<1->{V_n &= V_{n-1} \oplus W_{n-1} \\}
+		\onslide<2->{&= V_{n-2} \oplus W_{n-2} \oplus W_{n-1} \\}
+		\onslide<3->{&= V_{n-3} \oplus W_{n-3} \oplus W_{n-2} \oplus W_{n-1} \\}
+		\onslide<4->{ & \vdots \\ &= \underbrace{\bigcap V}_{\{0\}} \oplus \left(\bigoplus_{k < n} W_k\right) \\}
 	\end{align*}
 
-	\pause
-	Et en faisant l'union pour tout $n \in \mathbb{Z}$ à droite et à gauche
-
-	\pause
-	$$\bigcup_{n \in \mathbb{Z}} V_n = \bigoplus_{n \in \mathbb{Z}} W_n \pause = V_0 \oplus \left(\bigoplus_{n \in \mathbb{N}} W_n\right)$$
+	\onslide<5->{Et en faisant l'union pour tout $n \in \mathbb{Z}$ à droite et à gauche
+		$$\bigcup_{n \in \mathbb{Z}} V_n = \bigoplus_{n \in \mathbb{Z}} W_n \onslide<6-> = V_0 \oplus \left(\bigoplus_{n \in \mathbb{N}} W_n\right)$$
+	}
 \end{frame}
 
 \begin{frame}{Les ondelettes}
+	$\{W_n\}_{n \in \mathbb{Z}}$ n'est pas une suite croissante mais on conserve l'auto-similarité.
+	\pause
+	$$f \in W_0 \Longleftrightarrow f(2 \cdot ) \in W_1 \Longleftrightarrow f(2^n \cdot) \in W_n$$
+	
+	\pause
 	Il existe $\psi \in W_0$ tel que \\
 	\pause
 	\begin{itemize}
@@ -234,19 +256,25 @@
 		\pause
 		\item $\displaystyle \int_{\mathbb{R}} \psi(t) dt = 0$ \\
 	\end{itemize}
+	
+	\pause
+	$\{\sqrt{2^n} \psi(2^n\cdot - k)\}_{k \in \mathbb{Z}}$ est une base orthonormée de $W_n$.\\
+	
 	\pause	
 	
-	La famille $\psi_{n, k}(t) = \sqrt{2^n}(2^n t - k)$ forme une famille orthonormée de $\displaystyle \bigoplus_{n \in \mathbb{Z}} W_n$\\
+	La famille définie par $\psi_{n, k}(t) = \sqrt{2^n}(2^n t - k)$ forme une famille orthonormée de $\displaystyle \bigoplus_{n \in \mathbb{Z}} W_n$\\
 	\pause
 	$\{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ est une base hilbertienne de $L^2(\mathbb{R})$ !
 \end{frame}
 
 \begin{frame}
-	De $\displaystyle \bigcup_{n \in \mathbb{Z}} V_n = \bigoplus_{n \in \mathbb{Z}} W_n \pause = V_0 \oplus \left(\bigoplus_{n \in \mathbb{N}} W_n\right)$
+	De $\displaystyle \bigcup_{n \in \mathbb{Z}} V_n = \bigoplus_{n \in \mathbb{Z}} W_n = V_0 \oplus \left(\bigoplus_{n \in \mathbb{N}} W_n\right)$
+
+	\pause
 
 	on déduit pour tout $f \in L^2(\mathbb{R})$
 	
-	$$f = \sum_{k \in \mathbb{Z}} \langle \varphi_k, f \rangle \varphi_k + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle \psi_{n, k}, f \rangle \psi_{n, k} = \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{Z}}} \langle \psi_{n, k}, f \rangle \psi_{n, k}$$
+	$$f= \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{Z}}} \langle \psi_{n, k}, f \rangle \psi_{n, k} = \sum_{k \in \mathbb{Z}} \langle \varphi_k, f \rangle \varphi_k + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle \psi_{n, k}, f \rangle \psi_{n, k} $$
 \end{frame}
 
 \end{document}

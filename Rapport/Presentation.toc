@@ -2,7 +2,7 @@
 \select@language {french}
 \beamer@sectionintoc {1}{Outils}{4}{0}{1}
 \beamer@subsectionintoc {1}{1}{Analyse de Hilbert}{4}{0}{1}
-\beamer@subsectionintoc {1}{2}{Espaces de Lebesgue}{19}{0}{1}
-\beamer@sectionintoc {2}{Premi\IeC {\`e}re approche : Analyse de Fourier}{26}{0}{2}
-\beamer@sectionintoc {3}{Ondelettes et application}{33}{0}{3}
-\beamer@subsectionintoc {3}{1}{Analyse multi-r\IeC {\'e}solution}{33}{0}{3}
+\beamer@subsectionintoc {1}{2}{Espaces de Lebesgue}{26}{0}{1}
+\beamer@sectionintoc {2}{Premi\IeC {\`e}re approche : Analyse de Fourier}{33}{0}{2}
+\beamer@sectionintoc {3}{Ondelettes et application}{40}{0}{3}
+\beamer@subsectionintoc {3}{1}{Analyse multi-r\IeC {\'e}solution}{40}{0}{3}
