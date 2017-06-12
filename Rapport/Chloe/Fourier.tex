@@ -1,100 +1,22 @@
-\documentclass[]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{pdfpages}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{amsthm}
-\usepackage{stmaryrd}
-\usepackage{mathtools}
-\usepackage{mathrsfs}
-
-\geometry{hmargin=2cm}
-
-% Environnement type théorème
-\newtheorem{mythm}{Théorème}
-\newtheorem{myproposition}{Proposition}
-\newtheorem{myproperty}{Propriété}
-\newtheorem{mylemma}{Lemme}
-\newtheorem{mycoro}{Corollaire}
-
-% Environnement type texte
-\theoremstyle{remark}
-\newtheorem{mynot}{Notation}
-\newtheorem{myrem}{Remarque}
-\newtheorem{myexer}{Exercice}
-\newtheorem{myproof}{Preuve}
-\newtheorem{myexmpl}{Exemple}
-
-% Environnement de définition
-\theoremstyle{definition}
-\newtheorem{mydef}{Définition}
-\newtheorem{myquestion}{Question}
-
-\setlist[itemize]{label=-}
-
-% Carré de fin de preuve
-\newcommand{\cqfd}{
-	\hfill$\square$
-}
-
-% Définition de fonction
-\newcommand{\func}[5]{
-#1 ~ : ~ \left\{ \begin{array}{lcl}
-	#2 & \longrightarrow & #3 \\
-	#4 & \longmapsto & #5
-\end{array}
-\right.
-}
-
-\newcommand{\fun}[3]{
-#1 ~ : ~ #2 \longrightarrow #3
-}
-
-\newcommand{\funcinline}[5]{
-	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
-}
-
-\newcommand{\funcshort}[3]{
-	#1 \, : \, #2 \longrightarrow #3
-}
-
-\newcommand{\anonfunc}[4]{
-	\left\{ \begin{array}{lcl}
-		#1 & \longrightarrow & #2 \\
-		#3 & \longmapsto & #4
-	\end{array}
-	\right.
-}
-
-\newcommand{\vect}{\text{Vect}}
-
-\newcommand{\card}{\text{Card }}
-
-\newcommand{\DS}{\displaystyle}
-
-\begin{document}
+\newpage
 	\part{Analyse du signal}
 	\section{L'analyse de Fourier}
 
 	\paragraph*{}
-En termes d'analyse du signal, l'utilisation de l'analyse de Fourier parait être indispensable. Le principe sous-jacent à cette analyse provient de l'étude des Séries de Fourier, qui permet sous certaines conditions de décomposer une fonction périodique en une somme de coefficients sinusoïdaux de même fréquence et de fréquences harmoniques. 
+En termes d'analyse du signal, l'utilisation de l'analyse de Fourier parait être indispensable. Le principe sous-jacent à cette analyse provient de l'étude des Séries de Fourier, qui permet sous certaines conditions de décomposer un signal périodique en une somme de signaux sinusoïdaux de même fréquence et de fréquences harmoniques. 
 
-
-Nous allons étudier les outils sur lesquels se reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse en ondelettes. Cette partie sera limitée aux fonctions d'une seule variable. 
+Nous allons étudier les outils sur lesquels reposent cette analyse, puis observer l'application sur des exemples, qui mettront en valeur les limites de ce procédé et la nécessité d'utiliser une analyse plus poussée comme l'analyse en ondelettes. Cette partie sera limitée aux fonctions d'une seule variable. 
 
 	
 	\subsection {Séries de Fourier}
-		Dans cette partie, nous voulons d'abord étudier le cas des fonctions de $L^2(\mathbb{(T)})$. On verra que dans l'espace de ces fonctions, il existe une base dans laquelle n'importe quelle fonction de l'espace peut être décomposée de manière unique. De plus, il sera important de prendre en compte la notion de convergence de cette décomposition qui est nécessaire dans de nombreuses applications. 
+		Dans cette partie, nous voulons d'abord étudier le cas des fonctions de $L^2(\mathbb{T})$. On verra que dans cet espace fonctionnel, il existe une base dans laquelle n'importe quelle fonction peut être décomposée de manière unique. De plus, il sera important de prendre en compte la notion de convergence de cette décomposition qui est nécessaire dans de nombreuses applications. 
 
 		On se restreint aux fonctions $2\pi$-périodiques, car l'étude des autres fonctions périodiques reste la même à des coefficients multiplicatifs près. 	
 		
 			
 		\begin{mydef} 
 			
-			On munit $L^2_{\mathbb{T}}$ d'un produit scalaire et de sa norme induite définis par : 
+			On munit $L^2(\mathbb{T})$ d'un produit scalaire et de sa norme induite, définis par : 
 			
 			
 			$$ \langle f,g \rangle = \frac{1}{2\pi} \int_{0}^{2\pi} f(t) \overline{g(t)} dt$$
@@ -109,10 +31,10 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			On définit pour tout $k \in \mathbb{Z}$,  $e_k(t):=e^{ikt}, \quad t\in \mathbb{R}.$	
 		\end{mydef}
 		
-		Ces fonctions sont l'équivalent des indéterminées pour les polynômes trigonométriques.
+		Ces fonctions sont aux polynômes trigonométriques ce que les puissances de l'indéterminée sont aux polynômes classiques.
 		
 		\begin{mydef}
-			Soit $f$ une fonction de $L^2(\mathbb{T})$ et $N$ un entier positif, on définit sa $N$-ième série de Fourier par
+			Soit $f$ une fonction de $L^2(\mathbb{T})$ et $N$ un entier positif, on définit sa \textit{$N$-ième série de Fourier} par
 			
 			\begin{align*}
 				S_N(f) &= \sum_{k = -N}^N c_k(f) e_k \\
@@ -122,7 +44,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 			où $c_k$ est le $k$-ième coefficient de Fourier de $f$.
 		\end{mydef}
 
-		La $N$-ième série de Fourier d'une fonction $f$ est sa projection orthogonale sur l'espace engendré par $e_{-N}, e_{-N+1} \cdots e_N$. On en tire ainsi l'inégalité de Bessel :
+		La $N$-ième série de Fourier d'une fonction $f$ est sa projection orthogonale sur l'espace engendré par $e_{-N}, e_{-N+1} \cdots e_N$. On retrouve une propriété intuitive des projections orthogonales, qui porte ici le nom d'inégalité de Bessel :
 		
 		\begin{mythm}
 			Soit $f \in L^2(\mathbb{T})$, on a pour tout $N$, $\|S_N(f)\|_2 \leqslant \|f\|_2$
@@ -134,26 +56,28 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 									 & = \| f \|^2_2 + \| S_N(f)\|^2_2 + \langle f, S_N(f) \rangle + \langle S_N(f), f \rangle \\ 
 									 & = \| f \|^2_2 + \| S_N(f)\|^2_2 + \langle f, S_N(f) \rangle + \overline {\langle  f, S_N(f)\rangle } \\
 									 &= \| f \|^2_2 + \| S_N(f)\|^2_2 - 2Re (\langle f, S_N(f) \rangle) \quad \text{ car } \langle f, S_N(f) \rangle = \| S_N(f)\|^2 \\
-									 &=  \| f \|^2_2 - \| S_N(f)\|^2_2  			  
+									 &=  \| f \|^2_2 - \| S_N(f)\|^2_2
 			\end{align*}
+			
+			$\| f \|^2_2 - \| S_N(f)\|^2_2 \geqslant 0$, d'où le résultat.
 			\cqfd
 		\end{myproof}
-			On remarque également que si $P$ est un polynôme trigonométrique, alors $S_N(P) = P$. 
+			On remarque également que si $P$ est un polynôme trigonométrique, alors $S_N(P) = P$ pour $N = \deg P$. 
 			
 			\begin{myproposition}
 				$ (e_k)_{k\in\mathbb{Z}} $ est une base hilbertienne.
 			\end{myproposition}
 			
 			\begin{myproof}	
+				On cherche à montrer qu'il s'agit d'une famille orthonormée et dont les combinaisons linéaires sont denses dans $L^2 (\mathbb{T})$. Plus précisément, qu'elle est orthonormée et que pour tout $f \in L^2(\mathbb{T})$
 				
-				Il suffit de montrer qu'il s'agit d'une famille orthonormée maximale.
-				Soient $k, l \in \mathbb{Z}$.
+				$$\lim\limits_{n \to \infty} \sum_{k = -n}^n \langle f, e_k \rangle e_k = f \quad (\text{dans } L^2(\mathbb{T}), \|\cdot\|_2)$$
 				
-				Si $k=l$
+				Soient $k, l \in \mathbb{Z}$, si $k=l$
 				\begin{align*}
-					\langle e_k, e_l \rangle = \|e_k\|_2 &= \frac{1}{2\pi}\int_0^{2\pi} e_k(t)\overline{e_k(t)}dt\\
+					\langle e_k, e_l \rangle = \|e_k\|_2^2 &= \frac{1}{2\pi}\int_0^{2\pi} e_k(t)\overline{e_k(t)}dt\\
 					&  =  \frac{1}{2\pi}\int_0^{2\pi} e^{ikt}e^{-ikt}dt\\
-					& = \frac{1}{2\pi} \int_0^{2\pi} dt\\
+					& = \frac{1}{2\pi} \int_0^{2\pi} 1 dt\\
 					& = 1
 				\end{align*}
 				 
@@ -165,12 +89,13 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 				\\ & = \frac{1}{{2\pi}} \int_0^{2\pi} e^{i(k-l)t} dt 
 				\\ & = \frac{1}{{2\pi}}  \left[ \frac {e^{i(k-l) t}} {{i(k-l)}} \right] _0^{2\pi}
 				\\ & = \frac {e^{i (l-k){2\pi}} - e^{i(l-k)  0}} {i {2\pi}(l-k)}
-				\\ & = \frac {1 - 1}{i {2\pi}(l-k)} = 0
+				\\ & = \frac {1 - 1}{i {2\pi}(l-k)}\\
+				&= 0
 				\end{align*}
 
-				On va démontrer que toute fonction de $L^2(\mathbb{T}) $ admet une décomposition unique dans cette base.
+				Montrons à présent que toute fonction de $L^2(\mathbb{T}) $ admet une décomposition unique dans cette base.
 				
-				Soit $f \in L^2(\mathbb{T})$ et $\varepsilon > 0$, sachant que les fonctions $2\pi$-périodiques continues sont denses dans $L^2(\mathbb{T})$, il existe $f_0$ continue et $2\pi$-périodique telle que $\| f - f_0\| < \varepsilon$. 
+				Soit $f \in L^2(\mathbb{T})$ et $\varepsilon > 0$, sachant que les fonctions $2\pi$-périodiques continues sont denses dans $L^2(\mathbb{T})$, il existe $f_0$ continue et $2\pi$-périodique telle que $\forall t, ~ | f(t) - f_0(t)| < \varepsilon$. 
 				
 				Celle-ci étant périodique, on en déduit l'existence de $F_0$ définie sur le cercle unité telle que $f_0(t) = F_0(e^{it})$.
 				
@@ -190,8 +115,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 		Comme cette famille est une base Hilbertienne de $L^2(\mathbb{T})$, il est donc possible de décomposer les fonctions de cet espace dans cette base de manière unique. C'est à dire que:
 				$$ \lim_{N\to +\infty} \|S_N(f) -f \|_2 = 0 $$
 				
-		On dit que la convergence est en moyenne quadratique. 
-
+		On dit que la convergence est en \textit{moyenne quadratique}.
 
 	Il est possible d'étendre l'analyse en séries de Fourier pour les fonctions périodiques de $L^1(\mathbb{T})$, tout en conservant une notion de convergence. 
 	
@@ -207,7 +131,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 		$S_N(f)$ converge normalement (vers une limite continue): 
 		$$ \sum_{p \in \mathbb{Z}} \|c_p(f)e_p\|_\infty = \sum_{p \in \mathbb{Z}} |c_p(f)| < \infty $$
 		$S_N(f)$ converge pour la norme $\| \cdot \|_\infty $ et donc pour $\| \cdot \|_{L^{\infty}} $.
-		Par injection continue de $L^\infty(\mathbb{T})$ dans $L^2(\mathbb{T})$, $S_N$, sa limite dans $L^\infty(\mathbb{T})$ coïncide avec $f$ (sa limite dans $L^2(\mathbb{T})$). Donc $f$ admet bien un représentant continu. 
+		Par injection continue de $L^\infty(\mathbb{T})$ dans $L^2(\mathbb{T})$, la limite de $S_N$ dans $L^\infty(\mathbb{T})$ coïncide avec $f$ (sa limite dans $L^2(\mathbb{T})$). Donc $f$ admet bien un représentant continu. 
 		
 		\cqfd
 	\end{myproof}
@@ -217,7 +141,7 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 	Au delà de l'existence d'une convergence, il peut-être utile d'étudier la vitesse de convergence. Il s'agit d'étudier la décroissance des coefficients de Fourier d'une fonction. 
 	
 	\begin{mythm}
-		Soit $f$ une fonction de classe $C^k$. Alors, $c_p(f^{(k)}) = (ip)^kc_p(f)$ et il existe une constante $C$ telle que:
+		Soit $f$ une fonction de classe $\mathcal{C}^k$. Alors, $c_p(f^{(k)}) = (ip)^kc_p(f)$ et il existe une constante $C$ telle que:
 			$$ | c_p(f) | \leqslant \frac{C}{|p|^k} $$
 	\end{mythm}
 	
@@ -234,16 +158,15 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 		
 		De plus, 
 		\begin{align*}
-		|c_p(f^(k))| &\leqslant \frac{1}{2\pi}\int_0^{2\pi}|f^{(k)}(t)|dt \\
+		|c_p(f^{(k)})| &\leqslant \frac{1}{2\pi}\int_0^{2\pi}|f^{(k)}(t)|dt \\
 		& \sup_{[0, 2\pi]} |f^{(k)}(t)| =: C 
 		\end{align*}
 		Donc $ \DS|c_p(f)| = \frac {|c_p(f^{(k)})|}{|p|^k} \leqslant \frac{C}{|p|^k} $.
 		\cqfd		
 	\end{myproof}
 		
-			
 	\begin{myexmpl}
-		Etudions la décomposition en séries de Fourier de la fonction en créneaux définie par: 
+		Étudions la décomposition en séries de Fourier de la fonction $2\pi$-périodique en créneaux définie par: 
 		$$ f(x) = \left\{
 		\begin{array}{cc}
 			-1 & \text{ sur }[-\pi, 0[ \\
@@ -251,40 +174,105 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 		\end{array}
 		\right. $$
 	
+	Calculons d'abord les coefficients de Fourier de la fonction. 
+	Pour $p \neq 0$ : 
+	\begin{align*}
+	c_p &= \frac{1}{2\pi} \int_{-\pi}^{\pi}f(t)e^{-ipt}dt\\
+		&= \frac{1}{2\pi} \left(\int_{-\pi}^{0}e^{-ipt}dt + \int_{0}^{\pi}e^{-i pt}dt\right) \\
+		&= \frac{1}{2\pi} \left( \left[\frac{e^{-ipt}}{ip}\right]_{-\pi}^{0}  + \left[\frac{e^{-ipt}}{ip}\right] _{0}^{\pi}  \right)\\
+		&=\frac{ -i+i(-1)^p}{\pi p}\\
+	\end{align*}
+	Étudions les valeurs de $c_p$ en fonction de $p$. Si $p = 2q$, $q \in \mathbb{Z}$, alors 
+	$$	c_{2q}= \frac{-i + i(-1)^{2q}}{\pi 2q }= 0 $$
+	Si $ p = 2q+1$, alors :
+	$$ c_{2q+1} = \frac{-i + i(-1)^{2q+1}}{\pi (2q+1) } = \frac{-2i}{\pi(2q+1)} = \frac{2}{i\pi(2q+1)} $$
+	
+	Dès lors, on peut sommer uniquement sur les termes impairs : 
+	
+	\begin{align*}
+	S_{2N+1} = \sum_{ \substack{ k = -2N-1\\ k\neq 0} }^{2N+1}c_k e^{ikt} &=   \sum_{\substack{k = -N-1\\k\neq 0}}^{N}c_{2k+1} e^{i(2k+1)t} \\
+	&= \sum_{k=1}^{N} c_{2k+1} e^{i(2k+1)t} + c_{-(2k+1)} e^{-i(2k+1)t} \\
+	&= \sum_{k=1}^{N} \frac{2e^{i(2k+1)t}}{i\pi (2k+1)} - \frac{2e^{-i(2k+1)t}}{i\pi (2k+1)} \\
+	&= \sum_{k=1}^{N} \frac{4}{\pi (2k+1)} \sin((2k+1)t)  \qquad\text{d'après le formule d'Euler}
+	\end{align*}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=350pt]{Chloe/Signal_carre_fourier.png}
+		\caption{Approximation de la fonction carrée par $S_1$ (rouge), $S_3$ (vert) et $S_5$ (bleu)}
+	\end{figure}
+	
 	\end{myexmpl}
-			
-			
-			
-			\subsection{Transformée de Fourier}
-				La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général, notamment pour des fonctions non périodiques. 
-				Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. 
-			
-			\begin{mydef}
-				Soit $f(t)$ une fonction de $L_1$ à valeurs réelles ou complexes. La Transformée de Fourier est une fonction complexe définie par :
-				$$ \mathcal{F}[f(t)] = F(k)= \int_{-\infty}^{+\infty}f(t)e^{-ikt}dt $$ 
-			\end{mydef}
+	\newpage
+	\subsection{Transformée de Fourier}
+		La transformée de Fourier permet d'étendre les notions abordées dans le cadre des séries de Fourier dans un cadre plus général, notamment pour des fonctions non périodiques. 
+		Dans ce cadre, on ne peut plus se restreindre à la famille des $e_k$ définie précédemment, car la notion de pulsation n'est plus valable dans ce cadre. 
+	
+	\begin{mydef}
+		Soit $f$ une fonction de $L^1(\mathbb{R})$ à valeurs réelles ou complexes. La \textit{Transformée de Fourier} est une fonction complexe définie par :
+		$$ \mathcal{F}[f](\xi) = F(\xi)= \int_{-\infty}^{+\infty}f(t)e^{-i\xi t}dt $$ 
+	\end{mydef}
+
+	\begin{myrem}
+		La condition que la fonction $f$ soit intégrale est suffisante pour que l'intégrale soit bien définie et que la transformée de Fourier existe. 
+		De plus, $F(\xi)$ sera une fonction continue et bornée qui tend vers 0 lorsque $|\xi| \longrightarrow \infty$.
 		
-			\begin{myrem}
-				La condition que la fonction $f(t)$ soit intégrale est suffisante pour que l'intégrale soit bien définie et que la transformée de Fourier existe. 
-				De plus, $F(k)$ sera une fonction continue et bornée qui tend vers 0 lorsque $|k| \longrightarrow \infty$.
-			\end{myrem}
-			
-			Nous pourrons nous restreindre aux fonctions de $L_1$ pour cette étude. 
-			Comme pour l'étude des séries de Fourier, une notion très importante est de pouvoir reconstruire le signal à partir de sa transformée de Fourier. Pour ce faire, il est possible d'utiliser la transformée de Fourier inverse. 
+		En effet, $|f(t)e^{-i \xi t}| \leqslant |f(t)|$ et à $t$ fixé $\xi \mapsto f(t) e^{- i \xi t}$ est continue.
+	\end{myrem}
+	
+	\begin{myproof}
+		Soit $f \in L^1(\mathbb{R})$, montrons que $f(\xi) \to 0$ quand $|\xi| \to \infty$. On peut se contenter de le prouver pour un sous ensemble $E$ dense dans $L^1(\mathbb{R})$ (hypothèse $(*)$). En effet soit $\varepsilon > 0$, il existe $h \in E$ tel que $\|f - g\|_1 < \varepsilon / 2$, on a ainsi les calculs suivants :
 		
-			\begin{mydef}
-				En ajoutant la condition que $f(t)$ soit continue aux conditions précédentes, on peut définir la transformée de Fourier inverse par :
-				$$ \overline{\mathcal{F}}[F(k)] = f(t)=\frac{1}{{2\pi}} \int_{-\infty}^{+\infty}F(k)e^{ikt}dt $$ 
-				
-			\end{mydef}
-			
-			\begin{myrem}
-				Si la condition de la continuité de $f(t)$ n'est pas respectée, la transformée de Fourier de $f(t)$ sera quand même définie, mais l'égalité entre $f(t)$ et $\overline{\mathcal{F}}[\mathcal{F}[f(t)]]$ ne sera vérifiée que presque partout. 
-			\end{myrem}
+		\begin{align*}
+			|\hat{f}(\xi)| & = \left|\int_\mathbb{R} f(t) e^{-i \xi t} dt\right| \\
+			& \leqslant \left|\int_\mathbb{R} (f(t) - h(t))e^{- i \xi t} dt\right| + \left|\int_\mathbb{R} h(t) e^{- i \xi t}\right| \quad \text{par l'inégalité triangulaire} \\
+			& \leqslant \int_{\mathbb{R}} |f(t) - h(t)| dt + \left|\int_\mathbb{R} h(t) e^{- i \xi t}\right| \\
+			&= \varepsilon / 2 + \left|\int_\mathbb{R} h(t) e^{- i \xi t}\right| \\
+			&= \varepsilon/2 + \varepsilon/2 \quad \text{pour $\xi$ assez grand par l'hypothèse } (*)
+		\end{align*}
 		
+		L'hypothèse $(*)$ est bien vérifiée pour $E$ étant l'espace des fonctions continûment dérivables et à support compact. Soit $g \in E$, disons définie sur $[a, b]$, on a grâce à une intégration par partie :
+		
+		$$\int_{a}^{b} f(t) e^{- i \xi t} dt = \frac{i}{\xi} f(t) e^{- i \xi t} \bigg\vert_{t = a}^{t=b} - \frac{i}{\xi} \int_{a}^{b} f'(t) e^{- i \xi t} dt \longrightarrow 0 \quad (|\xi| \to \infty)$$
+		
+		\cqfd
+	\end{myproof}
+	
+	Nous pourrons nous restreindre aux fonctions de $L^1$ pour cette étude. 
+	Comme pour l'étude des séries de Fourier, une notion très importante est de pouvoir reconstruire le signal à partir de sa transformée de Fourier. Pour ce faire, il est possible d'utiliser la transformée de Fourier inverse. 
+
+	\begin{mydef}
+		En ajoutant la condition que $f$ soit continue aux conditions précédentes, on peut définir la \textit{transformée de Fourier inverse} par :
+		$$ \overline{\mathcal{F}}[F](t) = f(t)=\frac{1}{{2\pi}} \int_{-\infty}^{+\infty}F(\xi)e^{i \xi t}dt $$ 
+	\end{mydef}
+	
+	\begin{myrem}
+		Si la condition de la continuité de $f$ n'est pas respectée, la transformée de Fourier de $f$ sera quand même définie, mais l'égalité entre $f$ et $\overline{\mathcal{F}}[\mathcal{F}[f]]$ ne sera vérifiée que presque partout. 
+	\end{myrem}
 			
-	\subsubsection{exemple}
-	[exemple de deux signaux successifs, l'un défini sur $ ] -\infty; 0[$ et l'autre sur $ [0; +\infty[$ qui ont la même décomposition en spectre que s'ils avaient été simultanés]
+	\begin{myexmpl}
+		Soit $f \in L^1(\mathbb{R})$ une fonction définie par 	
+		$ f(t) = \left\{
+		\begin{array}{cc}
+		1 & \text{ sur }[-a; a] \\
+		0 & \text{sinon} \\
+		\end{array}
+		\right. $.
+		Calculons sa transformée de Fourier: 
+		\begin{align*}
+			\mathcal{F}[f](\xi)& = \int_{- \infty}^{+\infty} f(t)e^{-i\xi t}dt \\
+							   & = \int_{-1}^{1} e^{-i\xi t}dt \\
+							   & =  \left[ -\frac{e^{-i\xi t}}{i \xi} \right]_{-a}^{a} \\
+							   & =  \frac{-e^{-ia\xi} + e^{ia \xi}} {i \xi} \\
+							   & = \frac {2 \sin{a\xi}}{\xi} \qquad \text{d'après la formule d'Euler}
+		\end{align*}
+		
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=350pt]{Chloe/TF123.png}
+				\caption{Transformée de Fourier de f pour a = 1 (bleu), 2 (rouge), 3 (vert) }
+			\end{figure}
+	\end{myexmpl}
 	
 	\subsection{Transformée de Fourier à fenêtre glissante}
 	La transformée de Fourier à fenêtre glissante est une solution par rapport au problème de la notion de temporalité apporté par l'étude de signaux continus et non plus périodiques. 
@@ -292,15 +280,22 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 	En reprenant la définition de la transformée de Fourier précédente, on peut l'étendre pour ajouter la notion de fenêtre glissante. 
 		
 	\begin{mydef}
-		Soit $f(t)$ une fonction qui possède une transformée de Fourier. On peut définir la Transformée de Fourier à fenêtre glissante par :
-		$$ F(k, \tau)= \int_{-\infty}^{+\infty}f(t)e^{-ikt} \overline{w(t - \tau)}dt$$
-		où $w(t)$ est la fonction de fenêtre, et $\tau$ le paramètre de translation. 
+		Soit $f$ une fonction qui possède une transformée de Fourier. On peut définir la \textit{Transformée de Fourier à fenêtre glissante} par :
+		$$ F(\xi, \tau)= \int_{-\infty}^{+\infty}f(t)e^{-i \xi t} \overline{w(t - \tau)}dt$$
+		où $w$ est la fonction de fenêtrage, et $\tau$ le paramètre de translation. 
 	\end{mydef}
-	Il s'agit ensuite de trouver le format de fenêtre adéquat. 
+	Il s'agit ensuite de trouver le format de fenêtre adéquat. La fonction la plus simple à imaginer est sans doute la fonction "porte" définie par 
+	$w(t) = \left\{
+		\begin{array}{cc}
+		1 & \text{ sur }[-1; 1] \\
+		0 & \text{sinon} \\
+		\end{array}
+	\right. $.
+	Cependant, il en existe de nombreuses autres dont on parlera plus tard. 
 	
-	\subsubsection{exemple}
-	[Reprendre l'exemple précédent en montrant que ca fonctionne bien, puis faire un autre exemple, comme la fonction en créneau et montrer que ca ne suffit pas pour les discontinuités]
-	
+	\begin{myrem}
+		Il existe également une transformée inverse pour la transformée de Fourier à fenêtre glissante. 
+	\end{myrem}
 	
 	\subsection{Transformée de Fourier discrète}
 			
@@ -324,19 +319,22 @@ Nous allons étudier les outils sur lesquels se reposent cette analyse, puis obs
 	\end{myexmpl}
 	
 	\begin{mydef}
-			On considère une suite $(s_n)_{n\in \{0; N -1 \}}$ de N termes. La transformée de Fourier Discrète permet d'obtenir la suite  $(S_n)_{n\in \{0; N -1 \}}$ de N termes définis par :
+			On considère une suite $(s_n)_{n\in \{0; N -1 \}}$ de N termes. La \textit{transformée de Fourier discrète} permet d'obtenir la suite  $(S_n)_{n\in \{0; N -1 \}}$ de N termes définis par :
 			$$ S_k = \sum_{k=0}^{N-1}s_n e^{-2i\pi k\frac{n}{N}} $$
 	\end{mydef}
 		De la même manière que pour la transformée de Fourier, on pourra également définir la transformation inverse.
 		
 	\begin{mydef}
-		Dans les mêmes conditions que ci dessus, on définit la transformée de Fourier discrète inverse par :
+		Dans les mêmes conditions que ci dessus, on définit la \textit{transformée de Fourier discrète inverse} par :
 			$$ s_n =\frac{1}{N} \sum_{k=0}^{N-1}S_k e^{2i\pi k\frac{n}{N}} $$
 	\end{mydef}
 	
 	Ces transformations sont sans pertes d'informations, ainsi, si les conditions du théorème de Nyquist-Shannon sur la fréquence d'échantillonnage ont été respectées, alors le signal peut être reconstitué sans perte via ces transformations successives. 
 	
-	L'avantage de l'utilisation de la transformée de Fourier discrète se retrouve également dans la vitesse d'exécution des calculs. En effet, la transformée de Fourier continue à une complexité en $O(N^2)$ alors qu'il existe des algorithmes comme celui de La transformée de Fourier rapide, qui sous certaines conditions sur le nombre de termes de la suite à transformer, peuvent atteindre une complexité en $O(n\log(n))$.
+	L'avantage de l'utilisation de la transformée de Fourier discrète se retrouve également dans la vitesse d'exécution des calculs. En effet, la transformée de Fourier continue à d'un échantillon de N termes a une complexité en $O(N^2)$ alors qu'il existe des algorithmes comme celui de La transformée de Fourier rapide, qui sous certaines conditions sur le nombre de termes de la suite à transformer, par exemple être une puissance de 2, peuvent atteindre une complexité en $O(N\log(N))$. 
+	
+	Dans le cas classique, pour calculer chacun des $N$ coefficients, il faut effectuer $N$ multiplications, d'où une complexité en $O(N)$.
+	Dans le cas de l'algorithme de Cooley-Tukey, si $N$ est une puissance de 2, alors il est possible de réécrire la somme $S_N$ en deux sommes, l'une sur les termes pairs et l'autre sur les termes impairs. Ces deux sommes sont des transformées de Fourier discrètes sur $N/2$ points. Grâce à la périodicité de la transformée de Fourier, on peut déduire que si $S_k = P_k + I_k$, avec $P_k$ et $I_k$ les transformées sur les termes pairs et impairs de longueur $ N/2$, alors $ S_{k+\frac{N}{2}} = P_k + I_k$.  Récursivement, on peut appliquer cette décomposition pour calculer $P_k$ et $I_k$, ce qui nous donne la complexité attendue. 
 	
 	
-\end{document}
+

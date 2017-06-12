@@ -1,0 +1,173 @@
+%!TEX program = PdfLatex
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\geometry{hmargin=2cm}
+
+% Environnement type théorème
+\newtheorem{mythm}{Théorème}
+\newtheorem{myproposition}{Proposition}
+\newtheorem{myproperty}{Propriété}
+\newtheorem{mylemma}{Lemme}
+\newtheorem{mycoro}{Corollaire}
+
+% Environnement type texte
+\theoremstyle{remark}
+\newtheorem{mynot}{Notation}
+\newtheorem{myrem}{Remarque}
+\newtheorem{myexer}{Exercice}
+\newtheorem{myproof}{Preuve}
+\newtheorem{myexmpl}{Exemple}
+
+% Environnement de définition
+\theoremstyle{definition}
+\newtheorem{mydef}{Définition}
+\newtheorem{myquestion}{Question}
+
+\setlist[itemize]{label=-}
+
+% Carré de fin de preuve
+\newcommand{\cqfd}{
+	\hfill$\square$
+}
+
+% Définition de fonction
+\newcommand{\func}[5]{
+#1 ~ : ~ \left\{ \begin{array}{lcl}
+	#2 & \longrightarrow & #3 \\
+	#4 & \longmapsto & #5
+\end{array}
+\right.
+}
+
+\newcommand{\fun}[3]{
+#1 ~ : ~ #2 \longrightarrow #3
+}
+
+\newcommand{\funcinline}[5]{
+	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
+}
+
+\newcommand{\funcshort}[3]{
+	#1 \, : \, #2 \longrightarrow #3
+}
+
+\newcommand{\anonfunc}[4]{
+	\left\{ \begin{array}{lcl}
+		#1 & \longrightarrow & #2 \\
+		#3 & \longmapsto & #4
+	\end{array}
+	\right.
+}
+
+\newcommand{\vect}{\text{Vect}}
+
+\newcommand{\card}{\text{Card }}
+
+\newcommand{\DS}{\displaystyle}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\part{Algorithmes d'encodage et de décodage}
+
+\section{Algorithme d'encodage en 1 dimension}
+
+\subsection{Cadre}
+
+Dans cette partie, on veut encoder une fonction $f:\llbracket0,N-1\rrbracket\to[-1,1]$ quelconque.
+
+On se place dans une analyse multi-résolution de $L^2(\mathbb R)$ notée $(V_n)_{n\in\mathbb Z}$ engendrée par $\varphi$.
+
+On rappelle que $f$ peut être recalculé à partir de ses coordonnées $\langle f,\psi_{n,k}\rangle$ :
+
+\begin{flalign*}
+f &= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \langle f,\psi_{n,k}\rangle \psi_{n,k}
+\end{flalign*}
+
+où :
+
+\begin{flalign*}
+\langle f,\psi_{n,k}\rangle
+&= \int_0^N f(t) \overline{\psi_{n,k}(t)} dt \\
+%&= \sum_{n\in\mathbb Z} \sum_{k\in\mathbb Z} \left(\sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi_{n,k}(t)} dt\right) \psi_{n,k} \\
+&= \sum_{x=0}^{N-1}f(x)\int_x^{x+1} \overline{\psi(2^{-n} t-k)} dt \\
+&= 2^{-n}\sum_{x=0}^{N-1}f(x)[F(t)]_{2^{-n}x-k}^{2^{-n}(x+1)-k} \\
+\end{flalign*}
+
+où $F$ est une primitive de $\overline\psi$ .
+
+\subsection{Suppression des cordonnées inutiles}
+
+% sensibilité
+\subsubsection{Coordonnées $n\le 0$}
+
+La valeur de $\langle f,\psi_{n,k}\rangle$ représente à peu près la variation dans l'intervalle $[2^{n}k,2^{n}(k+1)]$.
+
+Étant donné que $f$ est échantillonné avec une fréquence de $1$, $f$ est constant sur les intervalles $[2^{n}k,2^{n}(k+1)]$ pour $n\le 0$. On néglige donc la valeur des coordonnées à ces indices.
+
+\subsubsection{Coordonnées $n > \lceil\log_2 N\rceil$}
+
+\subsubsection{Coordonnées $k$}
+
+On veut obtenir un recouvrement minimal de $[0,N[$ avec les intervalles disjoints $[2^{n}k,2^{n}(k+1)[$ .
+
+Pour que $[2^{n}k,2^{n}(k+1)[\cap[0,N[\neq\emptyset$, il faut que $0\le k< 2^{-n}N$ .
+
+\subsection{Code de l'algorithme}
+\begin{algorithm}
+%\caption{The Bellman-Kalaba algorithm}
+\begin{algorithmic}[1]
+\Procedure{Encoder}{$F$, $f$, $N$}
+\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
+\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
+\State $C[n][k] := 0$
+\For{$x\in\llbracket0,N-1\rrbracket$}
+\State $C[n][k] := C[n][k] + 2^{-n}\times f[x]\times\left(F(2^{-n}x-k)-F(2^{-n}(x+1)-k)\right)$
+\EndFor
+\EndFor
+\EndFor
+\State \Return $C$
+\EndProcedure
+\Statex
+\Procedure{Decoder}{$\psi$, $C$, $N$}
+\For{$x\in\llbracket0,N-1\rrbracket$}
+\State $f[x] := 0$
+\For{$n\in\llbracket1,\lceil\log_2 N\rceil\rrbracket$}
+\For{$k\in\llbracket0,\lceil2^{-n}N-1\rceil\rrbracket$}
+\State $f[x] := f[x] + C[n][k]\times\psi(2^{-n}x-k)$
+\EndFor
+\EndFor
+\EndFor
+\State \Return $f$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Exemples}
+
+
+
+
+
+
+
+
+
+\end{document}

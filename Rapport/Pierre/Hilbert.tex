@@ -1,82 +1,5 @@
-\documentclass[]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{pdfpages}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{amsthm}
-\usepackage{stmaryrd}
-\usepackage{mathtools}
-\usepackage{mathrsfs}
-
-\geometry{hmargin=2cm}
-
-% Environnement type théorème
-\newtheorem{mythm}{Théorème}
-\newtheorem{myproposition}{Proposition}
-\newtheorem{myproperty}{Propriété}
-\newtheorem{mylemma}{Lemme}
-\newtheorem{mycoro}{Corollaire}
-
-% Environnement type texte
-\theoremstyle{remark}
-\newtheorem{mynot}{Notation}
-\newtheorem{myrem}{Remarque}
-\newtheorem{myexer}{Exercice}
-\newtheorem{myproof}{Preuve}
-\newtheorem{myexmpl}{Exemple}
-
-% Environnement de définition
-\theoremstyle{definition}
-\newtheorem{mydef}{Définition}
-\newtheorem{myquestion}{Question}
-
-\setlist[itemize]{label=-}
-
-% Carré de fin de preuve
-\newcommand{\cqfd}{
-	\hfill$\square$
-}
-
-% Définition de fonction
-\newcommand{\func}[5]{
-#1 ~ : ~ \left\{ \begin{array}{lcl}
-	#2 & \longrightarrow & #3 \\
-	#4 & \longmapsto & #5
-\end{array}
-\right.
-}
-
-\newcommand{\fun}[3]{
-#1 ~ : ~ #2 \longrightarrow #3
-}
-
-\newcommand{\funcinline}[5]{
-	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
-}
-
-\newcommand{\funcshort}[3]{
-	#1 \, : \, #2 \longrightarrow #3
-}
-
-\newcommand{\anonfunc}[4]{
-	\left\{ \begin{array}{lcl}
-		#1 & \longrightarrow & #2 \\
-		#3 & \longmapsto & #4
-	\end{array}
-	\right.
-}
-
-\newcommand{\vect}{\text{Vect}}
-
-\newcommand{\card}{\text{Card }}
-
-\newcommand{\DS}{\displaystyle}
-
-\begin{document}
-	\part{Introduction / Outils / Préliminaires}
+	\newpage
+	\part{Outils préliminaires}
 	\section{Espaces de Hilbert}
 	\subsection{Introduction et définition}
 
@@ -353,14 +276,14 @@
 	
 		Il s'agit d'un espace vectoriel. De plus, l'application $\funcshort{\| \cdot \|_p}{\mathcal{L}^p(\mathbb{R})}{\mathbb{R}_+}$ donnée par
 		 $$\Vert f \Vert_p = \left( \int|f|^pd\mu \right)^{\frac{1}{p}} $$ 
-		 définit une semi-norme: elle vérifie bien la propriété d'homogénéité et l'inégalité triangulaire \footnote{Référence : XXX}, mais pas le fait d'être définie. En effet, certaines fonctions non nulles $f$ vérifient $\|f\|_p = 0$ (si elles sont nulles presque partout). Par exemple,la fonction caractéristique de $\mathbb{Q}$. 
+		 définit une semi-norme: elle vérifie bien la propriété d'homogénéité et l'inégalité triangulaire \cite{tmi}, mais pas le fait d'être définie. En effet, certaines fonctions non nulles $f$ vérifient $\|f\|_p = 0$ (si elles sont nulles presque partout). Par exemple,la fonction caractéristique de $\mathbb{Q}$. 
 		 
 		 On peut palier à ce problème en quotientant $\mathcal{L}^p$ par son sous espace des fonctions nulles presque partout. Si $f$ et $g$ coïncident presque partout, alors
 		 $\|f\|_p = \|g\|_p$. Cette application reste donc bien définie sur l'espace quotient, et on a à présent que $ \|[f]\|_p = 0$ implique $f \equiv 0$ presque partout, où $[f]$ est classe d'équivalence de $f$. 
 		 Doénavant, on utilisera $f$ pour exprimer la classe d'équivalence de $f$.
 		 
 		 \begin{mydef} 
-		 	On note cet espace quotient $L^p(\mathbb{R})$, et on l'appelle espace de Lebesgue. Muni de la norme $\| \cdot \|_p$, il constitue un espace de Banach (théorème de Riesz-Fisher)\footnote{Référence : XXX}. 
+		 	On note cet espace quotient $L^p(\mathbb{R})$, et on l'appelle espace de Lebesgue. Muni de la norme $\| \cdot \|_p$, il constitue un espace de Banach (théorème de Riesz-Fisher)\cite{tmi}. 
 		 \end{mydef}
 		 
 		On effectue la même construction pour les fonctions $2\pi$-périodiques que l'on note $L^p(\mathbb{T})$.
@@ -371,4 +294,3 @@
 
 		
 	
-\end{document}

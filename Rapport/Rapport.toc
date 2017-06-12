@@ -1,0 +1,29 @@
+\select@language {french}
+\contentsline {part}{I\hspace {1em}Outils pr\IeC {\'e}liminaires}{3}
+\contentsline {section}{\numberline {1}Espaces de Hilbert}{3}
+\contentsline {subsection}{\numberline {1.1}Introduction et d\IeC {\'e}finition}{3}
+\contentsline {subsection}{\numberline {1.2}Bases de Hilbert}{3}
+\contentsline {paragraph}{Construction et orthonormalit\IeC {\'e}}{5}
+\contentsline {paragraph}{Totalit\IeC {\'e}}{6}
+\contentsline {paragraph}{Si $\mathcal {F}$ est une base hilbertienne, alors elle est maximale :}{8}
+\contentsline {paragraph}{Si $\mathcal {F}$ est maximale, alors c'est une base hilbertienne :}{8}
+\contentsline {section}{\numberline {2}Espaces de Lebesgue}{9}
+\contentsline {part}{II\hspace {1em}Analyse du signal}{10}
+\contentsline {section}{\numberline {3}L'analyse de Fourier}{10}
+\contentsline {subsection}{\numberline {3.1}S\IeC {\'e}ries de Fourier}{10}
+\contentsline {subsection}{\numberline {3.2}Transform\IeC {\'e}e de Fourier}{15}
+\contentsline {subsection}{\numberline {3.3}Transform\IeC {\'e}e de Fourier \IeC {\`a} fen\IeC {\^e}tre glissante}{16}
+\contentsline {subsection}{\numberline {3.4}Transform\IeC {\'e}e de Fourier discr\IeC {\`e}te}{17}
+\contentsline {section}{\numberline {4}Analyse multi-r\IeC {\'e}solution}{18}
+\contentsline {subsection}{\numberline {4.1}Introduction}{18}
+\contentsline {subsection}{\numberline {4.2}L'analyse multi-r\IeC {\'e}solution}{20}
+\contentsline {subsection}{\numberline {4.3}Espace des d\IeC {\'e}tails}{21}
+\contentsline {section}{\numberline {5}Ondelettes}{22}
+\contentsline {part}{III\hspace {1em}Algorithmes d'encodage et de d\IeC {\'e}codage}{26}
+\contentsline {section}{\numberline {6}Cadre th\IeC {\'e}orique}{26}
+\contentsline {subsection}{\numberline {6.1}Correction de l'algorithme}{27}
+\contentsline {subsubsection}{\numberline {6.1.1}Coordonn\IeC {\'e}es $n\geqslant N_0$}{27}
+\contentsline {subsubsection}{\numberline {6.1.2}Coordonn\IeC {\'e}es $k$}{28}
+\contentsline {subsection}{\numberline {6.2}Optimisation et compression}{29}
+\contentsline {subsubsection}{\numberline {6.2.1}Niveaux de d\IeC {\'e}tail}{29}
+\contentsline {subsubsection}{\numberline {6.2.2}Encodage des coefficients}{29}

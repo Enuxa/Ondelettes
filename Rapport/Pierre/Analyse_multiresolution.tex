@@ -1,86 +1,3 @@
-\documentclass[]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{pdfpages}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{amsthm}
-\usepackage{stmaryrd}
-\usepackage{mathtools}
-\usepackage{mathrsfs}
-\usepackage{bbm}
-
-\geometry{hmargin=2cm}
-
-% Environnement type théorème
-\newtheorem{mythm}{Théorème}
-\newtheorem{myproposition}{Proposition}
-\newtheorem{myproperty}{Propriété}
-\newtheorem{mylemma}{Lemme}
-\newtheorem{mycoro}{Corollaire}
-
-% Environnement type texte
-\theoremstyle{remark}
-\newtheorem{mynot}{Notation}
-\newtheorem{myrem}{Remarque}
-\newtheorem{myexer}{Exercice}
-\newtheorem{myproof}{Preuve}
-\newtheorem{myexmpl}{Exemple}
-
-% Environnement de définition
-\theoremstyle{definition}
-\newtheorem{mydef}{Définition}
-\newtheorem{myquestion}{Question}
-
-\setlist[itemize]{label=-}
-
-% Carré de fin de preuve
-\newcommand{\cqfd}{
-	\hfill$\square$
-}
-
-% Définition de fonction
-\newcommand{\func}[5]{
-#1 ~ : ~ \left\{ \begin{array}{lcl}
-	#2 & \longrightarrow & #3 \\
-	#4 & \longmapsto & #5
-\end{array}
-\right.
-}
-
-\newcommand{\fun}[3]{
-#1 ~ : ~ #2 \longrightarrow #3
-}
-
-\newcommand{\funcinline}[5]{
-	#1 \, : \, #2 \longrightarrow #3, ~ #4 \longmapsto #5
-}
-
-\newcommand{\funcshort}[3]{
-	#1 \, : \, #2 \longrightarrow #3
-}
-
-\newcommand{\anonfunc}[4]{
-	\left\{ \begin{array}{lcl}
-		#1 & \longrightarrow & #2 \\
-		#3 & \longmapsto & #4
-	\end{array}
-	\right.
-}
-
-\allowdisplaybreaks[4]
-
-\newcommand{\vect}{\text{Vect}}
-
-\newcommand{\card}{\text{Card }}
-
-\newcommand{\DS}{\displaystyle}
-
-\begin{document}
-	\part{Analyse du signal}
-	
 	On munit à présent $L^2(\mathbb{R})$ du produit scalaire $\langle \cdot, \cdot \rangle$ défini par $$\langle f, g\rangle = \int_\mathbb{R} f(t) \overline{g(t)} dt$$
 	et de la topologie induite par la norme correspondante.
 	
@@ -92,7 +9,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=350pt]{Resolution_wikipedia.jpg}
+		\includegraphics[width=350pt]{Pierre/Resolution_wikipedia.jpg}
 		\caption{Une image de voiture pour trois résolutions différentes}
 	\end{figure}
 	
@@ -107,15 +24,13 @@
 	\begin{figure}[h]
 		\label{sine-stairs}
 		\centering
-		\includegraphics[width=150pt]{sin_1.png}
-		\includegraphics[width=150pt]{sin_2.png}
-		\includegraphics[width=150pt]{sin_4.png}
-		\includegraphics[width=150pt]{sin_8.png}
-		\includegraphics[width=150pt]{sin_16.png}
+		\includegraphics[width=150pt]{Pierre/sin_1.png}
+		\includegraphics[width=150pt]{Pierre/sin_2.png}
+		\includegraphics[width=150pt]{Pierre/sin_4.png}
+		\includegraphics[width=150pt]{Pierre/sin_8.png}
+		\includegraphics[width=150pt]{Pierre/sin_16.png}
 		\caption{$f$ approximée par des fonctions dont les morceaux sont de tailles 1, 1/2, 1/4, 1/8 et 1/16}
 	\end{figure}
-	
-	\newpage
 	
 	Sur la figure on approxime $f$ par des fonctions $f_n$ étagées dont les morceaux sont de tailles $2^{-n}$, on peut voir chaque $f_n$ comme une combinaison linéaire de fonctions caractéristiques de la forme suivante $$f_n = \sum_{k = 0}^{2^n} a_{n, k} \mathbbm{1}_{[k 2^{-n}, (k+1)2^{-n}[}$$
 	
@@ -132,7 +47,7 @@
 	Dans l'exemple introductif, pour tout $n$ on a pu voir que $f_n$ était une combinaison linéaire du translaté d'une fonction $I_n$, $f_n$ appartenait alors à l'espace vectoriel engendré par les translations de $I_n$. De plus, chaque $I_n$ était la contraction de la fonction $I$ donnée par $I_n(t) = I\left(t 2^n\right)$. Il s'agissait d'un exemple d'analyse multi-résolution dont voici la définition :
 	
 	\begin{mydef}
-		Une \textit{analyse multi-résolution} de l'espace $L^2(\mathbb{R})$ des fonctions de carré Lebesgue-intégrables est une suite $V = \{V_n\}_{n \in \mathbb{Z}} \subset L^2(\mathbb{R})$ de sous-espaces fermés de $L^2(\mathbb{R})$ satisfaisant aux conditions suivantes :
+		Une \textit{analyse multi-résolution} de l'espace $L^2(\mathbb{R})$ est une suite $V = \{V_n\}_{n \in \mathbb{Z}} \subset L^2(\mathbb{R})$ de sous-espaces fermés de $L^2(\mathbb{R})$ satisfaisant aux conditions suivantes :
 
 		\begin{equation}
 			\label{growth}
@@ -140,11 +55,11 @@
 		\end{equation}
 		\begin{equation}
 			\label{self-similarity}
-			\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow t \mapsto f \left(2 t\right) \in V_{n+1} \text{(auto-similarité)}
+			\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_n \Longleftrightarrow f (2 \, \cdot ) \in V_{n+1} \text{(auto-similarité)}
 		\end{equation}
 		\begin{equation}
 			\label{rb-mra}
-			\text{Il existe $\varphi \in V_0$ telle que $\{t \mapsto \varphi(t + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
+			\text{Il existe $\varphi$ telle que $\{\varphi_k = \varphi(\, \cdot + k)\}_{k \in \mathbb{Z}}$ forme une base orthonormée de $V_0$}
 		\end{equation}
 		\begin{equation}
 			\label{density}
@@ -160,7 +75,7 @@
 	
 	On peut généraliser par récurrence la propriété \ref{self-similarity} de la façon suivante :
 	\begin{equation}
-		\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_0 \Longleftrightarrow t \mapsto f \left(2^n t\right) \in V_{n}
+		\forall n \in \mathbb{Z}, \forall f \in L^2(\mathbb{R}), ~ f \in V_0 \Longleftrightarrow f \left(2^n \cdot\right) \in V_{n}
 	\end{equation}
 
 	Ce qui met en évidence que plus $n$ est grand, plus l'espace $V_n$ contient des fonctions fines (la fonction est contractée horizontalement). D'après les propriétés \ref{self-similarity} et \ref{rb-mra}, on peut déduire que toute fonction de $V_n$ est une combinaison linéaire de contraction (d'un facteur au plus $2^n$) et translation de $\varphi$.
@@ -177,7 +92,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=450pt]{Localized.png}
+		\includegraphics[width=450pt]{Pierre/Localized.png}
 		\caption{Les gaussiennes sont localisées}
 	\end{figure}
 	
@@ -229,6 +144,7 @@
 	Les $(W_n)_n$ ne forment plus une famille monotone, mais leur somme recouvre tous les $V_n$. En d'autre termes, on peut à présent approximer toute fonction de $L^2(\mathbb{R})$ par une combinaison linéaire d'éléments de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$.
 	
 	\begin{myproof}
+		\label{sum_Wn_covers_Vn}
 		Soit $n_0 \in \mathbb{Z}$, on a par définition des $(W_{n})_n$
 		
 		\begin{align*}
@@ -249,13 +165,15 @@
 	
 	Comme on l'a dit, les $(W_n)_n$ ne forment pas une suite d'espaces emboîtés (ils sont même orthogonaux deux à deux), cependant ils vérifient encore les conditions d'auto-similarité et de stabilité par translation.
 
+	\section{Ondelettes}
+
 	\begin{mydef}
 		Il existe une fonction normée $\psi$ - appelée \textit{ondelette} - engendrant $W_0$ par translation et de moyenne nulle (d'intégrale nulle).
 		
-		On admettra son existence \footnote{Voir \textit{Wavelets and Multiscale Signal Processing} d'Albert Cohen pour une démonstration de l'existence.}, mais elle peut être construite explicitement à partir de $\varphi$.
+		On admettra son existence \cite{wamsp}, mais elle peut être construite explicitement à partir de $\varphi$.
 	\end{mydef}
 		
-	On définit encore une fois la famille $\Psi = \{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ par $\psi_{n, k}(t) = 2^{-n/2} \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ ! Et donc une base hilbertienne de $L^2(\mathbb{R})$ !
+	On définit encore une fois la famille $\Psi = \{\psi_{n, k}\}_{n, k \in \mathbb{Z}}$ par $\psi_{n, k}(t) = \sqrt{2}^n \psi(2^{n} t - k)$, et cette fois ci ... cette famille est une base orthonormée de $\DS \bigoplus_{n \in \mathbb{Z}} W_n$ ! Et donc une base hilbertienne de $L^2(\mathbb{R})$ !
 	
 	Le fait que la famille soit normée est évident, le fait qu'elle soit orthogonale découle de l'orthogonalité des $W_n$.
 	
@@ -273,7 +191,7 @@
 	\begin{figure}[h]
 		\label{Haar}
 		\centering
-		\includegraphics[width=150pt]{Haar.png}
+		\includegraphics[width=150pt]{Pierre/Haar.png}
 		\caption{L'ondelette de Haar}
 	\end{figure}
 	
@@ -290,8 +208,66 @@
 		
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=350pt]{Haar_exemple.png}
+		\includegraphics[width=350pt]{Pierre/Haar_exemple.png}
 		\caption{Le produit de deux ondelettes de Haar différentes  (la grise par une en couleur) possèdent un centre de symétrie dans $\mathbb{R}$.}
 	\end{figure}
 	
-\end{document}
+	\begin{myexmpl}
+		Voici un autre exemple d'ondelette appelée "Chapeau mexicain" (ou ondelette de Ricker) est définie comme la dérivée seconde d'une gaussienne. Elle est donnée par 
+		
+		$$\psi(t) = \lambda e^{-t^2/2} (1 - t^2)$$
+		
+		avec $\lambda$ tel que $\|\psi\|_2 = 1$, c'est-à-dire que
+		
+		\begin{align*}
+			1 = \|\psi\|_2^2 &= \lambda^2 \int_{- \infty}^{\infty} e^{-t^2} (1-t^2)^2 \\
+			&= \lambda^2 \left(\int_{-\infty}^{\infty} e^{-t^2} dt - 2 \int_{-\infty}^{\infty} t^2 e^{-t^2} dt + \int_{-\infty}^{\infty} t^4 e^{-t^2} dt\right) \\
+			&= \lambda^2 \left(\sqrt{2 \pi} - \sqrt{2 \pi} + \frac{3}{2} \sqrt{2 \pi}\right) \\
+			&= \lambda^2 \frac{3}{2} \sqrt{2 \pi}
+		\end{align*}
+		
+		donc $\DS \lambda = \frac{2^{3/4}}{\sqrt{3} \pi^{1/4}}$.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=350pt]{Pierre/Mexican_Hat.png}
+			\caption{Le chapeau mexicain}
+		\end{figure}
+	
+		Elle est effectivement de moyenne nulle : si $g$ est une gaussienne telle que $g^{(2)}= \psi$ alors $$\int_{-\infty}^{\infty} \psi(t) dt = g'(t) \bigg\vert_{-\infty}^{\infty} = 0$$
+
+		car $g'(t)$ est de la forme $t e^{-t^2}$.
+	\end{myexmpl}
+	
+	\begin{mydef}
+		On dit d'une ondelette qu'elle \textit{a $n$ moments nuls} si pour tout $k = 0, 1 \cdots n$ elle vérifie $$\int_{-\infty}^{\infty} t^k f(t) dt = 0$$
+		
+		Autrement dit, elle est orthogonale à tout polynôme de degré au plus $n$ (en gardant bien en tête que les polynômes ne sont pas intégrables).
+	\end{mydef}
+		
+	Une telle ondelette permettra d'obtenir une majoration des coefficients de la transformation en ondelette d'une fonction de classe $\mathcal{C}^{n+1}$ à support borné grâce à la formule de Taylor-Lagrange.
+	
+	Soit $f$ une fonction $n+1$ fois continûment dérivables à support dans un intervalle $I = [-M/2, M/2]$, pour tout point $x_0 \in I$ il existe un polynôme $P$ de degré $n$ tel que pour tout $x \in I$ 
+	
+	$$f(x) = P(x - x_0) + f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \quad \text{avec } |c - x| < |x - x_0|$$
+	
+	Ce qui nous fournit la majoration
+	
+	\begin{align*}
+		|\langle f, \psi \rangle| &= \left|\int_{-\infty}^{\infty} f(x) \psi(x) dx \right| \\
+		&= \left| \int_{-\infty}^{\infty}P(x - x_0) \psi(x) dx + \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right|
+	\end{align*}
+
+	Or $\psi$ est orthogonale à tout polynôme.
+
+	\begin{align*}
+		|\langle f, \psi \rangle| &= \left| \int_{-\infty}^{\infty} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \\
+		&= \left| \int_{I} f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) dx  \right| \quad \text{car $f^{(n+1)}$ est à support dans $I$} \\
+		& \leqslant \int_{I} \left| f^{(n+1)}(c_{x_0, x}) \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) \right| dx \\
+		& \leqslant \int_{I} \left| \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) \right| dx \|f\|_{\infty} \\
+		& \leqslant \int_{I} \left| \frac{(x-x_0)^{n+1}}{(n+1)!} \psi(x) \right| dx \left\|f^{(n+1)}\right\|_{\infty} \\
+		& \leqslant \int_{I} \left| \psi(x) \right| dx \frac{M^{n+1}}{(n+1)!} \left\|f^{(n+1)}\right\|_{\infty} \\
+		& \leqslant N \frac{M^{n+1}}{(n+1)!} \left\|f^{(n+1)}\right\|_{\infty}
+	\end{align*}
+	
+	où $N = \int_{I} \left| \psi(x) \right| dx $.

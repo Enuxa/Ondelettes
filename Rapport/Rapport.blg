@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Rapport.aux
+The style file: plain.bst
+Database file #1: bibliography.bib
+I was expecting a `,' or a `}'---line 19 of file bibliography.bib
+ :  
+ :  year = "1998",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty publisher in oplsn
+Warning--empty year in oplsn
+You've used 5 entries,
+            2118 wiz_defined-function locations,
+            521 strings with 4387 characters,
+and the built_in function-call counts, 1033 in all, are:
+= -- 92
+> -- 35
+< -- 0
++ -- 15
+- -- 10
+* -- 47
+:= -- 187
+add.period$ -- 13
+call.type$ -- 5
+change.case$ -- 15
+chr.to.int$ -- 0
+cite$ -- 7
+duplicate$ -- 51
+empty$ -- 99
+format.name$ -- 10
+if$ -- 210
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 4
+newline$ -- 26
+num.names$ -- 10
+pop$ -- 32
+preamble$ -- 1
+purify$ -- 15
+quote$ -- 0
+skip$ -- 30
+stack$ -- 0
+substring$ -- 25
+swap$ -- 8
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 2
+while$ -- 10
+width$ -- 6
+write$ -- 47
+(There was 1 error message)

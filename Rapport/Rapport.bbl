@@ -1,0 +1,26 @@
+\begin{thebibliography}{1}
+
+\bibitem{wamsp}
+Robert D.~Ryan Albert~Cohen.
+\newblock {\em Wavelets and multiscale signal processing}.
+\newblock Chapman and Hall, 1995.
+
+\bibitem{adf}
+Sylvie Benzoni.
+\newblock {\em Analyse de Fourier}, 2011.
+
+\bibitem{tmi}
+Thierry Gallay.
+\newblock {\em Théorie de la mesure et de l'intégration}.
+\newblock Grenoble, 2009.
+
+\bibitem{adltdo}
+Valérie Perrier.
+\newblock {\em Application de la théorie des ondelettes}.
+\newblock Grenoble, 2005.
+
+\bibitem{oplsn}
+Frederic Truchetet.
+\newblock {\em Ondelettes pour le signal numérique}.
+
+\end{thebibliography}
