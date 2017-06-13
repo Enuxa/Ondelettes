@@ -6,7 +6,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath, amssymb}
-
+\usepackage{bbm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{babel}
 
 
@@ -328,6 +330,59 @@
 	$$f= \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{Z}}} \langle \psi_{n, k}, f \rangle \psi_{n, k} = \sum_{k \in \mathbb{Z}} \langle \varphi_k, f \rangle \varphi_k + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle \psi_{n, k}, f \rangle \psi_{n, k} $$
 \end{frame}
 
+\begin{frame}{Ondelette de Haar}
+	L'ondelette de Haar est définie par :
+	$$ \psi(t) = \begin{cases}
+	-1&\text{si $0\leqslant t < \frac12$} \\
+	1&\text{si $\frac12\leqslant t < 1$} \\
+	0&\text{sinon} \\
+	\end{cases}$$
+	La fonction d'échelle associée est la fonction porte :
+	$$ \varphi(t) = \begin{cases}
+	1&\text{si $0\leqslant t < 1$} \\
+	0&\text{sinon} \\
+	\end{cases}$$
+	Peu régulière, discontinue
+\end{frame}
+
+\begin{frame}{Ondelette chapeau mexicain}
+	L'ondelette chapeau mexicain est définie par :
+	$$ \psi(t) = \lambda \left(1-t^2\right) e^{-\frac{t^2}{2}} $$
+	avec :
+	$$\lambda = \frac{2}{\sqrt{2}\pi^{\frac14}}$$
+\end{frame}
+
+\begin{frame}{Algorithme d'encodage}
+	On rappelle :
+	$$\bigcup_{n \in \mathbb{Z}} V_n = V_0 \stackrel{\perp}{\oplus} \left(\bigoplus^{\bot}_{n \in \mathbb{N}} W_n\right)$$
+	
+	On peut décomposer tout fonction $f \in L^2(\mathbb{R})$ ainsi : $$f = \sum_{k \in \mathbb{Z}} \langle f,\varphi_k \rangle \varphi_k + \sum_{\substack{k \in \mathbb{Z} \\ n \in \mathbb{N}}} \langle f,\psi_{n, k} \rangle \psi_{n, k}$$
+\end{frame}
+
+\begin{frame}{Algorithme d'encodage}
+	On manipule des fonctions $f \in L^2(\mathbb{R})$ de la forme $$f = \sum_{j = 0}^{2^{N_0} - 1} a_j \mathbb{1}_{[2^{-N_0}j, 2^{-N_0}(j+1)[}$$
+	
+	\begin{align*}
+	\langle f, \psi_{n, k} \rangle &= \int_0^1 f(t) \overline{\psi_{n, k}(t)} dt \\&= \sum_{j=0}^{N-1} a_j \left(\Phi\left(\frac{j+1}N - \frac{k}{N}\right) - \Phi\left(\frac{j}N - \frac{k}{N}\right)\right)
+	\end{align*}
+	
+	où $\Psi$ est une primitive de $\overline{\psi}$, $\Phi$ est une primitive de $\overline{\phi}$ et $N = 2^{N_0}$.
+\end{frame}
+
+\begin{frame}{Algorithme d'encodage}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=300pt]{algo.png}
+
+	\end{figure}
+
+\end{frame}
+
+
+
+
+
+
 \end{document}
 
 
@@ -345,31 +400,3 @@
 
 
 
-\begin{frame}
-	Un \textbf<2,3>{texte} en gras. 
-	\visible<3>{Un texte visible sur la 3\ieme{} couche}
-\end{frame}
-
-\begin{frame}{Titre (facultatif)} 
-	\framesubtitle{Sous titre (facultatif aussi)}
-	\begin{block}{Remarque}
-		Un bloc
-	\end{block}
-	
-	\begin{alertblock}{Proposition}
-		Un bloc alerte
-	\end{alertblock}
-	
-	\begin{exampleblock}<2>{Exemple}
-		Un bloc exemple qui est visible sur la 2\ieme{} couche : $f(x)=2x$.
-	\end{exampleblock}
-\end{frame}
-
-\section{Section 2}
-\begin{frame}{La section 2 commence}
-	\begin{itemize}
-		\item<1-> On peut cliquer sur les titres de la barre de gauche pour naviguer dans les sections du pdf (essayez !).
-		\item<2-> On peut changer le ``look'' du beamer, en changeant de thème. Retournez dans le fichier source et compilez avec les autres thèmes proposés (il existe énormément de thèmes; seuls trois sont proposés dans le source).
-	\end{itemize}
-	
-\end{frame}

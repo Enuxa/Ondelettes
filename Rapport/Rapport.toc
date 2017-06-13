@@ -23,7 +23,7 @@
 \contentsline {section}{\numberline {6}Cadre th\IeC {\'e}orique}{26}
 \contentsline {subsection}{\numberline {6.1}Correction de l'algorithme}{27}
 \contentsline {subsubsection}{\numberline {6.1.1}Coordonn\IeC {\'e}es $n\geqslant N_0$}{27}
-\contentsline {subsubsection}{\numberline {6.1.2}Coordonn\IeC {\'e}es $k$}{28}
+\contentsline {subsubsection}{\numberline {6.1.2}Coordonn\IeC {\'e}es $k$}{29}
 \contentsline {subsection}{\numberline {6.2}Optimisation et compression}{29}
 \contentsline {subsubsection}{\numberline {6.2.1}Niveaux de d\IeC {\'e}tail}{29}
 \contentsline {subsubsection}{\numberline {6.2.2}Encodage des coefficients}{29}

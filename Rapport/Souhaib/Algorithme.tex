@@ -54,18 +54,21 @@ Chaque $P_n$ est alors le projecteur de $f$ sur l'espace de détails $W_n$, les 
 
 L'algorithme de compression consiste alors en le remplissage des matrices de projection pour chaque niveau de détail et en la multiplication pour obtenir chaque $S_n$. Nous proposons l'algorithme naïf suivant :
 
-\begin{algorithm}
-	\begin{algorithmic}[1]
-		\Procedure{Encoder}{$\Psi$, $\widetilde{f}$, $N_0$, $s$}
-			\State $S_m := \Phi(1)-\Phi(0)$
-			\State $P_0 := $ Construire($\Psi$, 0, $s(0)$)
-			\For{$n = 0, 1 \cdots N_0$}
-				\State $P_n :=$ Construire($\Psi$, $n$, s(n))
-				\State $S_n := P_n\times \transp{\widetilde{f}}$
-		
-			\EndFor
-			\State \Return $S_m,(S_0, S_{-1}, S_{1} \cdots S_{N_0}, S_{-N_0})$
-		\EndProcedure
+		\begin{algorithm}
+			\begin{algorithmic}[1]
+				\Procedure{Encoder}{$\Psi$, $\widetilde{f}$, $N_0$, $s$}
+				\State $S_m := \Phi(1)-\Phi(0)$
+				\State $P_0 := $ Construire($\Psi$, 0, $s(0)$)
+				\For{$n = 0, 1 \cdots N_0$}
+				\For{$k = 0, 1 \cdots 2^{N_0-n}$}
+				\State $S_{n,k} := 0$
+				\For{$x = 0, 1 \cdots 2^{N_0}$}
+				\State $S_{n,k} := S_{n,k} + \frac{1}{\sqrt{2^{3n}}} (\Psi(2^n x - k) - \Psi(2^n (x+1) - k))\times f(x)$
+				\EndFor
+				\EndFor
+				\EndFor
+				\State \Return $S_m,(S_{n,k})_{n,k}$
+				\EndProcedure
 
 		\Statex
 
