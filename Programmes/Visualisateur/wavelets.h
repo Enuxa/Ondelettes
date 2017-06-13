@@ -75,6 +75,8 @@ public:
 
     virtual Complex psi(double t) = 0;
     virtual Complex psiPrimitive(double x) = 0;
+    virtual Complex phi(double t) = 0;
+    virtual Complex phiPrimitive(double x) = 0;
     virtual Complex1DFunc analyzingFunction(int n, int k) {
         Complex1DFunc f = [=] (double t) {
             return pow(2, -n/2.0)*psi(pow(2,-n)*t-k);
@@ -84,7 +86,7 @@ public:
 
     virtual Coefficients coefficientsOf(Complex2DFunc f) {
         Coefficients coeffs;
-        for(int n=1;n<=6;n++) {
+        for(int n=1;n<=9;n++) {
             for(int k=0;k<pow(2, n)*N;k++) {
                 Coord coord;
                 coord.n = n;
@@ -102,6 +104,21 @@ public:
                 coeffs[coord] = coeff;
             }
         }
+        Coord coord;
+        coord.n = -1;
+        coord.k = 0;
+        Complex coeff = std::polar(0.0);
+        int n=9,k=0;
+        for(int x=0; x<N; x++) {
+            double t11 = pow(2, -n)*x-k;
+            double t22 = pow(2, -n)*(x+1)-k;
+            Complex z1 = phiPrimitive(t11);
+            Complex z2 = phiPrimitive(t22);
+            Complex fx = f(x);
+            Complex coeffp = pow(2, 0.5*n)*fx*(z2-z1);;
+            coeff += coeffp;
+        }
+        coeffs[coord] = coeff;
         return coeffs;
     }
 
@@ -109,7 +126,10 @@ public:
         Complex2DFunc f = [=] (Vector x) {
             Complex value = std::polar(0.0);
             foreach(Coord coord, coeffs.keys()) {
-                value += coeffs[coord]*analyzingFunction(coord.n,coord.k)(x);
+                if(coord.n == -1)
+                    value += coeffs[coord]*pow(2, -0.5*9)*phi(pow(2, -9)*x);
+                else
+                    value += coeffs[coord]*analyzingFunction(coord.n,coord.k)(x);
             }
             return value;
         };
@@ -134,6 +154,18 @@ public:
             return std::polar(1.0-x);
         return std::polar(0.0);
     }
+    virtual Complex phi(double x) {
+        if(x>=0 && x<1)
+            return std::polar(1.0);
+        return std::polar(0.0);
+    }
+    virtual Complex phiPrimitive(double x) {
+        if(x>=0 && x<1)
+            return std::polar(x);
+        else if(x>=1)
+            return std::polar(1.0);
+        return std::polar(0.0);
+    }
 };
 
 template <int N>
@@ -147,6 +179,18 @@ public:
     virtual Complex psiPrimitive(double t) {
         //if(t<0 || t>=1) return std::polar(0.0);
         return std::polar(lambda*exp(-t*t*0.5)*t);
+    }
+    virtual Complex phi(double x) {
+        if(x>=0 && x<1)
+            return std::polar(1.0);
+        return std::polar(0.0);
+    }
+    virtual Complex phiPrimitive(double x) {
+        if(x>=0 && x<1)
+            return std::polar(x);
+        else if(x>=1)
+            return std::polar(1.0);
+        return std::polar(0.0);
     }
 };
 
