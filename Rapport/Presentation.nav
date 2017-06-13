@@ -31,26 +31,36 @@
 \headcommand {\sectionentry {2}{Premi\IeC {\`e}re approche : Analyse de Fourier}{33}{Premi\IeC {\`e}re approche : Analyse de Fourier}{0}}
 \headcommand {\beamer@sectionpages {4}{32}}
 \headcommand {\beamer@subsectionpages {26}{32}}
-\headcommand {\slideentry {2}{0}{1}{33/36}{}{0}}
-\headcommand {\beamer@framepages {33}{36}}
-\headcommand {\slideentry {2}{0}{2}{37/39}{}{0}}
-\headcommand {\beamer@framepages {37}{39}}
-\headcommand {\sectionentry {3}{Ondelettes et application}{40}{Ondelettes et application}{0}}
-\headcommand {\beamer@sectionpages {33}{39}}
-\headcommand {\beamer@subsectionpages {33}{39}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{40}{Analyse multi-r\IeC {\'e}solution}}\headcommand {\beamer@subsectionpages {40}{39}}
-\headcommand {\slideentry {3}{1}{1}{40/46}{Analyse multi-r\IeC {\'e}solution}{0}}
-\headcommand {\beamer@framepages {40}{46}}
-\headcommand {\slideentry {3}{1}{2}{47/51}{Analyse multi-r\IeC {\'e}solution}{0}}
-\headcommand {\beamer@framepages {47}{51}}
-\headcommand {\slideentry {3}{1}{3}{52/57}{Analyse multi-r\IeC {\'e}solution}{0}}
-\headcommand {\beamer@framepages {52}{57}}
-\headcommand {\slideentry {3}{1}{4}{58/65}{Analyse multi-r\IeC {\'e}solution}{0}}
-\headcommand {\beamer@framepages {58}{65}}
-\headcommand {\slideentry {3}{1}{5}{66/67}{Analyse multi-r\IeC {\'e}solution}{0}}
-\headcommand {\beamer@framepages {66}{67}}
-\headcommand {\beamer@partpages {1}{67}}
-\headcommand {\beamer@subsectionpages {40}{67}}
-\headcommand {\beamer@sectionpages {40}{67}}
-\headcommand {\beamer@documentpages {67}}
-\headcommand {\def \inserttotalframenumber {19}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{33}{S\IeC {\'e}rie de Fourier}}\headcommand {\beamer@subsectionpages {33}{32}}
+\headcommand {\slideentry {2}{1}{1}{33/37}{S\IeC {\'e}rie de Fourier}{0}}
+\headcommand {\beamer@framepages {33}{37}}
+\headcommand {\slideentry {2}{1}{2}{38/40}{S\IeC {\'e}rie de Fourier}{0}}
+\headcommand {\beamer@framepages {38}{40}}
+\headcommand {\slideentry {2}{1}{3}{41/41}{S\IeC {\'e}rie de Fourier}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{42}{Transform\IeC {\'e}e de Fourier}}\headcommand {\beamer@subsectionpages {33}{41}}
+\headcommand {\slideentry {2}{2}{1}{42/43}{Transform\IeC {\'e}e de Fourier}{0}}
+\headcommand {\beamer@framepages {42}{43}}
+\headcommand {\slideentry {2}{2}{2}{44/45}{Transform\IeC {\'e}e de Fourier}{0}}
+\headcommand {\beamer@framepages {44}{45}}
+\headcommand {\sectionentry {3}{Ondelettes et application}{46}{Ondelettes et application}{0}}
+\headcommand {\beamer@sectionpages {33}{45}}
+\headcommand {\beamer@subsectionpages {42}{45}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{46}{Analyse multi-r\IeC {\'e}solution}}\headcommand {\beamer@subsectionpages {46}{45}}
+\headcommand {\slideentry {3}{1}{1}{46/46}{Analyse multi-r\IeC {\'e}solution}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {3}{1}{2}{47/53}{Analyse multi-r\IeC {\'e}solution}{0}}
+\headcommand {\beamer@framepages {47}{53}}
+\headcommand {\slideentry {3}{1}{3}{54/58}{Analyse multi-r\IeC {\'e}solution}{0}}
+\headcommand {\beamer@framepages {54}{58}}
+\headcommand {\slideentry {3}{1}{4}{59/64}{Analyse multi-r\IeC {\'e}solution}{0}}
+\headcommand {\beamer@framepages {59}{64}}
+\headcommand {\slideentry {3}{1}{5}{65/72}{Analyse multi-r\IeC {\'e}solution}{0}}
+\headcommand {\beamer@framepages {65}{72}}
+\headcommand {\slideentry {3}{1}{6}{73/74}{Analyse multi-r\IeC {\'e}solution}{0}}
+\headcommand {\beamer@framepages {73}{74}}
+\headcommand {\beamer@partpages {1}{74}}
+\headcommand {\beamer@subsectionpages {46}{74}}
+\headcommand {\beamer@sectionpages {46}{74}}
+\headcommand {\beamer@documentpages {74}}
+\headcommand {\def \inserttotalframenumber {23}}

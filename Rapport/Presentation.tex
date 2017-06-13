@@ -149,33 +149,36 @@
 \end{frame}
 
 
-
-
 \section{Première approche : Analyse de Fourier}
-\begin{frame}{Analyse de Fourier}
-	\framesubtitle{Séries de Fourier}
+\subsection{Série de Fourier}
+\begin{frame}{Séries de Fourier}
+	La décomposition en série de Fourier s'applique aux fonctions périodiques.\\ 
 	
-	S'applique aux fonctions périodiques. 
-	Dans $L^2(\mathbb{T})$
+	Dans $L^2(\mathbb{T})$ : 
 	\begin{itemize}
-		\item<1-> Les $\{e^{-ikt}\}$ forment une base Hilbertienne
-		\item<2-> $ \forall f \in L^2(\mathbb{T})$ on a $ S_N(f)= \sum_{k = -N}^N \langle f, e_k \rangle e_k = 
-		\sum_{k = -N}^N c_k(f) e^{-ikt}  $ 
-		\item<3-> Toute fonction de $L^2(\mathbb{T})$ se décompose dans la base des $\{e^{-ikt}\}$
-		\item<4-> Et $ \lim\limits_{N \to \infty} \| S_N(f) - f \|_2  = f $ 
+		\item<1-> Les $\{e^{-ikt}\}_{k \in \mathbb{Z} }$ forment une base Hilbertienne
+		
+		\item<2-> Toute fonction de $L^2(\mathbb{T})$ se décompose dans la base des $\{e^{-ikt}\}_{k \in \mathbb{Z}}$
+		
+		\item<3-> On définit les coefficients de Fourier par\\ $c_k =  \langle f,e^{-ikt} \rangle = \frac{1}{2\pi} \int_{0}^{2\pi} f(t) \overline{e^{-ikt}}dt $ 
+		
+		\item<4-> Et 
+		$	S_N(f) = \sum_{k = -N}^N c_k(f) e^{-ikt} $
+		
+		\item<5-> Avec $ \lim\limits_{N \to \infty} \| S_N(f) - f \|_2  = 0 $ 
 		
 	\end{itemize}
 	
 \end{frame}
 
-\begin{frame}{Preuve de $ \lim\limits_{N \to \infty} \| S_N(f) - f \|_2  = f $ }
+\begin{frame}{Preuve de $ \lim\limits_{N \to \infty} \| S_N(f) - f \|_2  = 0$ }
 	
 	Soit $f \in L^2(\mathbb{T})$, soit $\varepsilon > 0$.\\
 	Soit $f_0 \in L^2(\mathbb{T})$ une fonction continue telle que 
-	$ \| f_0 - f \| < \varepsilon $\\
+	$ | f_0 - f | < \varepsilon $\\
 	\pause
-	Soit $F_0$ tel que $f_0 = F_0(e^{it})$\\ 
-	Il existe un polynôme $P$ tel que pour tout t, $\|f_0(t) - P(t)\| < \varepsilon$\\
+	Soit $F_0$ tel que $f_0(t) = F_0(e^{it})$\\ 
+	Il existe un polynôme trigonométrique $P$ tel que pour tout t, $\|f_0(t) - P(t)\| < \varepsilon$\\
 	Ce qui permet de déduire que: \\
 	\pause
 	\begin{align*}
@@ -191,12 +194,60 @@
 
 
 
+\begin{frame}{Séries de Fourier}	
+	Vitesse de décroissance des coefficients. \\
+	
+	Si $f \in \mathcal{C}^k$ alors : \\
+	$$ | c_p(f) | \leqslant \frac{C}{|p|^k} $$
+	
+	
+\end{frame}
+
+
+\subsection{Transformée de Fourier}
+\begin{frame}{Transformée de Fourier}
+	
+	Transformée de Fourier pour $f \in  L^1(\mathbb{R})$
+	$$ \mathcal{F}[f](\xi) = F(\xi)= \int_{-\infty}^{+\infty}f(t)e^{-i\xi t}dt $$ 
+	
+	\pause
+	Transformée de Fourier inverse pour $f, F \in  L^1(\mathbb{R})$ et $f$ continue
+	$$ \overline{\mathcal{F}}[F](t) = f(t)=\frac{1}{{2\pi}} \int_{-\infty}^{+\infty}F(\xi)e^{i \xi t}dt $$
+	
+\end{frame}
+
+
+\begin{frame}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=150pt]{successifs.png}
+		\includegraphics[width=150pt]{simultanes.png}
+		\caption*{2 signaux ayant des transformées de Fourier similaires}
+		
+		\pause	
+		
+		$$ F(\xi, \tau)= \int_{-\infty}^{+\infty}f(t)e^{-i \xi t} \overline{w(t - \tau)}dt$$
+	\end{figure}
+	
+\end{frame}
+
+
+
 
 
 
 \section{Ondelettes et application}
 
 \subsection{Analyse multi-résolution}
+
+\begin{frame}{Analyse multi-résolution}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=250pt]{Pierre/Resolution_wikipedia.jpg}
+		\caption*{Une image de voiture pour trois résolutions différentes}
+	\end{figure}
+\end{frame}
 
 \begin{frame}{Analyse multi-résolution}
 	Une \textit{analyse multi-résolution} de $L^2(\mathbb{R})$ est une famille de sous-espaces fermés $\{V_n\}_{n \in \mathbb{Z}} \subset L^2(\mathbb{R})$ telle que
