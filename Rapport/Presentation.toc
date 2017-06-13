@@ -4,5 +4,7 @@
 \beamer@subsectionintoc {1}{1}{Analyse de Hilbert}{4}{0}{1}
 \beamer@subsectionintoc {1}{2}{Espaces de Lebesgue}{26}{0}{1}
 \beamer@sectionintoc {2}{Premi\IeC {\`e}re approche : Analyse de Fourier}{33}{0}{2}
-\beamer@sectionintoc {3}{Ondelettes et application}{40}{0}{3}
-\beamer@subsectionintoc {3}{1}{Analyse multi-r\IeC {\'e}solution}{40}{0}{3}
+\beamer@subsectionintoc {2}{1}{S\IeC {\'e}rie de Fourier}{33}{0}{2}
+\beamer@subsectionintoc {2}{2}{Transform\IeC {\'e}e de Fourier}{42}{0}{2}
+\beamer@sectionintoc {3}{Ondelettes et application}{46}{0}{3}
+\beamer@subsectionintoc {3}{1}{Analyse multi-r\IeC {\'e}solution}{46}{0}{3}
